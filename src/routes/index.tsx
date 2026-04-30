@@ -1,19 +1,37 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Header } from "@/components/Header";
+import { HeroSection } from "@/components/HeroSection";
+import { ProblemSection } from "@/components/ProblemSection";
+import { SolutionSection } from "@/components/SolutionSection";
+import { FeaturesSection } from "@/components/FeaturesSection";
 import { ProcessSection } from "@/components/ProcessSection";
+import { BenefitsSection } from "@/components/BenefitsSection";
+import { MockupsSection } from "@/components/MockupsSection";
+import { TwoSidedSection } from "@/components/TwoSidedSection";
+import { SafetySection } from "@/components/SafetySection";
+import { InvestorSection } from "@/components/InvestorSection";
+import { SignupSection } from "@/components/SignupSection";
+import { FinalCTA } from "@/components/FinalCTA";
+import { Footer } from "@/components/Footer";
+import { useReveal } from "@/hooks/use-reveal";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Anfund — Nền tảng kết nối vay vốn thông minh" },
+      { title: "AnFund — Nơi người vay tốt gặp nguồn vốn cạnh tranh" },
       {
         name: "description",
         content:
-          "Anfund kết nối bạn với 12+ ngân hàng, so sánh lãi suất minh bạch và giải ngân trong 24h.",
+          "AnFund (AnVốn) là sàn đấu giá vốn hai chiều, minh bạch và có chọn lọc — kết nối người cần vốn với nguồn vốn cạnh tranh.",
       },
-      { property: "og:title", content: "Anfund — Vay vốn thông minh" },
+      {
+        property: "og:title",
+        content: "AnFund — Nơi người vay tốt gặp nguồn vốn cạnh tranh",
+      },
       {
         property: "og:description",
-        content: "Đăng hồ sơ, nhận đề xuất, so sánh và khớp giao dịch chỉ trong 4 bước.",
+        content:
+          "Đăng nhu cầu vay một lần, nhận nhiều đề xuất cạnh tranh. Người cho vay chủ động chọn hồ sơ phù hợp khẩu vị rủi ro.",
       },
     ],
   }),
@@ -21,9 +39,26 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  useReveal();
+
   return (
-    <main className="min-h-screen bg-background">
-      <ProcessSection />
-    </main>
+    <>
+      <Header />
+      <main id="top" className="bg-background">
+        <HeroSection />
+        <ProblemSection />
+        <SolutionSection />
+        <FeaturesSection />
+        <ProcessSection />
+        <BenefitsSection />
+        <MockupsSection />
+        <TwoSidedSection />
+        <SafetySection />
+        <InvestorSection />
+        <SignupSection />
+        <FinalCTA />
+      </main>
+      <Footer />
+    </>
   );
 }

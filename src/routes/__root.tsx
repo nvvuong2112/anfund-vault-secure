@@ -29,18 +29,38 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Anfund simplifies fund management and loan applications with a user-friendly interface." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Anfund simplifies fund management and loan applications with a user-friendly interface." },
+      { title: "AnFund — Nơi người vay tốt gặp nguồn vốn cạnh tranh" },
+      {
+        name: "description",
+        content:
+          "AnFund (AnVốn) là sàn đấu giá vốn hai chiều, minh bạch, kết nối người vay chất lượng với nguồn vốn cạnh tranh.",
+      },
+      { name: "author", content: "AnFund" },
+      { property: "og:title", content: "AnFund — Nơi người vay tốt gặp nguồn vốn cạnh tranh" },
+      {
+        property: "og:description",
+        content:
+          "Sàn đấu giá vốn hai chiều giúp người vay nhận nhiều đề xuất tài chính, người cho vay cạnh tranh tài trợ hồ sơ chất lượng.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
-      { name: "twitter:description", content: "Anfund simplifies fund management and loan applications with a user-friendly interface." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2e4441df-7863-4a7f-b944-45494dc26269/id-preview-fefb8dfa--26d408f2-e3cb-4613-bcaa-0d9f3bc70a8d.lovable.app-1777424380611.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2e4441df-7863-4a7f-b944-45494dc26269/id-preview-fefb8dfa--26d408f2-e3cb-4613-bcaa-0d9f3bc70a8d.lovable.app-1777424380611.png" },
+      { name: "twitter:site", content: "@AnFund" },
+      { name: "twitter:title", content: "AnFund — Nơi người vay tốt gặp nguồn vốn cạnh tranh" },
+      {
+        name: "twitter:description",
+        content:
+          "Sàn đấu giá vốn hai chiều, minh bạch, có chọn lọc — kết nối người cần vốn và người có vốn.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2e4441df-7863-4a7f-b944-45494dc26269/id-preview-fefb8dfa--26d408f2-e3cb-4613-bcaa-0d9f3bc70a8d.lovable.app-1777424380611.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2e4441df-7863-4a7f-b944-45494dc26269/id-preview-fefb8dfa--26d408f2-e3cb-4613-bcaa-0d9f3bc70a8d.lovable.app-1777424380611.png",
+      },
     ],
     links: [
       {
@@ -56,7 +76,7 @@ export const Route = createRootRoute({
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="vi">
       <head>
         <HeadContent />
       </head>
