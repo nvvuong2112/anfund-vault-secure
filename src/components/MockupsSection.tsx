@@ -149,8 +149,12 @@ function Field({
 function Screen1Profile() {
   return (
     <PhoneFrame>
-      <PhoneHeader title="Hồ sơ vay HS-002389" subtitle="Trạng thái: Sẵn sàng đấu giá" />
+      <PhoneHeader title="Hồ sơ vay HS-002389" subtitle="Đã được AnFund xác minh · 6 ngày trước" />
       <div className="space-y-2.5 px-4 pt-4 pb-6">
+        <div className="flex items-center gap-2 rounded-xl border border-emerald/30 bg-emerald/5 px-3 py-2 text-[10px] font-semibold text-emerald">
+          <ShieldCheck className="h-3 w-3" />
+          Đã xác minh · sẵn sàng đấu giá
+        </div>
         <div className="grid grid-cols-2 gap-2">
           <Field icon={Wallet} label="Số tiền vay" value="500.000.000 ₫" />
           <Field icon={CalendarClock} label="Kỳ hạn" value="120 tháng" />
@@ -174,10 +178,10 @@ function Screen1Profile() {
           </div>
           <div className="mt-1 flex items-end justify-between">
             <div>
-              <div className="text-[10px] text-muted-foreground">Thời gian mở</div>
-              <div className="text-[11px] font-semibold text-foreground">
-                02 ngày 14 giờ 08 phút
+              <div className="text-[10px] text-muted-foreground">
+                Thời gian mở (tối thiểu 8 giờ)
               </div>
+              <div className="text-[11px] font-semibold text-foreground">1 ngày 06 giờ 42 phút</div>
             </div>
             <span className="rounded-full bg-emerald/15 px-2 py-0.5 text-[10px] font-semibold text-emerald">
               Đang mở
@@ -308,7 +312,7 @@ function Screen3Auction() {
             </span>
           </div>
           <div className="mt-3 grid grid-cols-3 gap-2">
-            <Mini label="Còn lại" value="02:14:08" />
+            <Mini label="Còn lại" value="1n 06:42" />
             <Mini label="Đề xuất" value="14" />
             <Mini label="Tốt nhất" value="7,2%" highlight />
           </div>

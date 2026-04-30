@@ -84,6 +84,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
       const t = Date.now();
       const newId = makeId("loan");
       const code = `HS-DEMO-${String(Math.floor(Math.random() * 9000) + 1000)}`;
+      const DAY_MS = 24 * 60 * 60 * 1000;
       const loan: Loan = {
         id: newId,
         code,
@@ -95,7 +96,9 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
         history: data.history,
         collateral: data.collateral,
         riskLevel: data.riskLevel,
-        auctionEndsAt: t + data.auctionDurationMin * 60_000,
+        submittedAt: t - 11 * DAY_MS,
+        verifiedAt: t - 5 * DAY_MS,
+        auctionEndsAt: t + data.auctionDurationHours * 60 * 60 * 1000,
         status: "open",
         offers: [],
         fromDemoUser: true,
@@ -120,6 +123,7 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
           loanId,
           lenderName: data.lenderName,
           lenderType: data.lenderType,
+          lenderVerifiedAt: Date.now() - 7 * 24 * 60 * 60 * 1000,
           rate: data.rate,
           amount: data.amount,
           term: data.term,

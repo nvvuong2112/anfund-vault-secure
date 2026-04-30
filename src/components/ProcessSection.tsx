@@ -1,52 +1,55 @@
-import { FilePlus2, Timer, ScanSearch, Send, GitCompareArrows, ScrollText } from "lucide-react";
+import { FileCheck2, ShieldCheck, Timer, Send, GitCompareArrows, ScrollText } from "lucide-react";
 import { SectionHeading } from "./SectionHeading";
 
 const STEPS = [
   {
-    icon: FilePlus2,
-    title: "Tạo hồ sơ và đăng nhu cầu vay",
-    desc: "Người vay tạo hồ sơ tài chính và đăng nhu cầu vay với số tiền, kỳ hạn, mục đích cụ thể.",
+    icon: FileCheck2,
+    title: "Gửi hồ sơ trước 5 ngày",
+    desc: "Người vay và người cho vay gửi hồ sơ đầy đủ cho AnFund tối thiểu 5 ngày trước khi muốn tham gia phiên đấu giá.",
+    badge: "Trước phiên đấu giá",
+  },
+  {
+    icon: ShieldCheck,
+    title: "AnFund xác minh & phê duyệt",
+    desc: "AnFund đối chiếu thông tin, đánh giá rủi ro và phê duyệt hồ sơ. Thời gian xét duyệt tối thiểu 5 ngày làm việc, tuỳ độ phức tạp.",
+    badge: "5 ngày làm việc",
   },
   {
     icon: Timer,
     title: "Mở phiên đấu giá vốn",
-    desc: "AnFund mở phiên đấu giá trong thời gian nhất định để các bên cho vay xem xét và đề xuất.",
-  },
-  {
-    icon: ScanSearch,
-    title: "Người cho vay xem và đánh giá",
-    desc: "Người cho vay xem, lọc và đánh giá hồ sơ vay theo khẩu vị rủi ro và mục tiêu sử dụng vốn.",
+    desc: "Hồ sơ đã xác minh được mở phiên. Thời gian phiên tối thiểu 8 giờ, tối đa do bên mở phiên tự chọn.",
+    badge: "Tối thiểu 8 giờ",
   },
   {
     icon: Send,
-    title: "Gửi đề xuất cạnh tranh",
-    desc: "Người cho vay gửi đề xuất về lãi suất, kỳ hạn, số tiền tài trợ, điều kiện và yêu cầu bảo đảm.",
+    title: "Đề xuất cạnh tranh",
+    desc: "Người cho vay đã xác minh xem hồ sơ, gửi đề xuất về lãi suất, kỳ hạn, số tiền tài trợ, điều kiện và yêu cầu bảo đảm.",
   },
   {
     icon: GitCompareArrows,
     title: "So sánh và chọn phương án",
-    desc: "Người vay so sánh các đề xuất và chọn phương án tổng thể phù hợp nhất với mình.",
+    desc: "Người vay so sánh các đề xuất theo tổng thể (lãi suất, kỳ hạn, điều kiện, mức phù hợp) và chọn phương án phù hợp nhất.",
   },
   {
     icon: ScrollText,
-    title: "Xác minh, ký kết, hoàn tất",
-    desc: "Hai bên xác minh, ký kết và hoàn tất giao dịch theo quy định pháp luật hiện hành.",
+    title: "Ký kết và hoàn tất",
+    desc: "Hai bên xác nhận, ký hợp đồng và giải ngân theo quy định pháp luật. Lịch sử giao dịch được lưu vết trên AnFund.",
   },
 ];
 
 export function ProcessSection() {
   return (
-    <section className="relative bg-secondary/40 py-20 md:py-28">
+    <section id="how-it-works" className="relative bg-secondary/40 py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-4 md:px-6">
         <SectionHeading
           eyebrow="Quy trình hoạt động"
           title={
             <>
-              Sáu bước để khoản vay tốt{" "}
-              <span className="text-primary">gặp nguồn vốn cạnh tranh</span>
+              Sáu bước có chọn lọc — từ <span className="text-primary">xác minh</span> đến{" "}
+              <span className="text-emerald">khớp giao dịch</span>
             </>
           }
-          description="Từ lúc đăng hồ sơ đến khi khớp giao dịch, mọi bước đều được trình bày minh bạch cho cả người vay và người cho vay."
+          description="Mỗi hồ sơ trên AnFund đều phải gửi trước 5 ngày để xét duyệt và được xác minh tối thiểu 5 ngày làm việc. Phiên đấu giá tối thiểu 8 giờ, đảm bảo đủ thời gian cạnh tranh minh bạch."
         />
 
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -64,9 +67,9 @@ function StepCard({
   step,
 }: {
   index: number;
-  step: { icon: React.ElementType; title: string; desc: string };
+  step: { icon: React.ElementType; title: string; desc: string; badge?: string };
 }) {
-  const { icon: Icon, title, desc } = step;
+  const { icon: Icon, title, desc, badge } = step;
   return (
     <div
       className="reveal group relative rounded-2xl border border-border bg-card p-6 md:p-7"
@@ -83,7 +86,13 @@ function StepCard({
       <h3 className="mt-5 text-base font-semibold text-foreground md:text-lg">
         Bước {index}: {title}
       </h3>
-      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{desc}</p>
+      {badge && (
+        <span className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-emerald/30 bg-emerald/5 px-2.5 py-0.5 text-[10px] font-semibold text-emerald">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald" />
+          {badge}
+        </span>
+      )}
+      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{desc}</p>
     </div>
   );
 }

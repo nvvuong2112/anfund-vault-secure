@@ -1,4 +1,4 @@
-import { Building2, User, Briefcase } from "lucide-react";
+import { Building2, User, Briefcase, ShieldCheck } from "lucide-react";
 import type { LenderType, RiskLevel } from "./types";
 import { cn } from "@/lib/utils";
 
@@ -80,6 +80,42 @@ export function StatusBadge({ status }: { status: "open" | "matched" | "closed" 
       {label}
     </span>
   );
+}
+
+export function VerifiedBadge({
+  verifiedAt,
+  size = "md",
+}: {
+  verifiedAt?: number;
+  size?: "sm" | "md";
+}) {
+  const days =
+    verifiedAt != null
+      ? Math.max(1, Math.floor((Date.now() - verifiedAt) / (24 * 60 * 60 * 1000)))
+      : null;
+  const cls = size === "sm" ? "px-1.5 py-0.5 text-[9px] gap-1" : "px-2 py-0.5 text-[10px] gap-1.5";
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center rounded-full border border-emerald/40 bg-emerald/10 font-semibold text-emerald",
+        cls,
+      )}
+      title={verifiedAt ? `Đã được AnFund xác minh ${days} ngày trước` : "Đã được AnFund xác minh"}
+    >
+      <ShieldCheck className={size === "sm" ? "h-2.5 w-2.5" : "h-3 w-3"} />
+      Đã xác minh
+    </span>
+  );
+}
+
+export function formatDaysAgo(ms: number) {
+  const diff = Date.now() - ms;
+  const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+  if (days <= 0) return "hôm nay";
+  if (days === 1) return "hôm qua";
+  if (days < 30) return `${days} ngày trước`;
+  const months = Math.floor(days / 30);
+  return `${months} tháng trước`;
 }
 
 export function DemoBadge() {

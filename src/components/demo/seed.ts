@@ -2,6 +2,8 @@ import type { Loan, Offer } from "./types";
 
 const NOW = () => Date.now();
 const MIN = 60_000;
+const HOUR = 60 * MIN;
+const DAY = 24 * HOUR;
 
 let counter = 1;
 const id = (prefix: string) => `${prefix}-${Date.now().toString(36)}-${counter++}`;
@@ -20,10 +22,12 @@ export function buildSeedLoans(): Loan[] {
     history: "Tốt · CIC nhóm 1 · 2 khoản đã tất toán",
     collateral: "BĐS Q.7, định giá 1,2 tỷ",
     riskLevel: "low",
-    auctionEndsAt: t + 8 * MIN,
+    submittedAt: t - 12 * DAY,
+    verifiedAt: t - 6 * DAY,
+    auctionEndsAt: t + 6 * HOUR,
     status: "open",
     offers: [],
-    createdAt: t - 60 * MIN,
+    createdAt: t - 18 * HOUR,
   };
 
   const offers1: Offer[] = [
@@ -32,13 +36,14 @@ export function buildSeedLoans(): Loan[] {
       loanId: loan1.id,
       lenderName: "Quỹ đầu tư An Tín",
       lenderType: "fund",
+      lenderVerifiedAt: t - 60 * DAY,
       rate: 7.2,
       amount: 500_000_000,
       term: 120,
       conditions: "Cố định 12 tháng đầu, giải ngân 24h",
       collateralRequirement: "BĐS thế chấp",
       fitScore: 92,
-      createdAt: t - 30 * MIN,
+      createdAt: t - 12 * HOUR,
       status: "pending",
     },
     {
@@ -46,13 +51,14 @@ export function buildSeedLoans(): Loan[] {
       loanId: loan1.id,
       lenderName: "Capital Partner V",
       lenderType: "fund",
+      lenderVerifiedAt: t - 45 * DAY,
       rate: 7.5,
       amount: 500_000_000,
       term: 120,
       conditions: "Cố định 6 tháng đầu, giải ngân 48h",
       collateralRequirement: "BĐS thế chấp",
       fitScore: 88,
-      createdAt: t - 22 * MIN,
+      createdAt: t - 8 * HOUR,
       status: "pending",
     },
     {
@@ -60,13 +66,14 @@ export function buildSeedLoans(): Loan[] {
       loanId: loan1.id,
       lenderName: "Việt Hưng Capital",
       lenderType: "company",
+      lenderVerifiedAt: t - 30 * DAY,
       rate: 8.0,
       amount: 500_000_000,
       term: 84,
       conditions: "Thả nổi sau 6 tháng, giải ngân 24h",
       collateralRequirement: "BĐS thế chấp",
       fitScore: 81,
-      createdAt: t - 12 * MIN,
+      createdAt: t - 4 * HOUR,
       status: "pending",
     },
     {
@@ -74,13 +81,14 @@ export function buildSeedLoans(): Loan[] {
       loanId: loan1.id,
       lenderName: "Mr. Lê (Cá nhân)",
       lenderType: "individual",
+      lenderVerifiedAt: t - 21 * DAY,
       rate: 7.8,
       amount: 300_000_000,
       term: 60,
       conditions: "Tín chấp một phần, giải ngân 72h",
       collateralRequirement: "Đồng ký",
       fitScore: 75,
-      createdAt: t - 6 * MIN,
+      createdAt: t - 90 * MIN,
       status: "pending",
     },
   ];
@@ -98,7 +106,9 @@ export function buildSeedLoans(): Loan[] {
     history: "Doanh thu 24 tỷ/năm · CIC tổ chức nhóm 1",
     collateral: "Hàng tồn kho + BĐS xưởng",
     riskLevel: "medium",
-    auctionEndsAt: t + 35 * MIN,
+    submittedAt: t - 18 * DAY,
+    verifiedAt: t - 9 * DAY,
+    auctionEndsAt: t + 2 * DAY + 6 * HOUR,
     status: "open",
     offers: [
       {
@@ -106,13 +116,14 @@ export function buildSeedLoans(): Loan[] {
         loanId: "tmp",
         lenderName: "MeKong Growth Fund",
         lenderType: "fund",
+        lenderVerifiedAt: t - 90 * DAY,
         rate: 9.5,
         amount: 1_500_000_000,
         term: 36,
         conditions: "Giải ngân theo tiến độ, kiểm soát dòng tiền",
         collateralRequirement: "BĐS xưởng",
         fitScore: 84,
-        createdAt: t - 18 * MIN,
+        createdAt: t - 18 * HOUR,
         status: "pending",
       },
       {
@@ -120,17 +131,18 @@ export function buildSeedLoans(): Loan[] {
         loanId: "tmp",
         lenderName: "Nam Sài Gòn Invest",
         lenderType: "company",
+        lenderVerifiedAt: t - 75 * DAY,
         rate: 9.9,
         amount: 1_200_000_000,
         term: 24,
         conditions: "Giải ngân 1 lần, báo cáo dòng tiền hàng quý",
         collateralRequirement: "BĐS xưởng",
         fitScore: 78,
-        createdAt: t - 8 * MIN,
+        createdAt: t - 8 * HOUR,
         status: "pending",
       },
     ],
-    createdAt: t - 25 * MIN,
+    createdAt: t - 1 * DAY - 12 * HOUR,
   };
   loan2.offers = loan2.offers.map((o) => ({ ...o, loanId: loan2.id }));
 
@@ -145,7 +157,9 @@ export function buildSeedLoans(): Loan[] {
     history: "Tốt · CIC nhóm 1 · không có khoản vay đang trả",
     collateral: "Tín chấp + đồng ký",
     riskLevel: "medium",
-    auctionEndsAt: t + 18 * MIN,
+    submittedAt: t - 11 * DAY,
+    verifiedAt: t - 5 * DAY,
+    auctionEndsAt: t + 1 * DAY + 4 * HOUR,
     status: "open",
     offers: [
       {
@@ -153,17 +167,18 @@ export function buildSeedLoans(): Loan[] {
         loanId: "tmp",
         lenderName: "EduFund VN",
         lenderType: "fund",
+        lenderVerifiedAt: t - 50 * DAY,
         rate: 8.5,
         amount: 200_000_000,
         term: 36,
         conditions: "Ân hạn gốc 12 tháng, giải ngân theo học kỳ",
         collateralRequirement: "Đồng ký",
         fitScore: 86,
-        createdAt: t - 14 * MIN,
+        createdAt: t - 14 * HOUR,
         status: "pending",
       },
     ],
-    createdAt: t - 16 * MIN,
+    createdAt: t - 20 * HOUR,
   };
   loan3.offers = loan3.offers.map((o) => ({ ...o, loanId: loan3.id }));
 
@@ -171,15 +186,15 @@ export function buildSeedLoans(): Loan[] {
 }
 
 const FAKE_LENDERS = [
-  { name: "Quỹ đầu tư An Tín", type: "fund" as const },
-  { name: "Capital Partner V", type: "fund" as const },
-  { name: "MeKong Growth Fund", type: "fund" as const },
-  { name: "Nam Sài Gòn Invest", type: "company" as const },
-  { name: "Việt Hưng Capital", type: "company" as const },
-  { name: "EduFund VN", type: "fund" as const },
-  { name: "Mr. Lê (Cá nhân)", type: "individual" as const },
-  { name: "Bà Trần (Cá nhân)", type: "individual" as const },
-  { name: "Tín Phát Holdings", type: "company" as const },
+  { name: "Quỹ đầu tư An Tín", type: "fund" as const, verifiedDaysAgo: 60 },
+  { name: "Capital Partner V", type: "fund" as const, verifiedDaysAgo: 45 },
+  { name: "MeKong Growth Fund", type: "fund" as const, verifiedDaysAgo: 90 },
+  { name: "Nam Sài Gòn Invest", type: "company" as const, verifiedDaysAgo: 75 },
+  { name: "Việt Hưng Capital", type: "company" as const, verifiedDaysAgo: 30 },
+  { name: "EduFund VN", type: "fund" as const, verifiedDaysAgo: 50 },
+  { name: "Mr. Lê (Cá nhân)", type: "individual" as const, verifiedDaysAgo: 21 },
+  { name: "Bà Trần (Cá nhân)", type: "individual" as const, verifiedDaysAgo: 14 },
+  { name: "Tín Phát Holdings", type: "company" as const, verifiedDaysAgo: 38 },
 ];
 
 export function generateAutoOffer(
@@ -207,6 +222,7 @@ export function generateAutoOffer(
     loanId,
     lenderName: lender.name,
     lenderType: lender.type,
+    lenderVerifiedAt: Date.now() - lender.verifiedDaysAgo * DAY,
     rate,
     amount,
     term: 0,

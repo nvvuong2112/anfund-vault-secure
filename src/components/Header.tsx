@@ -10,6 +10,7 @@ const NAV_ITEMS: { href: string; label: string }[] = [
   { href: "#borrower", label: "Người vay" },
   { href: "#lender", label: "Người cho vay" },
   { href: "#auction", label: "Đấu giá vốn" },
+  { href: "#verification", label: "Xác minh" },
   { href: "#safety", label: "An toàn" },
   { href: "/demo", label: "Demo" },
   { href: "#signup", label: "Đăng ký" },

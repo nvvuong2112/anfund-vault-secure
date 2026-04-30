@@ -24,6 +24,8 @@ import {
   RiskBadge,
   StatusBadge,
   DemoBadge,
+  VerifiedBadge,
+  formatDaysAgo,
   lenderTypeLabel,
   LenderIcon,
 } from "./shared";
@@ -131,10 +133,11 @@ export function LenderView() {
                   </span>
                   <RiskBadge level={loan.riskLevel} />
                 </div>
-                <div className="mt-1 flex items-center gap-2">
+                <div className="mt-1 flex flex-wrap items-center gap-2">
                   <span className="truncate text-sm font-semibold text-foreground">
                     {loan.purpose}
                   </span>
+                  <VerifiedBadge verifiedAt={loan.verifiedAt} size="sm" />
                   {loan.fromDemoUser && <DemoBadge />}
                 </div>
                 <div className="mt-2 grid grid-cols-3 gap-2 text-xs">
@@ -228,7 +231,11 @@ function LoanInspector({
               {loan.fromDemoUser && <DemoBadge />}
             </div>
             <h3 className="mt-1 text-xl font-bold text-foreground md:text-2xl">{loan.purpose}</h3>
-            <div className="mt-1 text-sm text-muted-foreground">{loan.borrowerName}</div>
+            <div className="mt-1 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+              <span>{loan.borrowerName}</span>
+              <VerifiedBadge verifiedAt={loan.verifiedAt} size="sm" />
+              <span className="text-xs">· Xác minh {formatDaysAgo(loan.verifiedAt)}</span>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <RiskBadge level={loan.riskLevel} />
@@ -347,6 +354,18 @@ function NewOfferForm({
         </div>
       </div>
       <h4 className="mt-4 text-lg font-bold text-foreground md:text-xl">Đề xuất tài trợ của bạn</h4>
+
+      <div className="mt-3 flex items-start gap-3 rounded-2xl border border-emerald/30 bg-emerald/5 p-3.5 text-xs leading-relaxed text-muted-foreground">
+        <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald" />
+        <div>
+          <span className="font-semibold text-foreground">Quy định AnFund:</span> Đơn vị/cá nhân cho
+          vay phải gửi hồ sơ năng lực trước{" "}
+          <span className="font-semibold text-foreground">5 ngày</span> để AnFund xét duyệt; thời
+          gian phê duyệt tối thiểu{" "}
+          <span className="font-semibold text-foreground">5 ngày làm việc</span>. Chỉ bên cho vay đã
+          xác minh mới được gửi đề xuất. Trong demo này bên cho vay được xác minh ngay.
+        </div>
+      </div>
 
       <div className="mt-5 grid gap-4 md:grid-cols-2">
         <div>

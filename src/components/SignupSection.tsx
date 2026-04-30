@@ -50,8 +50,12 @@ export function SignupSection() {
               desc="AnFund hiện ở giai đoạn giới thiệu sản phẩm — không xử lý giao dịch tiền thật."
             />
             <Bullet
-              title="Ưu tiên người đăng ký sớm"
-              desc="Người đăng ký sớm sẽ được mời tham gia chương trình thử nghiệm sản phẩm."
+              title="Xác minh hồ sơ trước 5 ngày"
+              desc="Khi sản phẩm vận hành, người vay và người cho vay cần gửi hồ sơ trước 5 ngày để AnFund xét duyệt; phê duyệt tối thiểu 5 ngày làm việc."
+            />
+            <Bullet
+              title="Phiên đấu giá tối thiểu 8 giờ"
+              desc="Mỗi phiên mở tối thiểu 8 giờ, tối đa do bên mở phiên tự chọn — đủ thời gian cho cạnh tranh minh bạch."
             />
             <Bullet
               title="Tôn trọng thông tin cá nhân"

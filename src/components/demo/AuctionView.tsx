@@ -8,6 +8,7 @@ import {
   RiskBadge,
   StatusBadge,
   DemoBadge,
+  VerifiedBadge,
   lenderTypeLabel,
   LenderIcon,
 } from "./shared";
@@ -104,7 +105,10 @@ function AuctionDetail({
                   Phiên đấu giá vốn · {loan.code}
                   {loan.fromDemoUser && <DemoBadge />}
                 </div>
-                <div className="text-base font-semibold md:text-lg">{loan.purpose}</div>
+                <div className="flex flex-wrap items-center gap-2 text-base font-semibold md:text-lg">
+                  {loan.purpose}
+                  <VerifiedBadge verifiedAt={loan.verifiedAt} size="sm" />
+                </div>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -202,6 +206,7 @@ function AuctionDetail({
                     <span className="truncate text-sm font-semibold text-foreground">
                       {offer.lenderName}
                     </span>
+                    <VerifiedBadge verifiedAt={offer.lenderVerifiedAt} size="sm" />
                     {i === 0 && (
                       <span className="rounded-full bg-emerald/15 px-1.5 py-0.5 text-[9px] font-semibold text-emerald">
                         #1
