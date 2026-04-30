@@ -46,7 +46,7 @@ export function HeroSection() {
 
             <div className="reveal mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Button asChild size="lg" className="h-12 rounded-full px-6 text-sm">
-                <a href="#signup">
+                <a href="/demo">
                   Tôi muốn vay
                   <ArrowRight className="ml-1 h-4 w-4" />
                 </a>
@@ -57,7 +57,7 @@ export function HeroSection() {
                 variant="outline"
                 className="h-12 rounded-full border-primary/20 px-6 text-sm hover:bg-primary/5"
               >
-                <a href="#signup">Tôi muốn cho vay</a>
+                <a href="/demo">Tôi muốn cho vay</a>
               </Button>
               <Button
                 asChild

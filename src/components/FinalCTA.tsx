@@ -44,9 +44,9 @@ export function FinalCTA() {
                 variant="outline"
                 className="h-12 w-full rounded-full border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white lg:w-auto lg:px-7"
               >
-                <a href="#mockups">
+                <a href="/demo">
                   <PlayCircle className="h-4 w-4" />
-                  Xem demo sản phẩm
+                  Trải nghiệm demo
                 </a>
               </Button>
             </div>

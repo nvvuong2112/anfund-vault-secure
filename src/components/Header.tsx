@@ -11,6 +11,7 @@ const NAV_ITEMS: { href: string; label: string }[] = [
   { href: "#lender", label: "Người cho vay" },
   { href: "#auction", label: "Đấu giá vốn" },
   { href: "#safety", label: "An toàn" },
+  { href: "/demo", label: "Demo" },
   { href: "#signup", label: "Đăng ký" },
 ];
 
@@ -58,7 +59,14 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="hidden items-center gap-2 lg:flex">
+          <Button
+            asChild
+            variant="outline"
+            className="rounded-full border-primary/20 px-5 hover:bg-primary/5"
+          >
+            <a href="/demo">Trải nghiệm demo</a>
+          </Button>
           <Button asChild className="rounded-full px-5 shadow-sm">
             <a href="#signup">Tham gia danh sách chờ</a>
           </Button>
@@ -92,7 +100,12 @@ export function Header() {
               {item.label}
             </a>
           ))}
-          <Button asChild className="mt-3 w-full rounded-full">
+          <Button asChild variant="outline" className="mt-3 w-full rounded-full">
+            <a href="/demo" onClick={() => setOpen(false)}>
+              Trải nghiệm demo
+            </a>
+          </Button>
+          <Button asChild className="mt-2 w-full rounded-full">
             <a href="#signup" onClick={() => setOpen(false)}>
               Tham gia danh sách chờ
             </a>
