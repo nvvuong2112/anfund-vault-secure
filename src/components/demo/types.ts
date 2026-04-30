@@ -5,6 +5,7 @@ export type Offer = {
   loanId: string;
   lenderName: string;
   lenderType: LenderType;
+  lenderVerifiedAt: number;
   rate: number;
   amount: number;
   term: number;
@@ -29,6 +30,8 @@ export type Loan = {
   history: string;
   collateral: string;
   riskLevel: RiskLevel;
+  verifiedAt: number;
+  submittedAt: number;
   auctionEndsAt: number;
   status: "open" | "matched" | "closed";
   offers: Offer[];
@@ -45,7 +48,7 @@ export type NewLoanInput = {
   history: string;
   collateral: string;
   riskLevel: RiskLevel;
-  auctionDurationMin: number;
+  auctionDurationHours: number;
 };
 
 export type NewOfferInput = {
@@ -57,3 +60,6 @@ export type NewOfferInput = {
   conditions: string;
   collateralRequirement: string;
 };
+
+export const MIN_AUCTION_HOURS = 8;
+export const VERIFICATION_DAYS = 5;

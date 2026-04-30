@@ -19,16 +19,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useDemo } from "./store";
+import { MIN_AUCTION_HOURS, VERIFICATION_DAYS } from "./types";
 import type { NewLoanInput, RiskLevel } from "./types";
 import {
   LenderIcon,
   StatusBadge,
   RiskBadge,
   DemoBadge,
+  VerifiedBadge,
   formatVND,
   formatVNDFull,
   formatRate,
   formatCountdown,
+  formatDaysAgo,
   lenderTypeLabel,
 } from "./shared";
 import { cn } from "@/lib/utils";
@@ -217,7 +220,7 @@ function NewLoanForm({
   const [history, setHistory] = useState("Tốt · CIC nhóm 1 · không trễ hạn");
   const [collateral, setCollateral] = useState("BĐS Q.7, định giá 1,2 tỷ");
   const [riskLevel, setRiskLevel] = useState<RiskLevel>("low");
-  const [auctionDurationMin, setAuctionDurationMin] = useState(5);
+  const [auctionDurationHours, setAuctionDurationHours] = useState<number>(MIN_AUCTION_HOURS);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -229,9 +232,16 @@ function NewLoanForm({
       history,
       collateral,
       riskLevel,
-      auctionDurationMin,
+      auctionDurationHours: Math.max(MIN_AUCTION_HOURS, auctionDurationHours),
     });
   };
+
+  const DURATION_PRESETS: { hours: number; label: string }[] = [
+    { hours: 8, label: "8 giờ" },
+    { hours: 24, label: "1 ngày" },
+    { hours: 72, label: "3 ngày" },
+    { hours: 168, label: "7 ngày" },
+  ];
 
   return (
     <form
@@ -246,6 +256,20 @@ function NewLoanForm({
         </div>
       </div>
       <h3 className="mt-4 text-xl font-bold text-foreground">Tạo hồ sơ vay</h3>
+
+      <div className="mt-4 flex items-start gap-3 rounded-2xl border border-emerald/30 bg-emerald/5 p-3.5 text-xs leading-relaxed text-muted-foreground">
+        <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald" />
+        <div>
+          <span className="font-semibold text-foreground">Quy định AnFund:</span> Trong sản phẩm
+          thật, hồ sơ phải được gửi trước{" "}
+          <span className="font-semibold text-foreground">{VERIFICATION_DAYS} ngày</span> để AnFund
+          xét duyệt; thời gian phê duyệt tối thiểu{" "}
+          <span className="font-semibold text-foreground">{VERIFICATION_DAYS} ngày làm việc</span>.
+          Chỉ hồ sơ đã xác minh mới được mở phiên đấu giá. Phiên đấu giá tối thiểu{" "}
+          <span className="font-semibold text-foreground">{MIN_AUCTION_HOURS} giờ</span>. Trong demo
+          này hồ sơ được xác minh ngay để bạn trải nghiệm.
+        </div>
+      </div>
 
       <div className="mt-5 grid gap-4 md:grid-cols-2">
         <NumberField
@@ -303,15 +327,43 @@ function NewLoanForm({
           suffix="₫"
           format
         />
-        <NumberField
-          label="Thời gian phiên đấu giá (phút)"
-          icon={Clock}
-          value={auctionDurationMin}
-          onChange={setAuctionDurationMin}
-          step={1}
-          min={2}
-          max={60}
-        />
+        <div>
+          <Label icon={Clock}>Thời gian phiên đấu giá</Label>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {DURATION_PRESETS.map((d) => (
+              <button
+                key={d.hours}
+                type="button"
+                onClick={() => setAuctionDurationHours(d.hours)}
+                className={cn(
+                  "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                  auctionDurationHours === d.hours
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-secondary/40 text-foreground hover:border-primary/30",
+                )}
+              >
+                {d.label}
+              </button>
+            ))}
+          </div>
+          <div className="mt-3 flex items-center gap-2">
+            <Input
+              type="number"
+              min={MIN_AUCTION_HOURS}
+              max={720}
+              step={1}
+              value={auctionDurationHours}
+              onChange={(e) =>
+                setAuctionDurationHours(Math.max(MIN_AUCTION_HOURS, Number(e.target.value || 0)))
+              }
+              className="h-11 rounded-xl"
+            />
+            <span className="text-sm text-muted-foreground">giờ</span>
+          </div>
+          <div className="mt-1 text-[11px] text-muted-foreground">
+            Tối thiểu {MIN_AUCTION_HOURS} giờ · tối đa do bạn tự chọn (đến 720 giờ).
+          </div>
+        </div>
       </div>
 
       <div className="mt-4 space-y-3">
@@ -451,7 +503,11 @@ function LoanDetail({
               {loan.fromDemoUser && <DemoBadge />}
             </div>
             <h3 className="mt-1 text-xl font-bold text-foreground md:text-2xl">{loan.purpose}</h3>
-            <div className="mt-1 text-sm text-muted-foreground">{loan.borrowerName}</div>
+            <div className="mt-1 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+              <span>{loan.borrowerName}</span>
+              <VerifiedBadge verifiedAt={loan.verifiedAt} />
+              <span className="text-xs">· Xác minh {formatDaysAgo(loan.verifiedAt)}</span>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <RiskBadge level={loan.riskLevel} />
@@ -546,9 +602,12 @@ function MatchedCard({ loan }: { loan: ReturnType<typeof useDemo>["loans"][numbe
           <div className="text-base font-bold text-foreground md:text-lg">
             Khớp giao dịch thành công
           </div>
-          <div className="text-sm text-muted-foreground">
-            Bạn đã chọn đề xuất từ{" "}
-            <span className="font-semibold text-foreground">{offer.lenderName}</span>
+          <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+            <span>
+              Bạn đã chọn đề xuất từ{" "}
+              <span className="font-semibold text-foreground">{offer.lenderName}</span>
+            </span>
+            <VerifiedBadge verifiedAt={offer.lenderVerifiedAt} size="sm" />
           </div>
         </div>
       </div>
@@ -590,10 +649,11 @@ function OfferRow({
             <LenderIcon type={offer.lenderType} className="h-5 w-5" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="text-sm font-semibold text-foreground md:text-base">
                 {offer.lenderName}
               </span>
+              <VerifiedBadge verifiedAt={offer.lenderVerifiedAt} size="sm" />
               {isBest && (
                 <span className="rounded-full bg-emerald/15 px-2 py-0.5 text-[10px] font-semibold text-emerald">
                   Lãi suất tốt nhất

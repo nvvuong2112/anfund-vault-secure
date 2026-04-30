@@ -4,7 +4,6 @@ import {
   Sparkles,
   TrendingUp,
   Building2,
-  User,
   Gavel,
   Check,
 } from "lucide-react";
@@ -110,21 +109,25 @@ function HeroIllustration() {
         className="relative rounded-3xl border border-border bg-card p-5 md:p-6"
         style={{ boxShadow: "var(--shadow-phone)" }}
       >
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <Gavel className="h-4 w-4" />
             </div>
             <div>
-              <div className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              <div className="flex items-center gap-1.5 text-xs uppercase tracking-[0.18em] text-muted-foreground">
                 Phiên đấu giá vốn
+                <span className="inline-flex items-center gap-1 rounded-full border border-emerald/40 bg-emerald/10 px-1.5 py-0 text-[9px] font-semibold normal-case tracking-normal text-emerald">
+                  <ShieldCheck className="h-2.5 w-2.5" />
+                  Đã xác minh
+                </span>
               </div>
               <div className="text-sm font-semibold text-foreground">HS-002389 · 500.000.000 ₫</div>
             </div>
           </div>
           <span className="inline-flex items-center gap-1 rounded-full bg-emerald/10 px-2.5 py-1 text-[11px] font-medium text-emerald">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald" />
-            Đang mở · 02:14:08
+            Đang mở · 1 ngày 06:42
           </span>
         </div>
 
@@ -158,8 +161,12 @@ function HeroIllustration() {
                   <Building2 className="h-4 w-4 text-primary" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex flex-wrap items-center gap-1.5">
                     <span className="truncate text-sm font-semibold text-foreground">{o.name}</span>
+                    <span className="inline-flex items-center gap-0.5 rounded-full border border-emerald/40 bg-emerald/10 px-1 py-0 text-[9px] font-semibold text-emerald">
+                      <ShieldCheck className="h-2.5 w-2.5" />
+                      Đã xác minh
+                    </span>
                     {o.best && (
                       <span className="rounded-full bg-emerald/15 px-1.5 py-0.5 text-[10px] font-semibold text-emerald">
                         Tốt nhất
@@ -191,15 +198,15 @@ function HeroIllustration() {
 
       <FloatingChip
         className="-left-3 top-10 md:-left-8"
-        icon={<User className="h-3.5 w-3.5 text-primary" />}
-        title="Người vay đăng hồ sơ"
-        subtitle="HS-002389 mở phiên đấu giá"
+        icon={<ShieldCheck className="h-3.5 w-3.5 text-emerald" />}
+        title="Hồ sơ đã xác minh"
+        subtitle="Xét duyệt trước phiên đấu giá"
       />
       <FloatingChip
         className="-right-3 -bottom-2 md:-right-6 md:bottom-6"
         icon={<Check className="h-3.5 w-3.5 text-emerald" />}
         title="14 đề xuất cạnh tranh"
-        subtitle="Lãi suất từ 7,2%/năm"
+        subtitle="Phiên mở tối thiểu 8 giờ"
       />
     </div>
   );

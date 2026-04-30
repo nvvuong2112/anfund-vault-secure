@@ -5,6 +5,7 @@ import { ProblemSection } from "@/components/ProblemSection";
 import { SolutionSection } from "@/components/SolutionSection";
 import { FeaturesSection } from "@/components/FeaturesSection";
 import { ProcessSection } from "@/components/ProcessSection";
+import { VerificationSection } from "@/components/VerificationSection";
 import { BenefitsSection } from "@/components/BenefitsSection";
 import { MockupsSection } from "@/components/MockupsSection";
 import { TwoSidedSection } from "@/components/TwoSidedSection";
@@ -50,6 +51,7 @@ function Index() {
         <SolutionSection />
         <FeaturesSection />
         <ProcessSection />
+        <VerificationSection />
         <BenefitsSection />
         <MockupsSection />
         <TwoSidedSection />
