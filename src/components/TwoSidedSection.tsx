@@ -8,14 +8,19 @@ export function TwoSidedSection() {
       className="relative overflow-hidden py-20 text-primary-foreground md:py-28"
       style={{ background: "var(--gradient-navy)" }}
     >
-      <div className="pointer-events-none absolute inset-0 opacity-30 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]">
-        <div className="absolute -left-20 top-10 h-72 w-72 rounded-full bg-accent/30 blur-3xl" />
-        <div className="absolute -right-20 bottom-10 h-72 w-72 rounded-full bg-emerald/30 blur-3xl" />
+      <div className="pointer-events-none absolute inset-0 opacity-20">
+        <div className="absolute inset-0 bg-grid-soft invert" />
       </div>
+      <img
+        src="/brand/anfund-logo-dark.png"
+        alt=""
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 right-0 w-[28rem] max-w-[70vw] opacity-10"
+      />
 
       <div className="relative mx-auto max-w-7xl px-4 md:px-6">
         <div className="mx-auto max-w-3xl text-center">
-          <div className="reveal inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/80 backdrop-blur">
+          <div className="reveal inline-flex items-center gap-2 rounded-md border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-white/80 backdrop-blur">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             Cơ chế hai chiều
           </div>
@@ -51,7 +56,7 @@ export function TwoSidedSection() {
           />
         </div>
 
-        <div className="reveal mx-auto mt-10 flex max-w-3xl items-center justify-center gap-3 rounded-2xl border border-white/15 bg-white/5 px-5 py-4 text-sm text-white/85 backdrop-blur md:text-base">
+        <div className="reveal mx-auto mt-10 flex max-w-3xl items-center justify-center gap-3 border-y border-white/15 px-5 py-4 text-sm text-white/85 backdrop-blur md:text-base">
           <Sparkles className="h-4 w-4 text-accent" />
           <span>
             Khoản vay tốt sẽ thu hút nhiều đề xuất tốt — nguồn vốn tốt sẽ tìm được người vay phù
@@ -84,13 +89,13 @@ function FlowCard({
   const accentBg = tone === "gold" ? "bg-accent/15" : "bg-emerald/15";
 
   return (
-    <div className="rounded-3xl border border-white/15 bg-white/5 p-6 backdrop-blur md:p-8">
+    <div className="border border-white/15 bg-white/5 p-6 backdrop-blur md:p-8">
       <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/60">
         {label}
       </div>
 
       <div className="mt-4 flex flex-wrap items-center gap-3">
-        <div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${accentBg}`}>
+        <div className={`flex h-11 w-11 items-center justify-center rounded-md ${accentBg}`}>
           <Icon className={`h-5 w-5 ${accentText}`} />
         </div>
         <div className="text-lg font-semibold md:text-xl">{title}</div>
@@ -101,7 +106,7 @@ function FlowCard({
         <span>{arrowText}</span>
       </div>
 
-      <div className={`mt-2 flex items-center gap-2 rounded-xl ${accentBg} p-3`}>
+      <div className={`mt-2 flex items-center gap-2 rounded-md ${accentBg} p-3`}>
         <Target className={`h-4 w-4 ${accentText}`} />
         <span className="text-sm font-semibold text-white">{outcome}</span>
       </div>

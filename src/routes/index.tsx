@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
+import { BrandStorySection } from "@/components/BrandStorySection";
 import { ProblemSection } from "@/components/ProblemSection";
 import { SolutionSection } from "@/components/SolutionSection";
 import { FeaturesSection } from "@/components/FeaturesSection";
@@ -19,20 +20,20 @@ import { useReveal } from "@/hooks/use-reveal";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "AnFund — Nơi người vay tốt gặp nguồn vốn cạnh tranh" },
+      { title: "AnFund — Kết nối dòng vốn, nâng tầm khát vọng" },
       {
         name: "description",
         content:
-          "AnFund (AnVốn) là sàn đấu giá vốn hai chiều, minh bạch và có chọn lọc — kết nối người cần vốn với nguồn vốn cạnh tranh.",
+          "AnFund là sàn đấu giá vốn hai chiều minh bạch, có kiểm soát — nơi dòng vốn an tâm gặp những khát vọng phát triển.",
       },
       {
         property: "og:title",
-        content: "AnFund — Nơi người vay tốt gặp nguồn vốn cạnh tranh",
+        content: "AnFund — Kết nối dòng vốn, nâng tầm khát vọng",
       },
       {
         property: "og:description",
         content:
-          "Đăng nhu cầu vay một lần, nhận nhiều đề xuất cạnh tranh. Người cho vay chủ động chọn hồ sơ phù hợp khẩu vị rủi ro.",
+          "Rồng Việt dẫn vốn vươn khơi: nền tảng kết nối người vay, người cho vay, dữ liệu và niềm tin.",
       },
     ],
   }),
@@ -47,6 +48,7 @@ function Index() {
       <Header />
       <main id="top" className="bg-background">
         <HeroSection />
+        <BrandStorySection />
         <ProblemSection />
         <SolutionSection />
         <FeaturesSection />

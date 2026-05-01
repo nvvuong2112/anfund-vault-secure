@@ -54,7 +54,7 @@ function ProblemColumn({
 }) {
   return (
     <div
-      className="reveal rounded-3xl border border-border bg-card p-6 md:p-8"
+      className="reveal rounded-lg border border-border bg-card p-6 md:p-8"
       style={{ boxShadow: "var(--shadow-soft)" }}
     >
       <div className="flex items-center gap-2">
@@ -69,7 +69,7 @@ function ProblemColumn({
         {problems.map(({ icon: Icon, text }) => (
           <li key={text} className="flex items-start gap-4">
             <div
-              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${badgeTone === "gold" ? "bg-accent/15" : "bg-primary/8"}`}
+              className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-md ${badgeTone === "gold" ? "bg-accent/15" : "bg-primary/8"}`}
             >
               <Icon
                 className={`h-5 w-5 ${badgeTone === "gold" ? "text-accent-foreground" : "text-primary"}`}

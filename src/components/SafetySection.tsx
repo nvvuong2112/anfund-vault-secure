@@ -72,10 +72,10 @@ export function SafetySection() {
           {SAFETY_POINTS.map(({ icon: Icon, title, desc }) => (
             <div
               key={title}
-              className="reveal flex flex-col gap-3 rounded-2xl border border-border bg-card p-5"
+              className="reveal flex flex-col gap-3 rounded-lg border border-border bg-card p-5"
               style={{ boxShadow: "var(--shadow-soft)" }}
             >
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/8 text-primary">
+              <div className="flex h-11 w-11 items-center justify-center rounded-md bg-primary/8 text-primary">
                 <Icon className="h-5 w-5" />
               </div>
               <div>

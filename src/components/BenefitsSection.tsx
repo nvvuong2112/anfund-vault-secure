@@ -95,20 +95,20 @@ function BenefitColumn({
             </p>
 
             <div
-              className={`reveal mt-8 inline-flex h-12 w-12 items-center justify-center rounded-2xl ${iconBg}`}
+              className={`reveal mt-8 inline-flex h-12 w-12 items-center justify-center rounded-lg ${iconBg}`}
             >
               <Icon className="h-5 w-5" />
             </div>
           </div>
 
           <ul
-            className="reveal grid gap-3 rounded-3xl border border-border bg-card p-6 md:p-8"
+            className="reveal grid gap-3 rounded-lg border border-border bg-card p-6 md:p-8"
             style={{ boxShadow: "var(--shadow-soft)" }}
           >
             {benefits.map((b) => (
               <li
                 key={b}
-                className="flex items-start gap-3 rounded-xl border border-border/60 bg-secondary/40 p-4"
+                className="flex items-start gap-3 rounded-md border border-border/60 bg-secondary/40 p-4"
               >
                 <Check className={`mt-0.5 h-4 w-4 shrink-0 ${checkClass}`} />
                 <span className="text-sm text-foreground md:text-[15px]">{b}</span>

@@ -57,7 +57,7 @@ export function LenderView() {
     <div className="grid gap-6 lg:grid-cols-12">
       <aside className="lg:col-span-5 space-y-4">
         <div
-          className="rounded-2xl border border-border bg-card p-5"
+          className="rounded-lg border border-border bg-card p-5"
           style={{ boxShadow: "var(--shadow-soft)" }}
         >
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
@@ -71,7 +71,7 @@ export function LenderView() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Tìm theo mã, mục đích vay..."
-              className="h-11 rounded-xl pl-10"
+              className="h-11 rounded-md pl-10"
             />
           </div>
 
@@ -106,7 +106,7 @@ export function LenderView() {
             {visible.length} hồ sơ vay đang mở phiên đấu giá
           </div>
           {visible.length === 0 && (
-            <div className="rounded-2xl border border-dashed border-border bg-secondary/30 p-6 text-sm text-muted-foreground">
+            <div className="rounded-lg border border-dashed border-border bg-secondary/30 p-6 text-sm text-muted-foreground">
               Không có hồ sơ vay nào khớp với bộ lọc.
             </div>
           )}
@@ -120,7 +120,7 @@ export function LenderView() {
                 type="button"
                 onClick={() => selectLoan(loan.id)}
                 className={cn(
-                  "w-full rounded-2xl border p-4 text-left transition-all",
+                  "w-full rounded-lg border p-4 text-left transition-all",
                   selected?.id === loan.id
                     ? "border-primary bg-primary/5 ring-2 ring-primary/15"
                     : "border-border bg-card hover:border-primary/30",
@@ -173,7 +173,7 @@ export function LenderView() {
             onSubmit={(data) => submitOffer(selected.id, data)}
           />
         ) : (
-          <div className="flex h-full items-center justify-center rounded-3xl border border-dashed border-border bg-card p-12 text-center text-sm text-muted-foreground">
+          <div className="flex h-full items-center justify-center rounded-lg border border-dashed border-border bg-card p-12 text-center text-sm text-muted-foreground">
             Không có hồ sơ vay đang mở.
           </div>
         )}
@@ -221,7 +221,7 @@ function LoanInspector({
   return (
     <div className="space-y-5">
       <div
-        className="rounded-3xl border border-border bg-card p-6 md:p-7"
+        className="rounded-lg border border-border bg-card p-6 md:p-7"
         style={{ boxShadow: "var(--shadow-soft)" }}
       >
         <div className="flex flex-wrap items-start justify-between gap-3">
@@ -260,7 +260,7 @@ function LoanInspector({
           <DetailLine icon={ShieldCheck} label="Tài sản bảo đảm" value={loan.collateral} />
         </div>
 
-        <div className="mt-4 rounded-2xl border border-border bg-secondary/40 p-4">
+        <div className="mt-4 rounded-lg border border-border bg-secondary/40 p-4">
           <div className="flex items-center justify-between text-xs">
             <span className="font-semibold text-foreground">Tình hình cạnh tranh hiện tại</span>
             {bestRate != null ? (
@@ -344,7 +344,7 @@ function NewOfferForm({
   return (
     <form
       onSubmit={submit}
-      className="rounded-3xl border border-border bg-card p-6 md:p-7"
+      className="rounded-lg border border-border bg-card p-6 md:p-7"
       style={{ boxShadow: "var(--shadow-soft)" }}
     >
       <div className="flex items-center gap-2">
@@ -355,7 +355,7 @@ function NewOfferForm({
       </div>
       <h4 className="mt-4 text-lg font-bold text-foreground md:text-xl">Đề xuất tài trợ của bạn</h4>
 
-      <div className="mt-3 flex items-start gap-3 rounded-2xl border border-emerald/30 bg-emerald/5 p-3.5 text-xs leading-relaxed text-muted-foreground">
+      <div className="mt-3 flex items-start gap-3 rounded-lg border border-emerald/30 bg-emerald/5 p-3.5 text-xs leading-relaxed text-muted-foreground">
         <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald" />
         <div>
           <span className="font-semibold text-foreground">Quy định AnFund:</span> Đơn vị/cá nhân cho
@@ -371,7 +371,7 @@ function NewOfferForm({
         <div>
           <FieldLabel>Tên đơn vị / cá nhân cho vay</FieldLabel>
           <Input
-            className="mt-2 h-11 rounded-xl"
+            className="mt-2 h-11 rounded-md"
             value={lenderName}
             onChange={(e) => setLenderName(e.target.value)}
           />
@@ -385,7 +385,7 @@ function NewOfferForm({
                 type="button"
                 onClick={() => setLenderType(t)}
                 className={cn(
-                  "rounded-xl border p-2 text-xs font-semibold transition-colors",
+                  "rounded-md border p-2 text-xs font-semibold transition-colors",
                   lenderType === t
                     ? "border-primary bg-primary/10 text-primary"
                     : "border-border bg-secondary/40 text-muted-foreground hover:border-primary/30",
@@ -402,7 +402,7 @@ function NewOfferForm({
         <div>
           <FieldLabel>Lãi suất / năm (%)</FieldLabel>
           <Input
-            className="mt-2 h-11 rounded-xl"
+            className="mt-2 h-11 rounded-md"
             type="number"
             step={0.1}
             min={3}
@@ -426,7 +426,7 @@ function NewOfferForm({
         <div>
           <FieldLabel>Số tiền tài trợ (₫)</FieldLabel>
           <Input
-            className="mt-2 h-11 rounded-xl"
+            className="mt-2 h-11 rounded-md"
             type="number"
             step={50_000_000}
             min={50_000_000}
@@ -438,7 +438,7 @@ function NewOfferForm({
         <div>
           <FieldLabel>Kỳ hạn (tháng)</FieldLabel>
           <Input
-            className="mt-2 h-11 rounded-xl"
+            className="mt-2 h-11 rounded-md"
             type="number"
             step={6}
             min={6}
@@ -453,7 +453,7 @@ function NewOfferForm({
         <div>
           <FieldLabel>Điều kiện giải ngân</FieldLabel>
           <Textarea
-            className="mt-2 rounded-xl"
+            className="mt-2 rounded-md"
             rows={2}
             value={conditions}
             onChange={(e) => setConditions(e.target.value)}
@@ -462,7 +462,7 @@ function NewOfferForm({
         <div>
           <FieldLabel>Yêu cầu bảo đảm</FieldLabel>
           <Textarea
-            className="mt-2 rounded-xl"
+            className="mt-2 rounded-md"
             rows={2}
             value={collateralRequirement}
             onChange={(e) => setCollateralRequirement(e.target.value)}
@@ -483,10 +483,10 @@ function NewOfferForm({
 function SubmittedCard({ onAgain }: { onAgain: () => void }) {
   return (
     <div
-      className="rounded-3xl border border-emerald/30 bg-emerald/5 p-6 md:p-7 text-center"
+      className="rounded-lg border border-emerald/30 bg-emerald/5 p-6 md:p-7 text-center"
       style={{ boxShadow: "var(--shadow-soft)" }}
     >
-      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald text-emerald-foreground">
+      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-emerald text-emerald-foreground">
         <CheckCircle2 className="h-6 w-6" />
       </div>
       <h4 className="mt-4 text-lg font-bold text-foreground">Đề xuất đã được gửi</h4>
@@ -529,7 +529,7 @@ function Box({
         ? "text-destructive"
         : "text-foreground";
   return (
-    <div className="rounded-xl border border-border bg-secondary/40 p-3">
+    <div className="rounded-md border border-border bg-secondary/40 p-3">
       <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">
         <Icon className="h-3 w-3 text-primary" />
         {label}
@@ -549,7 +549,7 @@ function DetailLine({
   value: string;
 }) {
   return (
-    <div className="flex items-start gap-3 rounded-xl border border-border/60 bg-secondary/30 p-3">
+    <div className="flex items-start gap-3 rounded-md border border-border/60 bg-secondary/30 p-3">
       <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
         <Icon className="h-4 w-4" />
       </div>

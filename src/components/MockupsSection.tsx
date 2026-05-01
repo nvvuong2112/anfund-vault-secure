@@ -133,7 +133,7 @@ function Field({
   sub?: string;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-card px-3 py-2.5">
+    <div className="rounded-md border border-border bg-card px-3 py-2.5">
       <div className="flex items-center gap-2 text-[9px] uppercase tracking-wider text-muted-foreground">
         <Icon className="h-3 w-3 text-primary" />
         {label}
@@ -151,7 +151,7 @@ function Screen1Profile() {
     <PhoneFrame>
       <PhoneHeader title="Hồ sơ vay HS-002389" subtitle="Đã được AnFund xác minh · 6 ngày trước" />
       <div className="space-y-2.5 px-4 pt-4 pb-6">
-        <div className="flex items-center gap-2 rounded-xl border border-emerald/30 bg-emerald/5 px-3 py-2 text-[10px] font-semibold text-emerald">
+        <div className="flex items-center gap-2 rounded-md border border-emerald/30 bg-emerald/5 px-3 py-2 text-[10px] font-semibold text-emerald">
           <ShieldCheck className="h-3 w-3" />
           Đã xác minh · sẵn sàng đấu giá
         </div>
@@ -171,7 +171,7 @@ function Screen1Profile() {
         <Field icon={ShieldCheck} label="Tài sản bảo đảm" value="BĐS Q.7, định giá 1,2 tỷ" />
         <Field icon={Activity} label="Mức độ rủi ro" value="Thấp – Trung bình" />
 
-        <div className="rounded-xl border border-emerald/30 bg-emerald/5 p-3">
+        <div className="rounded-md border border-emerald/30 bg-emerald/5 p-3">
           <div className="flex items-center gap-2 text-[10px] font-semibold text-emerald">
             <Clock className="h-3 w-3" />
             PHIÊN ĐẤU GIÁ VỐN
@@ -241,7 +241,7 @@ function Screen2Offers() {
         {offers.map((o) => (
           <div
             key={o.name}
-            className={`rounded-xl border p-3 ${o.best ? "border-emerald/40 bg-emerald/5" : "border-border bg-card"}`}
+            className={`rounded-md border p-3 ${o.best ? "border-emerald/40 bg-emerald/5" : "border-border bg-card"}`}
           >
             <div className="flex items-center gap-2.5">
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10">
@@ -295,7 +295,7 @@ function Screen3Auction() {
     <PhoneFrame>
       <PhoneHeader title="Phiên đấu giá vốn" subtitle="Hai chiều · cạnh tranh minh bạch" />
       <div className="space-y-3 px-4 pt-4 pb-6">
-        <div className="rounded-xl border border-border bg-secondary/40 p-3">
+        <div className="rounded-md border border-border bg-secondary/40 p-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
@@ -318,7 +318,7 @@ function Screen3Auction() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-emerald/40 bg-emerald/5 p-3">
+        <div className="rounded-md border border-emerald/40 bg-emerald/5 p-3">
           <div className="text-[10px] font-semibold uppercase tracking-wider text-emerald">
             Đề xuất tốt nhất hiện tại
           </div>
@@ -339,7 +339,7 @@ function Screen3Auction() {
           </div>
         </div>
 
-        <div className="rounded-xl border border-border bg-secondary/40 p-3">
+        <div className="rounded-md border border-border bg-secondary/40 p-3">
           <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
             Phân bố lãi suất các đề xuất
           </div>
@@ -359,11 +359,11 @@ function Screen3Auction() {
         </div>
 
         <div className="grid grid-cols-2 gap-2">
-          <button className="rounded-xl border border-border bg-card py-2.5 text-[11px] font-semibold text-foreground">
+          <button className="rounded-md border border-border bg-card py-2.5 text-[11px] font-semibold text-foreground">
             So sánh đề xuất
           </button>
           <button
-            className="rounded-xl py-2.5 text-[11px] font-semibold text-primary-foreground"
+            className="rounded-md py-2.5 text-[11px] font-semibold text-primary-foreground"
             style={{ background: "var(--gradient-navy)" }}
           >
             Chọn phương án phù hợp

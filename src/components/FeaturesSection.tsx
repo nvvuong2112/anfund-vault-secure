@@ -15,7 +15,7 @@ const FEATURES: Feature[] = [
   {
     id: "borrower",
     icon: User,
-    badge: "Card 1",
+    badge: "Người vay",
     title: "Hồ sơ người vay",
     intro:
       "Dành cho cá nhân hoặc doanh nghiệp có nhu cầu vay vốn và muốn tiếp cận nhiều đề xuất tài chính cạnh tranh.",
@@ -35,7 +35,7 @@ const FEATURES: Feature[] = [
   {
     id: "lender",
     icon: Banknote,
-    badge: "Card 2",
+    badge: "Nguồn vốn",
     title: "Nguồn vốn cho vay",
     intro:
       "Dành cho cá nhân, tổ chức hoặc đối tác có nguồn vốn và muốn tìm kiếm hồ sơ vay phù hợp để tài trợ.",
@@ -54,7 +54,7 @@ const FEATURES: Feature[] = [
   {
     id: "auction",
     icon: Gavel,
-    badge: "Card 3",
+    badge: "Sàn đấu giá",
     title: "Đấu giá vốn hai chiều",
     intro:
       "Cơ chế cốt lõi giúp thị trường vận hành minh bạch, cạnh tranh và hiệu quả hơn cho cả người vay lẫn người cho vay.",
@@ -121,7 +121,7 @@ function FeatureCard({ feature }: { feature: Feature }) {
 
   return (
     <div
-      className="reveal relative rounded-3xl border border-border bg-card p-7 md:p-8"
+      className="reveal relative rounded-lg border border-border bg-card p-7 md:p-8"
       style={{ boxShadow: "var(--shadow-soft)" }}
     >
       <div
@@ -131,7 +131,7 @@ function FeatureCard({ feature }: { feature: Feature }) {
         <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
           {badge}
         </span>
-        <div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${iconBg}`}>
+        <div className={`flex h-11 w-11 items-center justify-center rounded-lg ${iconBg}`}>
           <Icon className="h-5 w-5" />
         </div>
       </div>

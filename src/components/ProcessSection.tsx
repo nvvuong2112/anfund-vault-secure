@@ -72,11 +72,11 @@ function StepCard({
   const { icon: Icon, title, desc, badge } = step;
   return (
     <div
-      className="reveal group relative rounded-2xl border border-border bg-card p-6 md:p-7"
+      className="reveal group relative rounded-lg border border-border bg-card p-6 md:p-7"
       style={{ boxShadow: "var(--shadow-soft)" }}
     >
       <div className="flex items-start justify-between">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/8 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+        <div className="flex h-11 w-11 items-center justify-center rounded-md bg-primary/8 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
           <Icon className="h-5 w-5" />
         </div>
         <div className="text-3xl font-bold tracking-tight text-muted-foreground/40">
