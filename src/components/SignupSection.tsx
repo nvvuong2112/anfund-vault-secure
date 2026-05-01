@@ -69,7 +69,7 @@ export function SignupSection() {
             ) : (
               <form
                 onSubmit={onSubmit}
-                className="reveal space-y-5 rounded-3xl border border-border bg-card p-6 md:p-8"
+                className="reveal space-y-5 rounded-lg border border-border bg-card p-6 md:p-8"
                 style={{ boxShadow: "var(--shadow-soft)" }}
               >
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -79,7 +79,7 @@ export function SignupSection() {
                       name="name"
                       required
                       placeholder="Nguyễn Văn A"
-                      className="h-11 rounded-xl"
+                      className="h-11 rounded-md"
                     />
                   </Field>
                   <Field label="Số điện thoại" htmlFor="phone">
@@ -90,7 +90,7 @@ export function SignupSection() {
                       type="tel"
                       inputMode="tel"
                       placeholder="0900 000 000"
-                      className="h-11 rounded-xl"
+                      className="h-11 rounded-md"
                     />
                   </Field>
                 </div>
@@ -102,7 +102,7 @@ export function SignupSection() {
                     required
                     type="email"
                     placeholder="ban@email.com"
-                    className="h-11 rounded-xl"
+                    className="h-11 rounded-md"
                   />
                 </Field>
 
@@ -120,7 +120,7 @@ export function SignupSection() {
                           key={r.value}
                           onClick={() => setRole(r.value)}
                           className={cn(
-                            "flex items-start gap-3 rounded-xl border p-3 text-left transition-all",
+                            "flex items-start gap-3 rounded-md border p-3 text-left transition-all",
                             active
                               ? "border-primary bg-primary/5 ring-2 ring-primary/20"
                               : "border-border bg-secondary/40 hover:border-primary/30 hover:bg-primary/5",
@@ -152,7 +152,7 @@ export function SignupSection() {
                     name="message"
                     rows={4}
                     placeholder="Mô tả ngắn về nhu cầu của bạn (vd: số tiền vay, kỳ hạn, mục đích vay; hoặc nguồn vốn, khẩu vị rủi ro...)"
-                    className="rounded-xl"
+                    className="rounded-md"
                   />
                 </Field>
 
@@ -194,7 +194,7 @@ function Field({
 
 function Bullet({ title, desc }: { title: string; desc: string }) {
   return (
-    <div className="reveal flex gap-3 rounded-2xl border border-border bg-card p-4">
+    <div className="reveal flex gap-3 rounded-lg border border-border bg-card p-4">
       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald/10">
         <CheckCircle2 className="h-5 w-5 text-emerald" />
       </div>
@@ -209,10 +209,10 @@ function Bullet({ title, desc }: { title: string; desc: string }) {
 function SuccessCard({ onReset }: { onReset: () => void }) {
   return (
     <div
-      className="reveal rounded-3xl border border-emerald/30 bg-emerald/5 p-8 text-center"
+      className="reveal rounded-lg border border-emerald/30 bg-emerald/5 p-8 text-center"
       style={{ boxShadow: "var(--shadow-soft)" }}
     >
-      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald text-emerald-foreground">
+      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-lg bg-emerald text-emerald-foreground">
         <CheckCircle2 className="h-7 w-7" />
       </div>
       <h3 className="mt-5 text-xl font-bold text-foreground md:text-2xl">Đăng ký thành công</h3>

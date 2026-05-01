@@ -47,7 +47,7 @@ export function BorrowerView() {
     <div className="grid gap-6 lg:grid-cols-12">
       <aside className="lg:col-span-4 space-y-4">
         <div
-          className="rounded-2xl border border-border bg-card p-5"
+          className="rounded-lg border border-border bg-card p-5"
           style={{ boxShadow: "var(--shadow-soft)" }}
         >
           <div className="flex items-center justify-between">
@@ -88,7 +88,7 @@ export function BorrowerView() {
         </div>
 
         <div
-          className="rounded-2xl border border-border bg-secondary/40 p-5"
+          className="rounded-lg border border-border bg-secondary/40 p-5"
           style={{ boxShadow: "var(--shadow-soft)" }}
         >
           <div className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
@@ -158,7 +158,7 @@ function LoanRow({
       type="button"
       onClick={onClick}
       className={cn(
-        "w-full rounded-xl border p-3 text-left transition-all",
+        "w-full rounded-md border p-3 text-left transition-all",
         active
           ? "border-primary bg-primary/5 ring-2 ring-primary/15"
           : "border-border bg-card hover:border-primary/30",
@@ -181,8 +181,8 @@ function LoanRow({
 
 function EmptyState({ onCreate }: { onCreate: () => void }) {
   return (
-    <div className="flex h-full flex-col items-center justify-center rounded-3xl border border-dashed border-border bg-card p-12 text-center">
-      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+    <div className="flex h-full flex-col items-center justify-center rounded-lg border border-dashed border-border bg-card p-12 text-center">
+      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
         <Plus className="h-5 w-5" />
       </div>
       <div className="mt-4 text-base font-semibold text-foreground">Tạo hồ sơ vay đầu tiên</div>
@@ -246,7 +246,7 @@ function NewLoanForm({
   return (
     <form
       onSubmit={submit}
-      className="rounded-3xl border border-border bg-card p-6 md:p-8"
+      className="rounded-lg border border-border bg-card p-6 md:p-8"
       style={{ boxShadow: "var(--shadow-soft)" }}
     >
       <div className="flex items-center gap-2">
@@ -257,7 +257,7 @@ function NewLoanForm({
       </div>
       <h3 className="mt-4 text-xl font-bold text-foreground">Tạo hồ sơ vay</h3>
 
-      <div className="mt-4 flex items-start gap-3 rounded-2xl border border-emerald/30 bg-emerald/5 p-3.5 text-xs leading-relaxed text-muted-foreground">
+      <div className="mt-4 flex items-start gap-3 rounded-lg border border-emerald/30 bg-emerald/5 p-3.5 text-xs leading-relaxed text-muted-foreground">
         <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald" />
         <div>
           <span className="font-semibold text-foreground">Quy định AnFund:</span> Trong sản phẩm
@@ -356,7 +356,7 @@ function NewLoanForm({
               onChange={(e) =>
                 setAuctionDurationHours(Math.max(MIN_AUCTION_HOURS, Number(e.target.value || 0)))
               }
-              className="h-11 rounded-xl"
+              className="h-11 rounded-md"
             />
             <span className="text-sm text-muted-foreground">giờ</span>
           </div>
@@ -370,7 +370,7 @@ function NewLoanForm({
         <div>
           <Label icon={History}>Lịch sử tài chính</Label>
           <Input
-            className="mt-2 h-11 rounded-xl"
+            className="mt-2 h-11 rounded-md"
             value={history}
             onChange={(e) => setHistory(e.target.value)}
             placeholder="Vd: CIC nhóm 1, không trễ hạn..."
@@ -379,7 +379,7 @@ function NewLoanForm({
         <div>
           <Label icon={ShieldCheck}>Tài sản bảo đảm</Label>
           <Textarea
-            className="mt-2 rounded-xl"
+            className="mt-2 rounded-md"
             value={collateral}
             onChange={(e) => setCollateral(e.target.value)}
             placeholder="Vd: BĐS Q.7, định giá 1,2 tỷ; xe ô tô..."
@@ -395,7 +395,7 @@ function NewLoanForm({
                 type="button"
                 onClick={() => setRiskLevel(r)}
                 className={cn(
-                  "rounded-xl border p-2.5 text-xs font-semibold transition-colors",
+                  "rounded-md border p-2.5 text-xs font-semibold transition-colors",
                   riskLevel === r
                     ? "border-primary bg-primary/10 text-primary"
                     : "border-border bg-secondary/40 text-muted-foreground hover:border-primary/30",
@@ -463,7 +463,7 @@ function NumberField({
           max={max}
           value={value}
           onChange={(e) => onChange(Number(e.target.value || 0))}
-          className="h-11 rounded-xl"
+          className="h-11 rounded-md"
         />
         {suffix && <div className="text-sm font-medium text-muted-foreground">{suffix}</div>}
       </div>
@@ -493,7 +493,7 @@ function LoanDetail({
   return (
     <div className="space-y-5">
       <div
-        className="rounded-3xl border border-border bg-card p-6 md:p-7"
+        className="rounded-lg border border-border bg-card p-6 md:p-7"
         style={{ boxShadow: "var(--shadow-soft)" }}
       >
         <div className="flex flex-wrap items-start justify-between gap-3">
@@ -542,7 +542,7 @@ function LoanDetail({
         <MatchedCard loan={loan} />
       ) : (
         <div
-          className="rounded-3xl border border-border bg-card p-6 md:p-7"
+          className="rounded-lg border border-border bg-card p-6 md:p-7"
           style={{ boxShadow: "var(--shadow-soft)" }}
         >
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -555,7 +555,7 @@ function LoanDetail({
               </p>
             </div>
             {best && loan.status === "open" && (
-              <div className="rounded-xl bg-emerald/10 px-3 py-1.5 text-xs font-semibold text-emerald">
+              <div className="rounded-md bg-emerald/10 px-3 py-1.5 text-xs font-semibold text-emerald">
                 Tốt nhất hiện tại: {formatRate(best.rate)}
               </div>
             )}
@@ -563,7 +563,7 @@ function LoanDetail({
 
           <div className="mt-5 space-y-3">
             {sortedOffers.length === 0 && (
-              <div className="rounded-2xl border border-dashed border-border bg-secondary/30 p-6 text-center">
+              <div className="rounded-lg border border-dashed border-border bg-secondary/30 p-6 text-center">
                 <div className="text-sm font-semibold text-foreground">Đang chờ đề xuất...</div>
                 <p className="mt-1 text-xs text-muted-foreground">
                   Người cho vay sẽ gửi đề xuất trong vài giây tới (giả lập).
@@ -591,11 +591,11 @@ function MatchedCard({ loan }: { loan: ReturnType<typeof useDemo>["loans"][numbe
   if (!offer) return null;
   return (
     <div
-      className="rounded-3xl border border-emerald/30 bg-emerald/5 p-6 md:p-7"
+      className="rounded-lg border border-emerald/30 bg-emerald/5 p-6 md:p-7"
       style={{ boxShadow: "var(--shadow-soft)" }}
     >
       <div className="flex items-center gap-3">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald text-emerald-foreground">
+        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald text-emerald-foreground">
           <CheckCircle2 className="h-6 w-6" />
         </div>
         <div>
@@ -639,13 +639,13 @@ function OfferRow({
   return (
     <div
       className={cn(
-        "rounded-2xl border p-4 transition-all md:p-5",
+        "rounded-lg border p-4 transition-all md:p-5",
         isBest ? "border-emerald/40 bg-emerald/5" : "border-border bg-secondary/30",
       )}
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="flex items-start gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <div className="flex h-10 w-10 items-center justify-center rounded-md bg-primary/10 text-primary">
             <LenderIcon type={offer.lenderType} className="h-5 w-5" />
           </div>
           <div>
@@ -710,7 +710,7 @@ function DetailLine({
   value: string;
 }) {
   return (
-    <div className="flex items-start gap-3 rounded-xl border border-border/60 bg-secondary/30 p-3">
+    <div className="flex items-start gap-3 rounded-md border border-border/60 bg-secondary/30 p-3">
       <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
         <Icon className="h-4 w-4" />
       </div>
@@ -737,7 +737,7 @@ function Mini({
 }) {
   const text = tone === "emerald" ? "text-emerald" : "text-primary";
   return (
-    <div className="rounded-xl border border-border bg-secondary/40 p-3">
+    <div className="rounded-md border border-border bg-secondary/40 p-3">
       <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
       <div className={cn("mt-0.5 text-sm font-bold md:text-base", highlight && text)}>{value}</div>
     </div>

@@ -29,40 +29,42 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "AnFund — Nơi người vay tốt gặp nguồn vốn cạnh tranh" },
+      { title: "AnFund — Kết nối dòng vốn, nâng tầm khát vọng" },
       {
         name: "description",
         content:
-          "AnFund (AnVốn) là sàn đấu giá vốn hai chiều, minh bạch, kết nối người vay chất lượng với nguồn vốn cạnh tranh.",
+          "AnFund là nền tảng kết nối dòng vốn bằng niềm tin, dữ liệu và công nghệ, giúp người vay và người cho vay gặp nhau trong một hệ sinh thái minh bạch.",
       },
       { name: "author", content: "AnFund" },
-      { property: "og:title", content: "AnFund — Nơi người vay tốt gặp nguồn vốn cạnh tranh" },
+      { property: "og:title", content: "AnFund — Kết nối dòng vốn, nâng tầm khát vọng" },
       {
         property: "og:description",
         content:
-          "Sàn đấu giá vốn hai chiều giúp người vay nhận nhiều đề xuất tài chính, người cho vay cạnh tranh tài trợ hồ sơ chất lượng.",
+          "Sàn đấu giá vốn hai chiều minh bạch, có kiểm soát, mang tinh thần Rồng Việt dẫn vốn vươn khơi.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@AnFund" },
-      { name: "twitter:title", content: "AnFund — Nơi người vay tốt gặp nguồn vốn cạnh tranh" },
+      { name: "twitter:title", content: "AnFund — Kết nối dòng vốn, nâng tầm khát vọng" },
       {
         name: "twitter:description",
-        content:
-          "Sàn đấu giá vốn hai chiều, minh bạch, có chọn lọc — kết nối người cần vốn và người có vốn.",
+        content: "Kết nối dòng vốn bằng niềm tin, dữ liệu và công nghệ.",
       },
       {
         property: "og:image",
-        content:
-          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2e4441df-7863-4a7f-b944-45494dc26269/id-preview-fefb8dfa--26d408f2-e3cb-4613-bcaa-0d9f3bc70a8d.lovable.app-1777424380611.png",
+        content: "/brand/anfund-og.png",
       },
       {
         name: "twitter:image",
-        content:
-          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2e4441df-7863-4a7f-b944-45494dc26269/id-preview-fefb8dfa--26d408f2-e3cb-4613-bcaa-0d9f3bc70a8d.lovable.app-1777424380611.png",
+        content: "/brand/anfund-og.png",
       },
     ],
     links: [
+      {
+        rel: "icon",
+        href: "/brand/favicon.png",
+        type: "image/png",
+      },
       {
         rel: "stylesheet",
         href: appCss,

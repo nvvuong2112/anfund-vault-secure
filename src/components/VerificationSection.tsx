@@ -70,7 +70,7 @@ export function VerificationSection() {
         </div>
 
         <div
-          className="reveal mx-auto mt-10 flex max-w-4xl flex-wrap items-center justify-center gap-3 rounded-2xl border border-emerald/30 bg-emerald/5 px-5 py-4 text-sm text-foreground"
+          className="reveal mx-auto mt-10 flex max-w-4xl flex-wrap items-center justify-center gap-3 rounded-lg border border-emerald/30 bg-emerald/5 px-5 py-4 text-sm text-foreground"
           style={{ boxShadow: "var(--shadow-soft)" }}
         >
           <CalendarDays className="h-5 w-5 text-emerald" />
@@ -112,13 +112,13 @@ function RuleCard({
 
   return (
     <div
-      className="reveal relative overflow-hidden rounded-3xl border border-border bg-card p-6 md:p-8"
+      className="reveal relative overflow-hidden rounded-lg border border-border bg-card p-6 md:p-8"
       style={{ boxShadow: "var(--shadow-soft)" }}
     >
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
           <div
-            className={`flex h-12 w-12 items-center justify-center rounded-2xl ${accentBg} text-primary-foreground`}
+            className={`flex h-12 w-12 items-center justify-center rounded-lg ${accentBg} text-primary-foreground`}
           >
             <Icon className="h-5 w-5" />
           </div>

@@ -9,7 +9,7 @@ export function Eyebrow({
 }) {
   const dot = tone === "gold" ? "bg-accent" : tone === "emerald" ? "bg-emerald" : "bg-primary";
   return (
-    <div className="reveal inline-flex items-center gap-2 rounded-full border border-border bg-secondary px-3 py-1 text-xs font-medium text-muted-foreground">
+    <div className="reveal inline-flex items-center gap-2 rounded-md border border-border bg-secondary px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
       <span className={cn("h-1.5 w-1.5 rounded-full", dot)} />
       {children}
     </div>

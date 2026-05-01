@@ -30,8 +30,14 @@ function DemoShell() {
   const totalOffers = loans.reduce((s, l) => s + l.offers.length, 0);
 
   return (
-    <div className="min-h-screen bg-secondary/30">
-      <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
+    <div className="relative min-h-screen overflow-hidden bg-secondary/30">
+      <img
+        src="/brand/anfund-logo-icon.png"
+        alt=""
+        aria-hidden
+        className="pointer-events-none absolute right-[-9rem] top-16 w-[34rem] max-w-none opacity-[0.06]"
+      />
+      <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
           <div className="flex items-center gap-3">
             <a
@@ -41,8 +47,8 @@ function DemoShell() {
             >
               <ArrowLeft className="h-4 w-4" />
             </a>
-            <Logo />
-            <span className="hidden md:inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-accent-foreground">
+            <Logo className="h-9 sm:h-10" />
+            <span className="hidden md:inline-flex items-center gap-1.5 rounded-md border border-accent/40 bg-accent/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-accent-foreground">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
               Demo tương tác
             </span>
@@ -51,7 +57,7 @@ function DemoShell() {
             <div className="hidden text-xs text-muted-foreground sm:block">
               {loans.length} hồ sơ · {totalOffers} đề xuất
             </div>
-            <Button variant="outline" size="sm" className="rounded-full" onClick={resetDemo}>
+            <Button variant="outline" size="sm" className="rounded-md" onClick={resetDemo}>
               <RefreshCw className="h-4 w-4" />
               Đặt lại demo
             </Button>
@@ -59,9 +65,9 @@ function DemoShell() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12">
-        <div className="mb-6 flex items-start gap-3 rounded-2xl border border-border bg-card p-4 text-sm md:p-5">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald/10 text-emerald">
+      <main className="relative mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12">
+        <div className="mb-6 flex items-start gap-3 border border-primary/10 bg-white/80 p-4 text-sm backdrop-blur md:p-5">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
             <Info className="h-4 w-4" />
           </div>
           <div className="min-w-0">
@@ -78,7 +84,7 @@ function DemoShell() {
         </div>
 
         <div
-          className="grid gap-2 rounded-2xl border border-border bg-card p-2 sm:grid-cols-3"
+          className="grid gap-2 rounded-lg border border-border bg-card p-2 sm:grid-cols-3"
           style={{ boxShadow: "var(--shadow-soft)" }}
         >
           {TABS.map((t) => {
@@ -90,7 +96,7 @@ function DemoShell() {
                 type="button"
                 onClick={() => setTab(t.id)}
                 className={cn(
-                  "flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-all",
+                  "flex items-center gap-3 rounded-md px-4 py-3 text-left transition-all",
                   active
                     ? "bg-primary text-primary-foreground shadow-sm"
                     : "bg-transparent text-foreground hover:bg-secondary",
@@ -126,7 +132,7 @@ function DemoShell() {
           {tab === "auction" && <AuctionView />}
         </div>
 
-        <div className="mt-12 rounded-2xl border border-border bg-secondary/50 p-5 text-xs leading-relaxed text-muted-foreground md:p-6">
+        <div className="mt-12 rounded-lg border border-border bg-secondary/50 p-5 text-xs leading-relaxed text-muted-foreground md:p-6">
           <span className="font-semibold text-foreground">Ghi chú:</span> Đây là demo tương tác để
           minh hoạ trải nghiệm AnFund. Mọi hồ sơ, đề xuất và giao dịch đều là giả lập — không có
           giao dịch tiền thật. Trong sản phẩm thật, các bước xác minh danh tính, ký kết và giải ngân

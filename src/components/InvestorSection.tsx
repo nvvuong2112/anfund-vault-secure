@@ -53,10 +53,10 @@ export function InvestorSection() {
           {HIGHLIGHTS.map(({ icon: Icon, title, desc }) => (
             <div
               key={title}
-              className="reveal rounded-2xl border border-border bg-card p-6"
+              className="reveal rounded-lg border border-border bg-card p-6"
               style={{ boxShadow: "var(--shadow-soft)" }}
             >
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald/10 text-emerald">
+              <div className="flex h-11 w-11 items-center justify-center rounded-md bg-emerald/10 text-emerald">
                 <Icon className="h-5 w-5" />
               </div>
               <div className="mt-4 text-base font-semibold text-foreground">{title}</div>

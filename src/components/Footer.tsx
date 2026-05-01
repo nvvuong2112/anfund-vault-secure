@@ -17,10 +17,10 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-14 md:px-6">
         <div className="grid gap-10 lg:grid-cols-3">
           <div>
-            <Logo />
+            <Logo className="h-11" />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
-              AnFund là nền tảng kết nối người vay và người cho vay thông qua cơ chế đấu giá vốn hai
-              chiều, minh bạch và có chọn lọc.
+              AnFund là nền tảng kết nối dòng vốn bằng niềm tin, dữ liệu và công nghệ, mang tinh
+              thần Việt và khát vọng vươn xa.
             </p>
           </div>
 
@@ -43,7 +43,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 rounded-2xl border border-border bg-secondary/40 p-5 text-xs leading-relaxed text-muted-foreground md:p-6">
+        <div className="mt-12 border border-border bg-secondary/40 p-5 text-xs leading-relaxed text-muted-foreground md:p-6">
           <div className="font-semibold text-foreground">Ghi chú pháp lý</div>
           <p className="mt-2">
             AnFund hiện là ý tưởng/nền tảng giới thiệu sản phẩm. AnFund không phải là ngân hàng,

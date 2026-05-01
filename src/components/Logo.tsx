@@ -1,34 +1,32 @@
 import { cn } from "@/lib/utils";
 
-export function Logo({ className, light = false }: { className?: string; light?: boolean }) {
+type LogoVariant = "horizontal" | "vertical" | "icon";
+
+const LOGO_SRC: Record<LogoVariant | "dark", string> = {
+  horizontal: "/brand/anfund-logo-horizontal.png",
+  vertical: "/brand/anfund-logo-vertical.png",
+  icon: "/brand/anfund-logo-icon.png",
+  dark: "/brand/anfund-logo-dark.png",
+};
+
+export function Logo({
+  className,
+  variant = "horizontal",
+  dark = false,
+}: {
+  className?: string;
+  variant?: LogoVariant;
+  dark?: boolean;
+}) {
+  const src = dark ? LOGO_SRC.dark : LOGO_SRC[variant];
+  const size =
+    variant === "icon" ? "h-11 w-11" : variant === "vertical" ? "h-28 w-auto" : "h-10 w-auto";
+
   return (
-    <div className={cn("flex items-center gap-2.5", className)}>
-      <div
-        className="relative flex h-9 w-9 items-center justify-center rounded-xl text-primary-foreground"
-        style={{ background: "var(--gradient-navy)" }}
-        aria-hidden
-      >
-        <span className="text-[15px] font-bold tracking-tight">A</span>
-        <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-accent ring-2 ring-background" />
-      </div>
-      <div className="leading-none">
-        <div
-          className={cn(
-            "text-base font-bold tracking-tight",
-            light ? "text-white" : "text-foreground",
-          )}
-        >
-          AnFund
-        </div>
-        <div
-          className={cn(
-            "mt-0.5 text-[10px] font-medium uppercase tracking-[0.18em]",
-            light ? "text-white/70" : "text-muted-foreground",
-          )}
-        >
-          AnVốn
-        </div>
-      </div>
-    </div>
+    <img
+      src={src}
+      alt="AnFund - Kết nối dòng vốn, nâng tầm khát vọng"
+      className={cn("block object-contain", size, className)}
+    />
   );
 }

@@ -52,7 +52,7 @@ export function RiskBadge({ level }: { level: RiskLevel }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold",
+        "inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-semibold",
         cls,
       )}
     >
@@ -72,7 +72,7 @@ export function StatusBadge({ status }: { status: "open" | "matched" | "closed" 
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold",
+        "inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-[11px] font-semibold",
         cls,
       )}
     >
@@ -97,7 +97,7 @@ export function VerifiedBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border border-emerald/40 bg-emerald/10 font-semibold text-emerald",
+        "inline-flex items-center rounded-md border border-emerald/40 bg-emerald/10 font-semibold text-emerald",
         cls,
       )}
       title={verifiedAt ? `Đã được AnFund xác minh ${days} ngày trước` : "Đã được AnFund xác minh"}
@@ -120,7 +120,7 @@ export function formatDaysAgo(ms: number) {
 
 export function DemoBadge() {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-accent-foreground">
+    <span className="inline-flex items-center gap-1.5 rounded-md border border-accent/40 bg-accent/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-accent-foreground">
       <span className="h-1.5 w-1.5 rounded-full bg-accent" />
       Demo
     </span>

@@ -23,7 +23,7 @@ export function AuctionView() {
     <div className="space-y-6">
       <div className="flex flex-wrap gap-2">
         {open.length === 0 && (
-          <div className="rounded-2xl border border-dashed border-border bg-card px-4 py-3 text-sm text-muted-foreground">
+          <div className="rounded-lg border border-dashed border-border bg-card px-4 py-3 text-sm text-muted-foreground">
             Chưa có phiên đấu giá nào đang mở.
           </div>
         )}
@@ -35,7 +35,7 @@ export function AuctionView() {
               type="button"
               onClick={() => selectLoan(loan.id)}
               className={cn(
-                "rounded-2xl border px-4 py-3 text-left transition-all",
+                "rounded-lg border px-4 py-3 text-left transition-all",
                 selected?.id === loan.id
                   ? "border-primary bg-primary/5 ring-2 ring-primary/15"
                   : "border-border bg-card hover:border-primary/30",
@@ -89,15 +89,19 @@ function AuctionDetail({
     <div className="grid gap-6 lg:grid-cols-12">
       <div className="lg:col-span-7 space-y-5">
         <div
-          className="relative overflow-hidden rounded-3xl border border-border p-6 text-primary-foreground md:p-7"
+          className="relative overflow-hidden rounded-lg border border-border p-6 text-primary-foreground md:p-7"
           style={{ background: "var(--gradient-navy)" }}
         >
-          <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-accent/30 blur-3xl" />
-          <div className="pointer-events-none absolute -left-10 -bottom-10 h-40 w-40 rounded-full bg-emerald/30 blur-3xl" />
+          <img
+            src="/brand/anfund-logo-icon.png"
+            alt=""
+            aria-hidden
+            className="pointer-events-none absolute -right-12 -top-16 w-64 opacity-[0.08]"
+          />
 
           <div className="relative flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 backdrop-blur">
+              <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-white/10 backdrop-blur">
                 <Gavel className="h-5 w-5" />
               </div>
               <div>
@@ -169,7 +173,7 @@ function AuctionDetail({
         </div>
 
         <div
-          className="rounded-3xl border border-border bg-card p-6 md:p-7"
+          className="rounded-lg border border-border bg-card p-6 md:p-7"
           style={{ boxShadow: "var(--shadow-soft)" }}
         >
           <div className="flex items-center justify-between">
@@ -181,7 +185,7 @@ function AuctionDetail({
 
           <div className="mt-4 space-y-2.5">
             {sortedOffers.length === 0 && (
-              <div className="rounded-2xl border border-dashed border-border bg-secondary/30 p-6 text-center">
+              <div className="rounded-lg border border-dashed border-border bg-secondary/30 p-6 text-center">
                 <div className="text-sm font-semibold text-foreground">Chưa có đề xuất nào</div>
                 <p className="mt-1 text-xs text-muted-foreground">
                   Đề xuất sẽ xuất hiện ở đây ngay khi người cho vay gửi (hoặc bạn gửi từ tab{" "}
@@ -193,12 +197,12 @@ function AuctionDetail({
               <div
                 key={offer.id}
                 className={cn(
-                  "flex items-center gap-3 rounded-2xl border p-3 transition-all",
+                  "flex items-center gap-3 rounded-lg border p-3 transition-all",
                   i === 0 ? "border-emerald/40 bg-emerald/5" : "border-border bg-secondary/30",
                   offer.fromDemoUser && "ring-2 ring-accent/30",
                 )}
               >
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <div className="flex h-9 w-9 items-center justify-center rounded-md bg-primary/10 text-primary">
                   <LenderIcon type={offer.lenderType} className="h-4 w-4" />
                 </div>
                 <div className="min-w-0 flex-1">
@@ -260,7 +264,7 @@ function Tile({
   highlight?: boolean;
 }) {
   return (
-    <div className="rounded-xl border border-white/15 bg-white/5 p-3 backdrop-blur">
+    <div className="rounded-md border border-white/15 bg-white/5 p-3 backdrop-blur">
       <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-white/70">
         {icon}
         {label}
@@ -300,7 +304,7 @@ function RateDistribution({
 
   return (
     <div
-      className="rounded-3xl border border-border bg-card p-5"
+      className="rounded-lg border border-border bg-card p-5"
       style={{ boxShadow: "var(--shadow-soft)" }}
     >
       <div className="flex items-center gap-2">
@@ -352,7 +356,7 @@ function RecentActivity({ loan }: { loan: ReturnType<typeof useDemo>["loans"][nu
 
   return (
     <div
-      className="rounded-3xl border border-border bg-card p-5"
+      className="rounded-lg border border-border bg-card p-5"
       style={{ boxShadow: "var(--shadow-soft)" }}
     >
       <div className="flex items-center gap-2">
@@ -410,7 +414,7 @@ function Insight({
 
   return (
     <div
-      className="rounded-3xl border border-emerald/30 bg-emerald/5 p-5"
+      className="rounded-lg border border-emerald/30 bg-emerald/5 p-5"
       style={{ boxShadow: "var(--shadow-soft)" }}
     >
       <div className="flex items-center gap-2">
