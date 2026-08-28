@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import {
   Filter,
   Search,
@@ -20,7 +20,7 @@ import type { LenderType, NewOfferInput, RiskLevel } from "./types";
 import {
   formatVND,
   formatRate,
-  formatCountdown,
+  Countdown,
   RiskBadge,
   StatusBadge,
   DemoBadge,
@@ -71,6 +71,7 @@ export function LenderView() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Tìm theo mã, mục đích vay..."
+              aria-label="Tìm kiếm hồ sơ vay"
               className="h-11 rounded-md pl-10"
             />
           </div>
@@ -87,6 +88,7 @@ export function LenderView() {
               <button
                 type="button"
                 key={v}
+                aria-pressed={riskFilter === v}
                 onClick={() => setRiskFilter(v as never)}
                 className={cn(
                   "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
@@ -145,7 +147,7 @@ export function LenderView() {
                   <Stat label="Kỳ hạn" value={`${loan.term}T`} />
                   <Stat
                     label="Còn lại"
-                    value={formatCountdown(remaining)}
+                    value={<Countdown ms={remaining} />}
                     tone={remaining < 60_000 ? "destructive" : "emerald"}
                   />
                 </div>
@@ -188,7 +190,7 @@ function Stat({
   tone = "primary",
 }: {
   label: string;
-  value: string;
+  value: React.ReactNode;
   tone?: "primary" | "emerald" | "destructive";
 }) {
   const cls =
@@ -250,7 +252,7 @@ function LoanInspector({
           <Box
             icon={Sparkles}
             label="Còn lại"
-            value={formatCountdown(remaining)}
+            value={<Countdown ms={remaining} />}
             tone={remaining < 60_000 ? "destructive" : "emerald"}
           />
         </div>
@@ -503,12 +505,15 @@ function SubmittedCard({ onAgain }: { onAgain: () => void }) {
   );
 }
 
-function FieldLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-      {children}
-    </div>
-  );
+function FieldLabel({ children, htmlFor }: { children: React.ReactNode; htmlFor?: string }) {
+  const cls = "text-xs font-semibold uppercase tracking-wider text-muted-foreground";
+  if (htmlFor)
+    return (
+      <label htmlFor={htmlFor} className={cls}>
+        {children}
+      </label>
+    );
+  return <div className={cls}>{children}</div>;
 }
 
 function Box({
@@ -519,7 +524,7 @@ function Box({
 }: {
   icon: React.ElementType;
   label: string;
-  value: string;
+  value: React.ReactNode;
   tone?: "primary" | "emerald" | "destructive";
 }) {
   const cls =
