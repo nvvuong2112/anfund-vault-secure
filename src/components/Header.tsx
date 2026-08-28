@@ -81,7 +81,7 @@ export function Header() {
           aria-label={open ? "Đóng menu" : "Mở menu"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-border bg-background lg:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-md border border-border bg-background lg:hidden"
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>

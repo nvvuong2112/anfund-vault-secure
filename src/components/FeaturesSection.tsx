@@ -73,7 +73,7 @@ const FEATURES: Feature[] = [
 
 export function FeaturesSection() {
   return (
-    <section id="how-it-works" className="bg-background py-20 md:py-28">
+    <section id="features" className="bg-background py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-4 md:px-6">
         <SectionHeading
           eyebrow="Ba chức năng chính"

@@ -118,6 +118,7 @@ export function SignupSection() {
                         <button
                           type="button"
                           key={r.value}
+                          aria-pressed={active}
                           onClick={() => setRole(r.value)}
                           className={cn(
                             "flex items-start gap-3 rounded-md border p-3 text-left transition-all",
