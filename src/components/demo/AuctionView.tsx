@@ -4,7 +4,7 @@ import { useDemo } from "./store";
 import {
   formatVND,
   formatRate,
-  formatCountdown,
+  Countdown,
   RiskBadge,
   StatusBadge,
   DemoBadge,
@@ -52,7 +52,7 @@ export function AuctionView() {
                 <span className="font-semibold text-primary">{formatVND(loan.amount)}</span>
                 <span className="text-muted-foreground">·</span>
                 <span className="text-muted-foreground">
-                  {loan.status === "open" ? formatCountdown(remaining) : "Đã khớp"}
+                  {loan.status === "open" ? <Countdown ms={remaining} /> : "Đã khớp"}
                 </span>
               </div>
             </button>
@@ -126,11 +126,13 @@ function AuctionDetail({
               icon={<Clock className="h-4 w-4" />}
               label={loan.status === "open" ? "Còn lại" : "Trạng thái"}
               value={
-                loan.status === "open"
-                  ? formatCountdown(remaining)
-                  : loan.status === "matched"
-                    ? "Đã khớp"
-                    : "Đã đóng"
+                loan.status === "open" ? (
+                  <Countdown ms={remaining} />
+                ) : loan.status === "matched" ? (
+                  "Đã khớp"
+                ) : (
+                  "Đã đóng"
+                )
               }
               highlight={remaining > 0}
             />
@@ -163,7 +165,14 @@ function AuctionDetail({
               <span>Tiến trình phiên</span>
               <span>{Math.round(elapsed * 100)}%</span>
             </div>
-            <div className="mt-2 h-2 overflow-hidden rounded-full bg-white/15">
+            <div
+              className="mt-2 h-2 overflow-hidden rounded-full bg-white/15"
+              role="progressbar"
+              aria-label="Tiến trình phiên đấu giá"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round(elapsed * 100)}
+            >
               <div
                 className="h-full bg-emerald transition-[width] duration-500"
                 style={{ width: `${Math.round(elapsed * 100)}%` }}
@@ -177,9 +186,9 @@ function AuctionDetail({
           style={{ boxShadow: "var(--shadow-soft)" }}
         >
           <div className="flex items-center justify-between">
-            <h4 className="text-base font-semibold text-foreground md:text-lg">
+            <h2 className="text-base font-semibold text-foreground md:text-lg">
               Đề xuất theo thời gian thực
-            </h4>
+            </h2>
             <span className="text-xs text-muted-foreground">Sắp xếp: lãi suất tăng dần</span>
           </div>
 
@@ -259,7 +268,7 @@ function Tile({
 }: {
   icon: React.ReactNode;
   label: string;
-  value: string;
+  value: React.ReactNode;
   sub?: string;
   highlight?: boolean;
 }) {
@@ -309,14 +318,21 @@ function RateDistribution({
     >
       <div className="flex items-center gap-2">
         <Sparkles className="h-4 w-4 text-emerald" />
-        <h4 className="text-sm font-semibold text-foreground">Phân bố lãi suất các đề xuất</h4>
+        <h2 className="text-sm font-semibold text-foreground">Phân bố lãi suất các đề xuất</h2>
       </div>
       {buckets.length === 0 ? (
         <p className="mt-3 text-xs text-muted-foreground">Chưa đủ dữ liệu để hiển thị biểu đồ.</p>
       ) : (
         <>
-          <div className="mt-4 flex h-24 items-end gap-1.5">
-            {buckets.map((b, i) => (
+          <div
+            className="mt-4 flex h-24 items-end gap-1.5"
+            role="img"
+            aria-label={`Biểu đồ phân bố lãi suất: ${buckets
+              .filter((b) => b.count > 0)
+              .map((b) => `${b.count} đề xuất ở khoảng ${b.range}`)
+              .join(", ")}`}
+          >
+            {buckets.map((b) => (
               <div
                 key={b.range}
                 className="group relative flex flex-1 flex-col items-center gap-1"
@@ -361,7 +377,7 @@ function RecentActivity({ loan }: { loan: ReturnType<typeof useDemo>["loans"][nu
     >
       <div className="flex items-center gap-2">
         <Activity className="h-4 w-4 text-primary" />
-        <h4 className="text-sm font-semibold text-foreground">Hoạt động gần đây</h4>
+        <h2 className="text-sm font-semibold text-foreground">Hoạt động gần đây</h2>
       </div>
       <ul className="mt-3 space-y-2.5">
         {recent.length === 0 && (
@@ -419,7 +435,7 @@ function Insight({
     >
       <div className="flex items-center gap-2">
         <Sparkles className="h-4 w-4 text-emerald" />
-        <h4 className="text-sm font-semibold text-foreground">Nhận định nhanh</h4>
+        <h2 className="text-sm font-semibold text-foreground">Nhận định nhanh</h2>
       </div>
       <ul className="mt-3 space-y-1.5 text-xs text-muted-foreground">
         {messages.map((m) => (
