@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import {
   Plus,
   Wallet,
@@ -27,10 +27,10 @@ import {
   RiskBadge,
   DemoBadge,
   VerifiedBadge,
+  Countdown,
   formatVND,
   formatVNDFull,
   formatRate,
-  formatCountdown,
   formatDaysAgo,
   lenderTypeLabel,
 } from "./shared";
@@ -421,13 +421,30 @@ function NewLoanForm({
   );
 }
 
-function Label({ icon: Icon, children }: { icon: React.ElementType; children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-      <Icon className="h-3.5 w-3.5 text-primary" />
+function Label({
+  icon: Icon,
+  children,
+  htmlFor,
+}: {
+  icon: React.ElementType;
+  children: React.ReactNode;
+  htmlFor?: string;
+}) {
+  const cls =
+    "flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground";
+  const inner = (
+    <>
+      <Icon className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
       {children}
-    </div>
+    </>
   );
+  if (htmlFor)
+    return (
+      <label htmlFor={htmlFor} className={cls}>
+        {inner}
+      </label>
+    );
+  return <div className={cls}>{inner}</div>;
 }
 
 function NumberField({
@@ -451,11 +468,15 @@ function NumberField({
   suffix?: string;
   format?: boolean;
 }) {
+  const id = useId();
   return (
     <div>
-      <Label icon={icon}>{label}</Label>
+      <Label icon={icon} htmlFor={id}>
+        {label}
+      </Label>
       <div className="mt-2 flex items-center gap-2">
         <Input
+          id={id}
           type="number"
           inputMode="numeric"
           step={step}
