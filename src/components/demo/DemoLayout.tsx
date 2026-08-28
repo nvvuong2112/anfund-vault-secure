@@ -30,7 +30,7 @@ function DemoShell() {
   const totalOffers = loans.reduce((s, l) => s + l.offers.length, 0);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-secondary/30">
+    <div className="relative min-h-dvh overflow-hidden bg-secondary/30">
       <img
         src="/brand/anfund-logo-icon.png"
         alt=""

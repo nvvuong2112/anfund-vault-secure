@@ -33,6 +33,29 @@ export function formatCountdown(ms: number) {
   return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
 }
 
+export function formatCountdownText(ms: number) {
+  if (ms <= 0) return "Phiên đã kết thúc";
+  const total = Math.floor(ms / 60000);
+  const d = Math.floor(total / 1440);
+  const h = Math.floor((total % 1440) / 60);
+  const m = total % 60;
+  const parts: string[] = [];
+  if (d > 0) parts.push(`${d} ngày`);
+  if (h > 0) parts.push(`${h} giờ`);
+  if (d === 0 && m > 0) parts.push(`${m} phút`);
+  if (parts.length === 0) parts.push("dưới 1 phút");
+  return `Còn khoảng ${parts.join(" ")}`;
+}
+
+export function Countdown({ ms }: { ms: number }) {
+  return (
+    <>
+      <span aria-hidden="true">{formatCountdown(ms)}</span>
+      <span className="sr-only">{formatCountdownText(ms)}</span>
+    </>
+  );
+}
+
 export function LenderIcon({ type, className }: { type: LenderType; className?: string }) {
   const Icon = type === "fund" ? Building2 : type === "company" ? Briefcase : User;
   return <Icon className={className} />;
