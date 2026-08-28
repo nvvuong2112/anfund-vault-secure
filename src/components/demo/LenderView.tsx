@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import {
   Filter,
   Search,
@@ -20,7 +20,7 @@ import type { LenderType, NewOfferInput, RiskLevel } from "./types";
 import {
   formatVND,
   formatRate,
-  formatCountdown,
+  Countdown,
   RiskBadge,
   StatusBadge,
   DemoBadge,
@@ -71,6 +71,7 @@ export function LenderView() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Tìm theo mã, mục đích vay..."
+              aria-label="Tìm kiếm hồ sơ vay"
               className="h-11 rounded-md pl-10"
             />
           </div>
@@ -87,6 +88,7 @@ export function LenderView() {
               <button
                 type="button"
                 key={v}
+                aria-pressed={riskFilter === v}
                 onClick={() => setRiskFilter(v as never)}
                 className={cn(
                   "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
@@ -145,7 +147,7 @@ export function LenderView() {
                   <Stat label="Kỳ hạn" value={`${loan.term}T`} />
                   <Stat
                     label="Còn lại"
-                    value={formatCountdown(remaining)}
+                    value={<Countdown ms={remaining} />}
                     tone={remaining < 60_000 ? "destructive" : "emerald"}
                   />
                 </div>
@@ -188,7 +190,7 @@ function Stat({
   tone = "primary",
 }: {
   label: string;
-  value: string;
+  value: React.ReactNode;
   tone?: "primary" | "emerald" | "destructive";
 }) {
   const cls =
@@ -250,7 +252,7 @@ function LoanInspector({
           <Box
             icon={Sparkles}
             label="Còn lại"
-            value={formatCountdown(remaining)}
+            value={<Countdown ms={remaining} />}
             tone={remaining < 60_000 ? "destructive" : "emerald"}
           />
         </div>
@@ -333,6 +335,15 @@ function NewOfferForm({
   const [term, setTerm] = useState(baseTerm);
   const [conditions, setConditions] = useState("Cố định 12 tháng đầu, giải ngân 24h");
   const [collateralRequirement, setCollateralRequirement] = useState("BĐS thế chấp");
+  const uid = useId();
+  const ids = {
+    name: `${uid}-name`,
+    rate: `${uid}-rate`,
+    amount: `${uid}-amount`,
+    term: `${uid}-term`,
+    conditions: `${uid}-conditions`,
+    collateral: `${uid}-collateral`,
+  };
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -369,8 +380,9 @@ function NewOfferForm({
 
       <div className="mt-5 grid gap-4 md:grid-cols-2">
         <div>
-          <FieldLabel>Tên đơn vị / cá nhân cho vay</FieldLabel>
+          <FieldLabel htmlFor={ids.name}>Tên đơn vị / cá nhân cho vay</FieldLabel>
           <Input
+            id={ids.name}
             className="mt-2 h-11 rounded-md"
             value={lenderName}
             onChange={(e) => setLenderName(e.target.value)}
@@ -383,6 +395,7 @@ function NewOfferForm({
               <button
                 key={t}
                 type="button"
+                aria-pressed={lenderType === t}
                 onClick={() => setLenderType(t)}
                 className={cn(
                   "rounded-md border p-2 text-xs font-semibold transition-colors",
@@ -400,8 +413,9 @@ function NewOfferForm({
 
       <div className="mt-4 grid gap-4 md:grid-cols-3">
         <div>
-          <FieldLabel>Lãi suất / năm (%)</FieldLabel>
+          <FieldLabel htmlFor={ids.rate}>Lãi suất / năm (%)</FieldLabel>
           <Input
+            id={ids.rate}
             className="mt-2 h-11 rounded-md"
             type="number"
             step={0.1}
@@ -424,8 +438,9 @@ function NewOfferForm({
           </div>
         </div>
         <div>
-          <FieldLabel>Số tiền tài trợ (₫)</FieldLabel>
+          <FieldLabel htmlFor={ids.amount}>Số tiền tài trợ (₫)</FieldLabel>
           <Input
+            id={ids.amount}
             className="mt-2 h-11 rounded-md"
             type="number"
             step={50_000_000}
@@ -436,8 +451,9 @@ function NewOfferForm({
           <div className="mt-1 text-[11px] text-muted-foreground">≈ {formatVND(amount)}</div>
         </div>
         <div>
-          <FieldLabel>Kỳ hạn (tháng)</FieldLabel>
+          <FieldLabel htmlFor={ids.term}>Kỳ hạn (tháng)</FieldLabel>
           <Input
+            id={ids.term}
             className="mt-2 h-11 rounded-md"
             type="number"
             step={6}
@@ -451,8 +467,9 @@ function NewOfferForm({
 
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         <div>
-          <FieldLabel>Điều kiện giải ngân</FieldLabel>
+          <FieldLabel htmlFor={ids.conditions}>Điều kiện giải ngân</FieldLabel>
           <Textarea
+            id={ids.conditions}
             className="mt-2 rounded-md"
             rows={2}
             value={conditions}
@@ -460,8 +477,9 @@ function NewOfferForm({
           />
         </div>
         <div>
-          <FieldLabel>Yêu cầu bảo đảm</FieldLabel>
+          <FieldLabel htmlFor={ids.collateral}>Yêu cầu bảo đảm</FieldLabel>
           <Textarea
+            id={ids.collateral}
             className="mt-2 rounded-md"
             rows={2}
             value={collateralRequirement}
@@ -503,12 +521,15 @@ function SubmittedCard({ onAgain }: { onAgain: () => void }) {
   );
 }
 
-function FieldLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-      {children}
-    </div>
-  );
+function FieldLabel({ children, htmlFor }: { children: React.ReactNode; htmlFor?: string }) {
+  const cls = "text-xs font-semibold uppercase tracking-wider text-muted-foreground";
+  if (htmlFor)
+    return (
+      <label htmlFor={htmlFor} className={cls}>
+        {children}
+      </label>
+    );
+  return <div className={cls}>{children}</div>;
 }
 
 function Box({
@@ -519,7 +540,7 @@ function Box({
 }: {
   icon: React.ElementType;
   label: string;
-  value: string;
+  value: React.ReactNode;
   tone?: "primary" | "emerald" | "destructive";
 }) {
   const cls =

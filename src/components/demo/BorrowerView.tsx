@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import {
   Plus,
   Wallet,
@@ -27,10 +27,10 @@ import {
   RiskBadge,
   DemoBadge,
   VerifiedBadge,
+  Countdown,
   formatVND,
   formatVNDFull,
   formatRate,
-  formatCountdown,
   formatDaysAgo,
   lenderTypeLabel,
 } from "./shared";
@@ -221,6 +221,10 @@ function NewLoanForm({
   const [collateral, setCollateral] = useState("BĐS Q.7, định giá 1,2 tỷ");
   const [riskLevel, setRiskLevel] = useState<RiskLevel>("low");
   const [auctionDurationHours, setAuctionDurationHours] = useState<number>(MIN_AUCTION_HOURS);
+  const uid = useId();
+  const durationId = `${uid}-duration`;
+  const historyId = `${uid}-history`;
+  const collateralId = `${uid}-collateral`;
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -301,6 +305,7 @@ function NewLoanForm({
             <button
               type="button"
               key={p}
+              aria-pressed={purpose === p}
               onClick={() => setPurpose(p)}
               className={cn(
                 "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
@@ -328,12 +333,13 @@ function NewLoanForm({
           format
         />
         <div>
-          <Label icon={Clock}>Thời gian phiên đấu giá</Label>
+          <Label icon={Clock} htmlFor={durationId}>Thời gian phiên đấu giá</Label>
           <div className="mt-2 flex flex-wrap gap-2">
             {DURATION_PRESETS.map((d) => (
               <button
                 key={d.hours}
                 type="button"
+                aria-pressed={auctionDurationHours === d.hours}
                 onClick={() => setAuctionDurationHours(d.hours)}
                 className={cn(
                   "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
@@ -348,6 +354,7 @@ function NewLoanForm({
           </div>
           <div className="mt-3 flex items-center gap-2">
             <Input
+              id={durationId}
               type="number"
               min={MIN_AUCTION_HOURS}
               max={720}
@@ -368,8 +375,9 @@ function NewLoanForm({
 
       <div className="mt-4 space-y-3">
         <div>
-          <Label icon={History}>Lịch sử tài chính</Label>
+          <Label icon={History} htmlFor={historyId}>Lịch sử tài chính</Label>
           <Input
+            id={historyId}
             className="mt-2 h-11 rounded-md"
             value={history}
             onChange={(e) => setHistory(e.target.value)}
@@ -377,8 +385,9 @@ function NewLoanForm({
           />
         </div>
         <div>
-          <Label icon={ShieldCheck}>Tài sản bảo đảm</Label>
+          <Label icon={ShieldCheck} htmlFor={collateralId}>Tài sản bảo đảm</Label>
           <Textarea
+            id={collateralId}
             className="mt-2 rounded-md"
             value={collateral}
             onChange={(e) => setCollateral(e.target.value)}
@@ -393,6 +402,7 @@ function NewLoanForm({
               <button
                 key={r}
                 type="button"
+                aria-pressed={riskLevel === r}
                 onClick={() => setRiskLevel(r)}
                 className={cn(
                   "rounded-md border p-2.5 text-xs font-semibold transition-colors",
@@ -421,13 +431,30 @@ function NewLoanForm({
   );
 }
 
-function Label({ icon: Icon, children }: { icon: React.ElementType; children: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-      <Icon className="h-3.5 w-3.5 text-primary" />
+function Label({
+  icon: Icon,
+  children,
+  htmlFor,
+}: {
+  icon: React.ElementType;
+  children: React.ReactNode;
+  htmlFor?: string;
+}) {
+  const cls =
+    "flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground";
+  const inner = (
+    <>
+      <Icon className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
       {children}
-    </div>
+    </>
   );
+  if (htmlFor)
+    return (
+      <label htmlFor={htmlFor} className={cls}>
+        {inner}
+      </label>
+    );
+  return <div className={cls}>{inner}</div>;
 }
 
 function NumberField({
@@ -451,11 +478,15 @@ function NumberField({
   suffix?: string;
   format?: boolean;
 }) {
+  const id = useId();
   return (
     <div>
-      <Label icon={icon}>{label}</Label>
+      <Label icon={icon} htmlFor={id}>
+        {label}
+      </Label>
       <div className="mt-2 flex items-center gap-2">
         <Input
+          id={id}
           type="number"
           inputMode="numeric"
           step={step}
@@ -522,11 +553,13 @@ function LoanDetail({
           <Mini
             label={loan.status === "open" ? "Còn lại" : "Phiên đấu giá"}
             value={
-              loan.status === "open"
-                ? formatCountdown(remaining)
-                : loan.status === "matched"
-                  ? "Đã khớp"
-                  : "Đã đóng"
+              loan.status === "open" ? (
+                <Countdown ms={remaining} />
+              ) : loan.status === "matched" ? (
+                "Đã khớp"
+              ) : (
+                "Đã đóng"
+              )
             }
             tone={loan.status === "open" ? "emerald" : "primary"}
           />
@@ -731,7 +764,7 @@ function Mini({
   tone = "primary",
 }: {
   label: string;
-  value: string;
+  value: React.ReactNode;
   highlight?: boolean;
   tone?: "primary" | "emerald";
 }) {

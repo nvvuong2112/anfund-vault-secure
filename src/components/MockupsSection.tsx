@@ -343,7 +343,11 @@ function Screen3Auction() {
           <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
             Phân bố lãi suất các đề xuất
           </div>
-          <div className="mt-2 flex h-12 items-end gap-1">
+          <div
+            className="mt-2 flex h-12 items-end gap-1"
+            role="img"
+            aria-label="Biểu đồ phân bố lãi suất các đề xuất từ 7,0% đến 8,5%, tập trung nhiều nhất ở khoảng 7,0% đến 7,5%"
+          >
             {[55, 70, 90, 75, 50, 40, 30, 25, 20, 15].map((h, i) => (
               <div
                 key={i}

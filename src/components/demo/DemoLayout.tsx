@@ -30,7 +30,7 @@ function DemoShell() {
   const totalOffers = loans.reduce((s, l) => s + l.offers.length, 0);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-secondary/30">
+    <div className="relative min-h-dvh overflow-hidden bg-secondary/30">
       <img
         src="/brand/anfund-logo-icon.png"
         alt=""
@@ -71,9 +71,9 @@ function DemoShell() {
             <Info className="h-4 w-4" />
           </div>
           <div className="min-w-0">
-            <div className="font-semibold text-foreground">
+            <h1 className="font-semibold text-foreground">
               Trải nghiệm sàn đấu giá vốn hai chiều
-            </div>
+            </h1>
             <p className="mt-0.5 text-muted-foreground">
               Chuyển qua lại 3 tab để vào vai mỗi bên: tạo hồ sơ vay, gửi đề xuất tài trợ, hoặc xem
               phiên đấu giá đang diễn ra. Dữ liệu là{" "}
@@ -94,6 +94,7 @@ function DemoShell() {
               <button
                 key={t.id}
                 type="button"
+                aria-pressed={active}
                 onClick={() => setTab(t.id)}
                 className={cn(
                   "flex items-center gap-3 rounded-md px-4 py-3 text-left transition-all",
