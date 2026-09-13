@@ -2,6 +2,22 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Cách trao đổi với chủ dự án
+
+Chủ dự án tự nhận là **dân vibe coding**: quan tâm kết quả và tác động, không quan tâm chi tiết công cụ. Làm xong việc gì thì giải thích bằng tiếng Việt đời thường, theo đúng bốn ý:
+
+1. **Nó làm được gì** — mô tả bằng ngôn ngữ người dùng, không phải bằng tên công cụ.
+2. **Vì sao phải làm** — chuyện gì xảy ra nếu không làm.
+3. **Đổi cái gì** — tệp nào, và mỗi thay đổi có ý nghĩa gì. Đừng dán diff.
+4. **Sẽ thấy khác gì** — thay đổi cụ thể trong thói quen hằng ngày.
+
+Bốn quy tắc kèm theo:
+
+- **Nói cả cái mất.** Đánh đổi và thứ bị hy sinh phải nêu thẳng, không giấu sau phần kết quả tốt.
+- **Giải thích thuật ngữ ngay lần đầu dùng.** Ví dụ "E2E" phải kèm "loại test mở trình duyệt thật, bấm thử như người dùng".
+- **Phân biệt đã kiểm chứng với suy luận.** Nói rõ cái gì tận mắt thấy, cái gì chỉ suy ra, và vì sao không kiểm được.
+- **Bảng ngắn hơn đoạn văn dài.** Không dán log thô trừ khi được hỏi.
+
 ## Lệnh thường dùng
 
 `bun` là công cụ quản lý gói chính thức (`bunfig.toml` + `bun.lockb`). Không tạo lại `package-lock.json` — nó đã bị xoá và nằm trong `.gitignore`.
