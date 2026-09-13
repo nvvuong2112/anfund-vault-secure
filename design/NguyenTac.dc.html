@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,600;1,500&display=swap">
+  <style>
+    body { margin: 0; font-family: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif; }
+    a { color: oklch(0.578 0.097 196.6); }
+    a:hover { color: oklch(0.48 0.104 205); }
+    * { box-sizing: border-box; }
+    .num { font-variant-numeric: tabular-nums; }
+    code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.86em; background: oklch(0.95 0.014 221); border-radius: 4px; padding: 0.1em 0.35em; }
+  </style>
+</helmet>
+
+<div style="width: 700px; background: oklch(0.986 0.003 219.5); color: oklch(0.205 0.057 255); padding: 44px 48px 52px; display: flex; flex-direction: column; gap: 36px">
+
+  <!-- Mở đầu -->
+  <div>
+    <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: oklch(0.578 0.097 196.6)">Lập luận thiết kế</div>
+    <div style="margin-top: 12px; font-family: Lora, Georgia, serif; font-size: 30px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; text-wrap: balance">Cài về là hiểu — sáu quyết định để giữ lời hứa đó</div>
+    <div style="margin-top: 12px; font-size: 14px; line-height: 1.7; color: oklch(0.47 0.036 245); max-width: 34em">Mỗi mục dưới đây là một chỗ tôi cố ý làm khác bản web hiện tại, kèm lý do. Chỗ nào tôi thấy có mâu thuẫn trong sản phẩm, tôi nêu thẳng thay vì vẽ đè lên.</div>
+  </div>
+
+  <!-- Sáu quyết định — đánh số vì chúng theo thứ tự người dùng gặp -->
+  <div style="display: flex; flex-direction: column; gap: 0">
+    <sc-for list="{{ items }}" as="d" hint-placeholder-count="6">
+      <div style="display: grid; grid-template-columns: 44px 1fr; gap: 0 18px; padding: 22px 0; border-top: 1px solid oklch(0.89 0.018 232)">
+        <div class="num" style="font-family: Lora, Georgia, serif; font-size: 26px; font-weight: 600; color: {{ d.nFg }}; line-height: 1">{{ d.n }}</div>
+        <div>
+          <div style="font-size: 16.5px; font-weight: 700; letter-spacing: -0.012em; line-height: 1.35">{{ d.title }}</div>
+          <div style="margin-top: 7px; font-size: 13.5px; line-height: 1.7; color: oklch(0.47 0.036 245); max-width: 36em">{{ d.body }}</div>
+          <div style="margin-top: 10px; display: inline-flex; align-items: center; gap: 7px; font-size: 11.5px; font-weight: 600; color: {{ d.tagFg }}; background: {{ d.tagBg }}; border-radius: 6px; padding: 4px 9px">{{ d.tag }}</div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <!-- Một mâu thuẫn phải quyết, không phải chuyện thẩm mỹ -->
+  <div style="border: 1.5px solid oklch(0.803 0.152 79.6); background: oklch(0.803 0.152 79.6 / 0.08); border-radius: 14px; padding: 22px 24px">
+    <div style="display: flex; align-items: center; gap: 9px">
+      <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; color: oklch(0.55 0.11 70)" aria-hidden="true"><path d="M12 3.6l9 15.8H3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><path d="M12 10v4.2M12 16.6v.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path></svg>
+      <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: oklch(0.45 0.1 70)">Cần bạn quyết, không phải chuyện thẩm mỹ</div>
+    </div>
+    <div style="margin-top: 12px; font-size: 15px; font-weight: 650; line-height: 1.45">Điểm phù hợp đang được trưng rất to nhưng không hề tham gia xếp hạng.</div>
+    <div style="margin-top: 9px; font-size: 13.5px; line-height: 1.7; color: oklch(0.4 0.045 250); max-width: 40em">Mã nguồn chỉ sắp xếp theo lãi suất, thấp nhất thắng. Nhưng phần giới thiệu hứa xếp hạng đa yếu tố — lãi suất, kỳ hạn, điều kiện, uy tín, độ phù hợp. Trên màn hình rộng của web thì lệch này khó thấy; trên điện thoại, khi cả danh sách gói trong một khung nhỏ, người dùng sẽ hiểu ngay là thanh "phù hợp" đang quyết định thứ tự — mà nó không.</div>
+    <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 9px">
+      <sc-for list="{{ ways }}" as="w" hint-placeholder-count="2">
+        <div style="display: flex; gap: 10px; align-items: flex-start; background: oklch(1 0 0 / 0.6); border-radius: 9px; padding: 11px 13px">
+          <span style="font-size: 11px; font-weight: 700; color: oklch(0.45 0.1 70); background: oklch(0.803 0.152 79.6 / 0.25); border-radius: 5px; padding: 2px 7px; flex-shrink: 0; margin-top: 1px">{{ w.k }}</span>
+          <span style="font-size: 13px; line-height: 1.6; color: oklch(0.3 0.05 252)">{{ w.v }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin-top: 13px; font-size: 12.5px; line-height: 1.65; color: oklch(0.45 0.1 70)">Bản demo này đang chọn cách trung thực: ghi rõ "xếp theo lãi suất từ thấp lên cao, điểm phù hợp chỉ để tham khảo". Đổi được, nhưng phải đổi có chủ đích.</div>
+  </div>
+
+  <!-- Lấy đúng từ mã nguồn, không vẽ theo trí nhớ -->
+  <div>
+    <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: oklch(0.47 0.036 245)">Lấy nguyên từ mã nguồn</div>
+    <div style="margin-top: 6px; font-size: 13px; line-height: 1.65; color: oklch(0.47 0.036 245); max-width: 36em">Không có màu hay con số nào ở đây do tôi bịa ra — tất cả đọc thẳng từ <code>src/styles.css</code>, <code>types.ts</code> và <code>seed.ts</code>.</div>
+    <div style="margin-top: 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+      <sc-for list="{{ tokens }}" as="t" hint-placeholder-count="6">
+        <div style="display: flex; align-items: center; gap: 11px; background: oklch(1 0 0); border: 1px solid oklch(0.89 0.018 232); border-radius: 10px; padding: 11px 13px">
+          <span style="width: 26px; height: 26px; border-radius: 7px; background: {{ t.sw }}; border: 1px solid oklch(0.205 0.057 255 / 0.1); flex-shrink: 0"></span>
+          <div style="min-width: 0">
+            <div style="font-size: 12.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{ t.name }}</div>
+            <div class="num" style="font-size: 11px; color: oklch(0.47 0.036 245); overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{ t.val }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- Cố ý chưa làm -->
+  <div>
+    <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: oklch(0.47 0.036 245)">Cố ý chưa vẽ</div>
+    <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 11px">
+      <sc-for list="{{ skipped }}" as="k" hint-placeholder-count="4">
+        <div style="display: grid; grid-template-columns: 160px 1fr; gap: 0 16px; align-items: baseline">
+          <div style="font-size: 13px; font-weight: 650">{{ k.what }}</div>
+          <div style="font-size: 13px; line-height: 1.6; color: oklch(0.47 0.036 245)">{{ k.why }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="border-top: 1px solid oklch(0.89 0.018 232); padding-top: 18px; font-size: 12px; line-height: 1.65; color: oklch(0.47 0.036 245)">
+    Số liệu trên các màn hình là hồ sơ mẫu <span class="num">HS-002389</span> có sẵn trong <code>seed.ts</code> — không phải dữ liệu người thật. AnFund không phải ngân hàng hay tổ chức tín dụng, không nhận tiền gửi, không xử lý tiền thật.
+  </div>
+</div>
+</x-dc>
+
+<script data-dc-script>
+const TEAL = "oklch(0.578 0.097 196.6)";
+const NAVY = "oklch(0.304 0.096 258)";
+const GOLD = "oklch(0.803 0.152 79.6)";
+
+class Component extends DCLogic {
+  renderVals() {
+    const items = [
+      {
+        title: "Màn hình đầu không giải thích — nó chiếu một phiên đang chạy",
+        body: "Mọi app vay tiền người Việt từng dùng đều bắt họ đi xin. AnFund đảo ngược điều đó, mà một thói quen thì không xoá được bằng ba slide onboarding. Nên màn hình đầu chiếu thẳng một phiên thật: lãi suất tụt từ 7,9% xuống 7,2% trước mắt, bốn bên cho vay tranh nhau một hồ sơ. Hiểu bằng mắt trong bốn giây, không phải đọc.",
+        tag: "Thay cho onboarding ba bước",
+      },
+      {
+        title: "Hỏi ba câu, không hỏi hai mươi",
+        body: "Biểu mẫu trên web hỏi đủ tám trường ngay lần đầu. Trên điện thoại đó là bức tường. Ba câu — bao nhiêu, bao lâu, để làm gì — đủ dựng một hồ sơ nháp, và mỗi câu có một dòng nói vì sao nó ảnh hưởng tới lãi suất bạn nhận được. Giấy tờ để sau, khi người dùng đã thấy mình sắp được gì.",
+        tag: "Ba lần chạm là xong hồ sơ",
+      },
+      {
+        title: "Nói thẳng 5 ngày chờ ngay trước khi bắt chờ",
+        body: "Đây là chỗ hầu hết app tài chính giấu. Nhưng \"giao diện nói lên tôi là ai\" nghĩa là nói cả phần bất lợi: AnFund cần tối thiểu 5 ngày làm việc để xác minh, và chưa xác minh xong thì chưa mở phiên. Màn hình này đứng riêng một mình, kèm lý do vì sao chờ lại chính là thứ đổi lấy lãi suất thấp.",
+        tag: "Bất lợi nói trước, không giấu",
+      },
+      {
+        title: "Xếp hạng nói đúng sự thật của mã nguồn",
+        body: "Danh sách đề xuất ghi rõ ngay trên đầu: xếp theo lãi suất từ thấp lên cao, điểm phù hợp chỉ để tham khảo. Vì mã nguồn đang làm đúng như vậy. Xem khối màu vàng bên dưới.",
+        tag: "Có mâu thuẫn cần bạn quyết",
+      },
+      {
+        title: "Không vẽ thanh trạng thái giả, không vẽ bàn phím giả",
+        body: "Bản mockup trên web có vẽ dải \"9:41 · pin · wifi\" vì đó là hình minh hoạ chiếc điện thoại đặt trong trang desktop — đúng ngữ cảnh. Nhưng đây là thiết kế màn hình thật ở đúng 390×844: trên máy thật, hệ điều hành vẽ dải đó đè lên. Vẽ thêm một cái là thành hai cái chồng nhau.",
+        tag: "Khác có chủ đích với mockup web",
+      },
+      {
+        title: "Mỗi màn hình đúng một hành động chính",
+        body: "Nút chính cao 52px, chiếm hết bề ngang, nằm cố định dưới đáy trong tầm ngón cái. Mọi thứ khác là thông tin. Không có màn hình nào có hai nút ngang hàng tranh nhau sự chú ý — kể cả màn hình chọn vai trò, nơi hai lựa chọn xếp dọc chứ không cạnh nhau.",
+        tag: "Vùng chạm tối thiểu 44px",
+      },
+    ].map((d, i) => ({
+      n: String(i + 1).padStart(2, "0"),
+      nFg: i === 3 ? GOLD : "oklch(0.85 0.02 240)",
+      title: d.title,
+      body: d.body,
+      tag: d.tag,
+      tagFg: i === 3 ? "oklch(0.45 0.1 70)" : TEAL,
+      tagBg: i === 3 ? "oklch(0.803 0.152 79.6 / 0.18)" : "oklch(0.578 0.097 196.6 / 0.1)",
+    }));
+
+    const ways = [
+      { k: "Cách A", v: "Cho điểm phù hợp tham gia xếp hạng thật — phải sửa phép sắp xếp ở cả năm chỗ trong mã, và phải định nghĩa được trọng số của từng yếu tố." },
+      { k: "Cách B", v: "Hạ điểm phù hợp xuống hàng thông tin phụ và sửa lại lời quảng cáo ở năm section marketing cho khớp với thực tế." },
+    ];
+
+    const tokens = [
+      { name: "Navy · primary", val: "oklch(0.304 0.096 258)", sw: NAVY },
+      { name: "Teal · token tên emerald", val: "oklch(0.578 0.097 196.6)", sw: TEAL },
+      { name: "Gold · accent", val: "oklch(0.803 0.152 79.6)", sw: GOLD },
+      { name: "Nền · background", val: "oklch(0.986 0.003 219.5)", sw: "oklch(0.986 0.003 219.5)" },
+      { name: "Viền · border", val: "oklch(0.89 0.018 232)", sw: "oklch(0.89 0.018 232)" },
+      { name: "Bo góc gốc", val: "0.5rem · thẻ 14-16px", sw: "oklch(0.95 0.014 221)" },
+    ];
+
+    const skipped = [
+      { what: "Phông chữ", why: "Dự án hiện chưa khai báo phông nào, đang chạy phông hệ thống. Tôi đề xuất Be Vietnam Pro — bộ chữ thiết kế riêng cho tiếng Việt, hợp với thương hiệu Rồng Việt — nhưng đó là đề xuất, chưa phải quyết định." },
+      { what: "Chế độ tối", why: "styles.css đã định nghĩa đủ bảng màu tối nhưng chưa nơi nào bật. Trên mobile thì đây là thứ người dùng thật sự mong đợi — nên làm, nhưng là một việc riêng." },
+      { what: "Đăng nhập, KYC, thông báo đẩy", why: "Chưa vẽ vì chưa biết hình dạng thật. Vẽ bừa một luồng KYC rồi phải bỏ đi thì tốn hơn là để trống." },
+      { what: "Điều hướng dưới đáy", why: "Năm màn hình này là một luồng tuyến tính, chưa cần thanh tab. Thêm tab bar lúc chỉ có một luồng là bày ra chỗ trống để rồi phải bịa nội dung lấp vào." },
+    ];
+
+    return { items, ways, tokens, skipped };
+  }
+}
+</script>
+</body>
+</html>

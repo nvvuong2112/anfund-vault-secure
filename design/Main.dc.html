@@ -1,0 +1,584 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;1,500&display=swap">
+  <style>
+    body { margin: 0; font-family: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif; }
+    a { color: oklch(0.578 0.097 196.6); }
+    a:hover { color: oklch(0.48 0.104 205); }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    .tap { cursor: pointer; user-select: none; transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease; }
+    .tap:active { transform: scale(0.985); }
+    .scroll { overflow-y: auto; scrollbar-width: none; }
+    .scroll::-webkit-scrollbar { display: none; }
+    @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    @keyframes drift { from { transform: translateX(0); } to { transform: translateX(-40px); } }
+    .rise { animation: rise 0.45s cubic-bezier(0.2, 0.7, 0.3, 1) both; }
+    @media (prefers-reduced-motion: reduce) { .rise, .drift { animation: none !important; } }
+    .num { font-variant-numeric: tabular-nums; }
+  </style>
+</helmet>
+
+<div style="width: 390px; height: 844px; background: oklch(0.986 0.003 219.5); color: oklch(0.205 0.057 255); display: flex; flex-direction: column; overflow: hidden; position: relative">
+
+<!-- ============ 0 · MỞ APP LẦN ĐẦU ============ -->
+<sc-if value="{{ at0 }}" hint-placeholder-val="{{ true }}">
+<div style="display: flex; flex-direction: column; height: 844px">
+
+  <!-- Vùng navy: nhận diện + tuyên ngôn -->
+  <div style="position: relative; background: linear-gradient(135deg, oklch(0.304 0.096 258), oklch(0.315 0.093 254.6)); padding: 56px 28px 96px; overflow: hidden">
+
+    <!-- Dòng chảy — một trong bốn biểu tượng thương hiệu -->
+    <svg viewBox="0 0 460 120" style="position: absolute; left: -30px; bottom: 34px; width: 460px; height: 120px; opacity: 0.16" aria-hidden="true">
+      <path d="M0 70 C 60 30, 110 100, 170 62 S 280 24, 340 66 S 430 96, 460 58" fill="none" stroke="oklch(0.803 0.152 79.6)" stroke-width="2"></path>
+      <path d="M0 90 C 70 52, 120 116, 190 82 S 300 46, 360 84 S 440 110, 460 80" fill="none" stroke="oklch(0.986 0.003 219.5)" stroke-width="1.5"></path>
+    </svg>
+
+    <div style="display: flex; align-items: center; gap: 9px; position: relative">
+      <svg viewBox="0 0 24 24" style="width: 22px; height: 22px" aria-hidden="true">
+        <path d="M2 16 C 6 11, 10 20, 14 15 S 20 11, 22 15" fill="none" stroke="oklch(0.803 0.152 79.6)" stroke-width="2" stroke-linecap="round"></path>
+        <path d="M12 2.5 l1.5 3.4 3.7 .4 -2.8 2.5 .8 3.6 -3.2 -1.9 -3.2 1.9 .8 -3.6 -2.8 -2.5 3.7 -.4z" fill="oklch(0.803 0.152 79.6)"></path>
+      </svg>
+      <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.22em; color: oklch(0.986 0.003 219.5)">ANFUND</span>
+    </div>
+
+    <div style="margin-top: 30px; position: relative">
+      <div style="font-family: Lora, Georgia, serif; font-size: 30px; line-height: 1.24; font-weight: 600; color: oklch(0.986 0.003 219.5); text-wrap: balance">Bạn không đi tìm vốn.</div>
+      <div style="font-family: Lora, Georgia, serif; font-size: 30px; line-height: 1.24; font-weight: 600; font-style: italic; color: oklch(0.803 0.152 79.6); margin-top: 2px">Vốn đi tìm bạn.</div>
+    </div>
+  </div>
+
+  <!-- Bằng chứng sống: một phiên đang chạy, lãi suất tụt trước mắt -->
+  <div class="scroll" style="flex: 1; margin-top: -74px; padding: 0 20px 24px; display: flex; flex-direction: column; gap: 16px">
+
+    <div style="background: oklch(1 0 0); border: 1px solid oklch(0.89 0.018 232); border-radius: 16px; padding: 16px; box-shadow: 0 1px 2px oklch(0.304 0.096 258 / 0.08), 0 14px 36px -28px oklch(0.304 0.096 258 / 0.28)">
+
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px">
+        <div style="display: flex; align-items: center; gap: 7px">
+          <span style="width: 7px; height: 7px; border-radius: 999px; background: {{ liveDot }}"></span>
+          <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(0.578 0.097 196.6)">Đang diễn ra</span>
+        </div>
+        <span class="num" style="font-size: 11px; color: oklch(0.47 0.036 245)">HS-002389 · còn {{ clock }}</span>
+      </div>
+
+      <div style="margin-top: 12px; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px">
+        <div>
+          <div style="font-size: 11px; color: oklch(0.47 0.036 245)">Lãi suất tốt nhất</div>
+          <div class="num" style="font-size: 42px; line-height: 1.05; font-weight: 800; letter-spacing: -0.03em; color: oklch(0.578 0.097 196.6)">{{ liveRate }}<span style="font-size: 20px; font-weight: 700">%</span></div>
+        </div>
+        <div style="text-align: right; padding-bottom: 5px">
+          <div class="num" style="font-size: 12px; font-weight: 600; color: oklch(0.6 0.22 25)">↓ {{ dropped }}</div>
+          <div style="font-size: 11px; color: oklch(0.47 0.036 245)">trong phiên này</div>
+        </div>
+      </div>
+
+      <!-- Các bên cho vay đang hạ giá nhau -->
+      <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 7px">
+        <sc-for list="{{ bidders }}" as="b" hint-placeholder-count="3">
+          <div style="display: flex; align-items: center; gap: 9px">
+            <span style="width: 6px; height: 6px; border-radius: 999px; background: {{ b.dot }}; flex-shrink: 0"></span>
+            <span style="font-size: 12px; color: oklch(0.205 0.057 255); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{ b.name }}</span>
+            <span class="num" style="font-size: 12px; font-weight: 700; color: {{ b.tone }}">{{ b.rate }}%</span>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top: 13px; padding-top: 11px; border-top: 1px solid oklch(0.89 0.018 232); font-size: 12px; line-height: 1.5; color: oklch(0.47 0.036 245)">
+        Bốn bên cho vay đang cạnh tranh cho <b style="color: oklch(0.205 0.057 255); font-weight: 600">một</b> hồ sơ. Người vay chọn bên thắng.
+      </div>
+    </div>
+
+    <div style="font-size: 13px; line-height: 1.6; color: oklch(0.47 0.036 245); padding: 0 2px">
+      AnFund là <b style="color: oklch(0.205 0.057 255); font-weight: 600">sàn đấu giá vốn hai chiều</b>. Hồ sơ tốt của bạn là thứ các bên cho vay tranh nhau — không phải thứ bạn phải đi xin.
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 2px">
+      <div class="tap" onClick="{{ goBorrow }}" role="button" tabindex="0" style="height: 54px; border-radius: 12px; background: linear-gradient(135deg, oklch(0.304 0.096 258), oklch(0.315 0.093 254.6)); color: oklch(0.986 0.003 219.5); display: flex; align-items: center; justify-content: space-between; padding: 0 20px">
+        <span style="font-size: 15px; font-weight: 600">Tôi cần vay vốn</span>
+        <svg viewBox="0 0 24 24" style="width: 18px; height: 18px" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+      <div class="tap" onClick="{{ goLend }}" role="button" tabindex="0" style="height: 54px; border-radius: 12px; background: oklch(1 0 0); border: 1px solid oklch(0.89 0.018 232); color: oklch(0.205 0.057 255); display: flex; align-items: center; justify-content: space-between; padding: 0 20px">
+        <span style="font-size: 15px; font-weight: 600">Tôi muốn cho vay</span>
+        <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; color: oklch(0.47 0.036 245)" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+    </div>
+
+    <div style="font-size: 11px; line-height: 1.55; color: oklch(0.47 0.036 245); text-align: center; padding: 0 6px">
+      AnFund không phải ngân hàng hay tổ chức tín dụng. Không nhận tiền gửi, không xử lý tiền thật.
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- ============ 1 · BA CÂU HỎI ============ -->
+<sc-if value="{{ at1 }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; height: 844px">
+
+  <div style="padding: 20px 20px 16px; background: oklch(1 0 0); border-bottom: 1px solid oklch(0.89 0.018 232)">
+    <div style="display: flex; align-items: center; gap: 12px">
+      <div class="tap" onClick="{{ back }}" role="button" tabindex="0" aria-label="Quay lại" style="width: 44px; height: 44px; margin-left: -12px; display: flex; align-items: center; justify-content: center; color: oklch(0.47 0.036 245)">
+        <svg viewBox="0 0 24 24" style="width: 20px; height: 20px" aria-hidden="true"><path d="M19 12H6M11 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+      <div style="flex: 1">
+        <div style="font-size: 17px; font-weight: 700; letter-spacing: -0.015em">Ba câu hỏi, xong hồ sơ</div>
+        <div style="font-size: 12px; color: oklch(0.47 0.036 245)">Chưa cần giấy tờ gì ở bước này</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll" style="flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 22px">
+
+    <div>
+      <div style="font-size: 14px; font-weight: 600; margin-bottom: 3px">Bạn cần bao nhiêu?</div>
+      <div style="font-size: 12px; color: oklch(0.47 0.036 245); margin-bottom: 11px">Con số này quyết định ai đủ sức tham gia phiên của bạn.</div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px">
+        <sc-for list="{{ amounts }}" as="a" hint-placeholder-count="4">
+          <div class="tap" onClick="{{ a.pick }}" role="button" tabindex="0" style="min-height: 44px; padding: 0 16px; display: flex; align-items: center; border-radius: 10px; border: 1.5px solid {{ a.bd }}; background: {{ a.bg }}; color: {{ a.fg }}; font-size: 14px; font-weight: 600">{{ a.label }}</div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size: 14px; font-weight: 600; margin-bottom: 3px">Trong bao lâu?</div>
+      <div style="font-size: 12px; color: oklch(0.47 0.036 245); margin-bottom: 11px">Kỳ hạn dài thì trả hằng tháng nhẹ hơn, tổng lãi nhiều hơn.</div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px">
+        <sc-for list="{{ terms }}" as="t" hint-placeholder-count="3">
+          <div class="tap" onClick="{{ t.pick }}" role="button" tabindex="0" style="min-height: 44px; padding: 0 16px; display: flex; align-items: center; border-radius: 10px; border: 1.5px solid {{ t.bd }}; background: {{ t.bg }}; color: {{ t.fg }}; font-size: 14px; font-weight: 600">{{ t.label }}</div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size: 14px; font-weight: 600; margin-bottom: 3px">Để làm gì?</div>
+      <div style="font-size: 12px; color: oklch(0.47 0.036 245); margin-bottom: 11px">Mục đích rõ ràng thường kéo được lãi suất thấp hơn.</div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px">
+        <sc-for list="{{ purposes }}" as="p" hint-placeholder-count="4">
+          <div class="tap" onClick="{{ p.pick }}" role="button" tabindex="0" style="min-height: 44px; padding: 0 16px; display: flex; align-items: center; border-radius: 10px; border: 1.5px solid {{ p.bd }}; background: {{ p.bg }}; color: {{ p.fg }}; font-size: 14px; font-weight: 600">{{ p.label }}</div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 14px 20px 22px; background: oklch(1 0 0); border-top: 1px solid oklch(0.89 0.018 232)">
+    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 11px">
+      <span style="font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: oklch(0.47 0.036 245)">Hồ sơ của bạn</span>
+      <span class="num" style="font-size: 13px; font-weight: 600">{{ summary }}</span>
+    </div>
+    <div class="tap" onClick="{{ next }}" role="button" tabindex="0" style="height: 52px; border-radius: 12px; background: {{ ctaBg }}; color: {{ ctaFg }}; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">{{ ctaLabel }}</div>
+  </div>
+</div>
+</sc-if>
+
+<!-- ============ 2 · XÁC MINH — NÓI THẲNG CÁI MẤT ============ -->
+<sc-if value="{{ at2 }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; height: 844px">
+
+  <div style="padding: 20px 20px 0">
+    <div class="tap" onClick="{{ back }}" role="button" tabindex="0" aria-label="Quay lại" style="width: 44px; height: 44px; margin-left: -12px; display: flex; align-items: center; justify-content: center; color: oklch(0.47 0.036 245)">
+      <svg viewBox="0 0 24 24" style="width: 20px; height: 20px" aria-hidden="true"><path d="M19 12H6M11 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </div>
+  </div>
+
+  <div class="scroll" style="flex: 1; padding: 8px 20px 20px; display: flex; flex-direction: column; gap: 20px">
+
+    <div class="rise">
+      <svg viewBox="0 0 24 24" style="width: 36px; height: 36px; color: oklch(0.578 0.097 196.6)" aria-hidden="true">
+        <path d="M12 2.6 4.6 5.8v5.9c0 4.5 3.1 8.7 7.4 9.7 4.3-1 7.4-5.2 7.4-9.7V5.8z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path>
+        <path d="M8.6 12.2l2.4 2.4 4.4-4.7" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+      <div style="margin-top: 12px; font-size: 22px; font-weight: 700; line-height: 1.3; letter-spacing: -0.02em; text-wrap: balance">AnFund cần 5 ngày làm việc để xác minh hồ sơ của bạn</div>
+      <div style="margin-top: 8px; font-size: 13px; line-height: 1.6; color: oklch(0.47 0.036 245)">Chúng tôi nói trước để bạn không chờ đợi trong vô định. Chưa xác minh xong thì chưa mở phiên được — không có đường tắt.</div>
+    </div>
+
+    <div style="background: oklch(1 0 0); border: 1px solid oklch(0.89 0.018 232); border-radius: 14px; padding: 16px">
+      <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(0.47 0.036 245); margin-bottom: 13px">Vì sao phải chờ</div>
+      <div style="display: flex; flex-direction: column; gap: 12px">
+        <sc-for list="{{ reasons }}" as="r" hint-placeholder-count="3">
+          <div style="display: flex; gap: 11px; align-items: flex-start">
+            <span style="width: 6px; height: 6px; border-radius: 999px; background: oklch(0.578 0.097 196.6); margin-top: 7px; flex-shrink: 0"></span>
+            <span style="font-size: 13px; line-height: 1.55; color: oklch(0.205 0.057 255)">{{ r.text }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(0.47 0.036 245); margin-bottom: 13px">Đường đi của hồ sơ</div>
+      <div style="display: flex; flex-direction: column">
+        <sc-for list="{{ timeline }}" as="s" hint-placeholder-count="4">
+          <div style="display: grid; grid-template-columns: 26px 1fr; gap: 0 12px">
+            <div style="display: flex; flex-direction: column; align-items: center">
+              <span style="width: 11px; height: 11px; border-radius: 999px; background: {{ s.dot }}; border: 2px solid oklch(0.986 0.003 219.5); box-shadow: 0 0 0 1.5px {{ s.dot }}; margin-top: 5px"></span>
+              <span style="width: 1.5px; flex: 1; background: {{ s.line }}; min-height: {{ s.gap }}"></span>
+            </div>
+            <div style="padding-bottom: 14px">
+              <div style="font-size: 13.5px; font-weight: 600; color: {{ s.fg }}">{{ s.title }}</div>
+              <div style="font-size: 12px; color: oklch(0.47 0.036 245); margin-top: 1px">{{ s.note }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 14px 20px 22px; background: oklch(1 0 0); border-top: 1px solid oklch(0.89 0.018 232); display: flex; flex-direction: column; gap: 9px">
+    <div class="tap" onClick="{{ next }}" role="button" tabindex="0" style="height: 52px; border-radius: 12px; background: linear-gradient(135deg, oklch(0.304 0.096 258), oklch(0.315 0.093 254.6)); color: oklch(0.986 0.003 219.5); display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">Xem một phiên đã mở</div>
+    <div style="font-size: 11px; text-align: center; color: oklch(0.47 0.036 245)">Hồ sơ mẫu HS-002389 · đã xác minh 6 ngày trước</div>
+  </div>
+</div>
+</sc-if>
+
+<!-- ============ 3 · PHIÊN ĐẤU GIÁ ============ -->
+<sc-if value="{{ at3 }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; height: 844px">
+
+  <div style="background: linear-gradient(135deg, oklch(0.304 0.096 258), oklch(0.315 0.093 254.6)); color: oklch(0.986 0.003 219.5); padding: 20px 20px 18px">
+    <div style="display: flex; align-items: center; gap: 12px">
+      <div class="tap" onClick="{{ back }}" role="button" tabindex="0" aria-label="Quay lại" style="width: 44px; height: 44px; margin-left: -12px; display: flex; align-items: center; justify-content: center; color: oklch(0.986 0.003 219.5); opacity: 0.75">
+        <svg viewBox="0 0 24 24" style="width: 20px; height: 20px" aria-hidden="true"><path d="M19 12H6M11 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+      <div style="flex: 1; min-width: 0">
+        <div class="num" style="font-size: 16px; font-weight: 700; letter-spacing: -0.01em">HS-002389 · 500M ₫</div>
+        <div style="font-size: 12px; opacity: 0.72">Mua nhà ở · 120 tháng · rủi ro thấp</div>
+      </div>
+    </div>
+
+    <div style="margin-top: 15px; display: flex; gap: 8px">
+      <div style="flex: 1; background: oklch(1 0 0 / 0.1); border-radius: 10px; padding: 9px 11px">
+        <div style="font-size: 10px; letter-spacing: 0.07em; text-transform: uppercase; opacity: 0.65">Còn lại</div>
+        <div class="num" style="font-size: 15px; font-weight: 700; margin-top: 1px">{{ clock }}</div>
+      </div>
+      <div style="flex: 1; background: oklch(1 0 0 / 0.1); border-radius: 10px; padding: 9px 11px">
+        <div style="font-size: 10px; letter-spacing: 0.07em; text-transform: uppercase; opacity: 0.65">Đề xuất</div>
+        <div class="num" style="font-size: 15px; font-weight: 700; margin-top: 1px">4</div>
+      </div>
+      <div style="flex: 1; background: oklch(0.803 0.152 79.6 / 0.18); border: 1px solid oklch(0.803 0.152 79.6 / 0.35); border-radius: 10px; padding: 9px 11px">
+        <div style="font-size: 10px; letter-spacing: 0.07em; text-transform: uppercase; color: oklch(0.803 0.152 79.6)">Thấp nhất</div>
+        <div class="num" style="font-size: 15px; font-weight: 700; margin-top: 1px; color: oklch(0.803 0.152 79.6)">7,2%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nói thẳng cách xếp hạng, vì đây là chỗ người dùng dễ hiểu nhầm nhất -->
+  <div style="padding: 12px 20px; background: oklch(0.965 0.01 225); border-bottom: 1px solid oklch(0.89 0.018 232); display: flex; gap: 9px; align-items: flex-start">
+    <svg viewBox="0 0 24 24" style="width: 15px; height: 15px; color: oklch(0.47 0.036 245); flex-shrink: 0; margin-top: 1px" aria-hidden="true"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M12 11v5.5M12 7.6v.9" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path></svg>
+    <div style="font-size: 12px; line-height: 1.5; color: oklch(0.47 0.036 245)">Danh sách xếp theo <b style="color: oklch(0.205 0.057 255); font-weight: 600">lãi suất từ thấp lên cao</b>. Điểm phù hợp chỉ để tham khảo, không tham gia xếp hạng.</div>
+  </div>
+
+  <div class="scroll" style="flex: 1; padding: 14px 20px 16px; display: flex; flex-direction: column; gap: 10px">
+    <sc-for list="{{ offers }}" as="o" hint-placeholder-count="4">
+      <div class="tap" onClick="{{ o.pick }}" role="button" tabindex="0" style="background: {{ o.bg }}; border: 1.5px solid {{ o.bd }}; border-radius: 14px; padding: 14px">
+        <div style="display: flex; align-items: flex-start; gap: 11px">
+          <div style="width: 38px; height: 38px; border-radius: 11px; background: {{ o.iconBg }}; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: {{ o.iconFg }}">
+            <svg viewBox="0 0 24 24" style="width: 19px; height: 19px" aria-hidden="true"><path d="M3.5 20.5h17M5 20.5V9.5l7-4.6 7 4.6v11M9.5 20.5v-5h5v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </div>
+          <div style="flex: 1; min-width: 0">
+            <div style="display: flex; align-items: center; gap: 6px">
+              <span style="font-size: 14px; font-weight: 650; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{ o.name }}</span>
+              <sc-if value="{{ o.best }}" hint-placeholder-val="{{ true }}">
+                <span style="font-size: 9.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: oklch(0.578 0.097 196.6); background: oklch(0.578 0.097 196.6 / 0.13); border-radius: 5px; padding: 2px 6px; flex-shrink: 0">Thấp nhất</span>
+              </sc-if>
+            </div>
+            <div style="font-size: 12px; color: oklch(0.47 0.036 245); margin-top: 2px">{{ o.note }}</div>
+          </div>
+          <div style="text-align: right; flex-shrink: 0">
+            <div class="num" style="font-size: 20px; font-weight: 800; letter-spacing: -0.02em; color: {{ o.rateFg }}">{{ o.rate }}%</div>
+            <div class="num" style="font-size: 11px; color: oklch(0.47 0.036 245)">{{ o.amount }} · {{ o.term }}</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 11px; display: flex; align-items: center; gap: 9px">
+          <span style="font-size: 11px; color: oklch(0.47 0.036 245); flex-shrink: 0">Phù hợp</span>
+          <span style="position: relative; height: 5px; flex: 1; border-radius: 999px; background: oklch(0.95 0.014 221); overflow: hidden">
+            <span style="position: absolute; inset: 0 auto 0 0; width: {{ o.fitW }}; border-radius: 999px; background: {{ o.fitBar }}"></span>
+          </span>
+          <span class="num" style="font-size: 11px; font-weight: 600; color: oklch(0.47 0.036 245); flex-shrink: 0">{{ o.fit }}</span>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="padding: 14px 20px 22px; background: oklch(1 0 0); border-top: 1px solid oklch(0.89 0.018 232)">
+    <div class="tap" onClick="{{ confirm }}" role="button" tabindex="0" style="height: 52px; border-radius: 12px; background: {{ pickBg }}; color: {{ pickFg }}; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">{{ pickLabel }}</div>
+    <div style="margin-top: 9px; font-size: 11px; text-align: center; color: oklch(0.47 0.036 245)">Hết giờ mà chưa chọn thì phiên đóng lại, không ai tự thắng.</div>
+  </div>
+</div>
+</sc-if>
+
+<!-- ============ 4 · ĐÃ CHỌN ============ -->
+<sc-if value="{{ at4 }}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; height: 844px">
+
+  <div class="scroll" style="flex: 1; padding: 64px 24px 20px; display: flex; flex-direction: column; gap: 22px">
+
+    <div class="rise" style="text-align: center">
+      <div style="width: 62px; height: 62px; margin: 0 auto; border-radius: 999px; background: oklch(0.578 0.097 196.6 / 0.12); display: flex; align-items: center; justify-content: center; color: oklch(0.578 0.097 196.6)">
+        <svg viewBox="0 0 24 24" style="width: 30px; height: 30px" aria-hidden="true"><path d="M5 12.6l4.6 4.6L19 7.4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </div>
+      <div style="margin-top: 18px; font-size: 23px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.28; text-wrap: balance">Bạn đã chọn {{ winnerName }}</div>
+      <div style="margin-top: 7px; font-size: 13px; line-height: 1.6; color: oklch(0.47 0.036 245)">Phiên đấu giá khép lại. Ba bên còn lại được thông báo là hồ sơ đã có bên thắng.</div>
+    </div>
+
+    <div style="background: oklch(1 0 0); border: 1px solid oklch(0.89 0.018 232); border-radius: 14px; overflow: hidden">
+      <sc-for list="{{ receipt }}" as="r" hint-placeholder-count="4">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 13px 16px; border-bottom: 1px solid oklch(0.89 0.018 232)">
+          <span style="font-size: 12.5px; color: oklch(0.47 0.036 245)">{{ r.k }}</span>
+          <span class="num" style="font-size: 13.5px; font-weight: 650; text-align: right; color: {{ r.tone }}">{{ r.v }}</span>
+        </div>
+      </sc-for>
+      <div style="padding: 13px 16px; background: oklch(0.578 0.097 196.6 / 0.07); display: flex; align-items: baseline; justify-content: space-between; gap: 14px">
+        <span style="font-size: 12.5px; font-weight: 600; color: oklch(0.578 0.097 196.6)">Tiết kiệm so với mức cao nhất</span>
+        <span class="num" style="font-size: 13.5px; font-weight: 700; color: oklch(0.578 0.097 196.6)">{{ saved }}</span>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: oklch(0.47 0.036 245); margin-bottom: 11px">Tiếp theo là gì</div>
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <sc-for list="{{ nextUp }}" as="n" hint-placeholder-count="3">
+          <div style="display: flex; gap: 11px; align-items: flex-start">
+            <span class="num" style="width: 21px; height: 21px; border-radius: 999px; background: oklch(0.95 0.014 221); color: oklch(0.47 0.036 245); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px">{{ n.i }}</span>
+            <span style="font-size: 13px; line-height: 1.55">{{ n.text }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="background: oklch(0.965 0.01 225); border-radius: 12px; padding: 14px; font-size: 11.5px; line-height: 1.6; color: oklch(0.47 0.036 245)">
+      AnFund kết nối hai bên và giữ hồ sơ minh bạch. Hợp đồng và dòng tiền là việc trực tiếp giữa bạn và bên cho vay — AnFund không cấp tín dụng, không giữ tiền.
+    </div>
+  </div>
+
+  <div style="padding: 14px 20px 22px; background: oklch(1 0 0); border-top: 1px solid oklch(0.89 0.018 232)">
+    <div class="tap" onClick="{{ restart }}" role="button" tabindex="0" style="height: 50px; border-radius: 12px; background: oklch(1 0 0); border: 1px solid oklch(0.89 0.018 232); color: oklch(0.205 0.057 255); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600">Xem lại từ đầu</div>
+  </div>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{
+  "startStep": {"editor": "enum", "options": ["Mở app", "Ba câu hỏi", "Xác minh", "Đấu giá", "Đã chọn"], "default": "Mở app", "section": "Prototype"},
+  "live": {"editor": "boolean", "default": true, "section": "Prototype"},
+  "accent": {"editor": "color", "default": "#0a8b8d", "options": ["#0a8b8d", "#0a2d5e", "#f2b233", "#7a4bd0"], "section": "Thương hiệu"}
+}'>
+const STEPS = ["Mở app", "Ba câu hỏi", "Xác minh", "Đấu giá", "Đã chọn"];
+
+const NAVY = "oklch(0.304 0.096 258)";
+const INK = "oklch(0.205 0.057 255)";
+const MUTED = "oklch(0.47 0.036 245)";
+const BORDER = "oklch(0.89 0.018 232)";
+const CARD = "oklch(1 0 0)";
+const SOFT = "oklch(0.95 0.014 221)";
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      step: Math.max(0, STEPS.indexOf(props.startStep ?? "Mở app")),
+      amount: 500,
+      term: 120,
+      purpose: "Mua nhà ở",
+      picked: 0,
+      t: 0,
+    };
+  }
+
+  componentDidMount() {
+    // Lãi suất tụt dần trước mắt người xem — đây là toàn bộ lập luận của màn hình đầu
+    this.timer = setInterval(() => {
+      if (this.props.live === false) return;
+      this.setState((s) => ({ t: (s.t + 1) % 96 }));
+    }, 900);
+  }
+
+  componentDidUpdate(prev) {
+    if (prev.startStep !== this.props.startStep) {
+      this.setState({ step: Math.max(0, STEPS.indexOf(this.props.startStep)) });
+    }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
+  accent() {
+    return this.props.accent ?? "#0a8b8d";
+  }
+
+  renderVals() {
+    const s = this.state;
+    const ac = this.accent();
+    const t = s.t;
+
+    // ---- Đồng hồ phiên: 8 giờ là mức tối thiểu theo MIN_AUCTION_HOURS ----
+    const left = 6 * 3600 - t * 37;
+    const hh = String(Math.floor(left / 3600)).padStart(2, "0");
+    const mm = String(Math.floor((left % 3600) / 60)).padStart(2, "0");
+    const ss = String(left % 60).padStart(2, "0");
+
+    // ---- Lãi suất tốt nhất tụt từ 7,9% về 7,2% rồi lặp lại ----
+    const steps = Math.min(7, Math.floor(t / 8));
+    const best = (7.9 - steps * 0.1).toFixed(1).replace(".", ",");
+    const dropped = (steps * 0.1).toFixed(1).replace(".", ",");
+
+    const bidders = [
+      { name: "Quỹ đầu tư An Tín", r: 7.9 - steps * 0.1, lead: true },
+      { name: "Capital Partner V", r: 8.2 - steps * 0.07 },
+      { name: "Việt Hưng Capital", r: 8.6 - steps * 0.04 },
+    ].map((b) => ({
+      name: b.name,
+      rate: b.r.toFixed(1).replace(".", ","),
+      dot: b.lead ? ac : SOFT,
+      tone: b.lead ? ac : MUTED,
+    }));
+
+    // ---- Ba câu hỏi ----
+    const chip = (on) => ({
+      bd: on ? ac : BORDER,
+      bg: on ? ac + "14" : CARD,
+      fg: on ? ac : INK,
+    });
+
+    const amounts = [300, 500, 1000, 2000].map((v) => ({
+      label: v >= 1000 ? (v / 1000).toString().replace(".", ",") + " tỷ" : v + "M",
+      pick: () => this.setState({ amount: v }),
+      ...chip(s.amount === v),
+    }));
+
+    const terms = [60, 84, 120].map((v) => ({
+      label: v + " tháng",
+      pick: () => this.setState({ term: v }),
+      ...chip(s.term === v),
+    }));
+
+    const purposes = ["Mua nhà ở", "Kinh doanh", "Học tập", "Khác"].map((v) => ({
+      label: v,
+      pick: () => this.setState({ purpose: v }),
+      ...chip(s.purpose === v),
+    }));
+
+    const amtLabel = s.amount >= 1000 ? (s.amount / 1000).toString().replace(".", ",") + " tỷ ₫" : s.amount + "M ₫";
+    const ready = s.amount && s.term && s.purpose;
+
+    // ---- Xác minh ----
+    const reasons = [
+      { text: "Bên cho vay chỉ dám hạ lãi suất khi tin hồ sơ là thật. Xác minh là thứ đổi lấy mức lãi thấp." },
+      { text: "Đối chiếu CIC, thu nhập và tài sản bảo đảm cần thời gian của người thật, không phải máy duyệt." },
+      { text: "Hồ sơ đã xác minh mang huy hiệu suốt phiên — đó là lợi thế của bạn trước bốn bên cho vay." },
+    ];
+
+    const timeline = [
+      { title: "Nộp hồ sơ", note: "Hôm nay · 3 câu hỏi vừa xong", done: true },
+      { title: "AnFund xác minh", note: "Tối thiểu 5 ngày làm việc", cur: true },
+      { title: "Mở phiên đấu giá", note: "Bạn chọn độ dài, tối thiểu 8 giờ" },
+      { title: "Chọn bên thắng và ký", note: "Quyền quyết định thuộc về bạn", last: true },
+    ].map((x) => ({
+      title: x.title,
+      note: x.note,
+      dot: x.done ? ac : x.cur ? "oklch(0.803 0.152 79.6)" : BORDER,
+      line: x.last ? "transparent" : BORDER,
+      gap: x.last ? "0px" : "22px",
+      fg: x.cur ? INK : x.done ? INK : MUTED,
+    }));
+
+    // ---- Đấu giá: xếp theo lãi suất từ thấp lên, khớp đúng cách mã nguồn xếp ----
+    const raw = [
+      { name: "Quỹ đầu tư An Tín", rate: "7,2", amount: "500M", term: "120T", note: "BĐS thế chấp · giải ngân 24h", fit: 92 },
+      { name: "Capital Partner V", rate: "7,5", amount: "500M", term: "120T", note: "BĐS thế chấp · giải ngân 48h", fit: 88 },
+      { name: "Mr. Lê (Cá nhân)", rate: "7,8", amount: "300M", term: "60T", note: "Tín chấp một phần · 72h", fit: 75 },
+      { name: "Việt Hưng Capital", rate: "8,0", amount: "500M", term: "84T", note: "Thả nổi sau 6 tháng · 24h", fit: 81 },
+    ];
+
+    const offers = raw.map((o, i) => {
+      const on = s.picked === i;
+      return {
+        name: o.name,
+        rate: o.rate,
+        amount: o.amount,
+        term: o.term,
+        note: o.note,
+        fit: o.fit,
+        fitW: o.fit + "%",
+        best: i === 0,
+        bg: on ? ac + "0f" : CARD,
+        bd: on ? ac : BORDER,
+        iconBg: on ? ac + "1f" : SOFT,
+        iconFg: on ? ac : NAVY,
+        rateFg: on ? ac : INK,
+        fitBar: on ? ac : "oklch(0.89 0.018 232)",
+        pick: () => this.setState({ picked: i }),
+      };
+    });
+
+    const win = raw[s.picked] ?? raw[0];
+
+    const receipt = [
+      { k: "Hồ sơ", v: "HS-002389" },
+      { k: "Số tiền", v: win.amount + " ₫" },
+      { k: "Lãi suất", v: win.rate + "%/năm", tone: ac },
+      { k: "Kỳ hạn", v: win.term.replace("T", " tháng") },
+      { k: "Điều kiện", v: win.note },
+    ].map((r) => ({ k: r.k, v: r.v, tone: r.tone ?? INK }));
+
+    const savedPts = (8.0 - parseFloat(win.rate.replace(",", "."))).toFixed(1).replace(".", ",");
+
+    const nextUp = [
+      { i: "1", text: "AnFund gửi hồ sơ đầy đủ cho bên thắng trong 24 giờ." },
+      { i: "2", text: "Hai bên hẹn ký hợp đồng — AnFund không đứng giữa dòng tiền." },
+      { i: "3", text: "Hồ sơ đã khớp được lưu lại, giúp phiên sau của bạn dễ hơn." },
+    ];
+
+    return {
+      at0: s.step === 0,
+      at1: s.step === 1,
+      at2: s.step === 2,
+      at3: s.step === 3,
+      at4: s.step === 4,
+
+      clock: hh + ":" + mm + ":" + ss,
+      liveRate: best,
+      dropped: dropped + " điểm",
+      liveDot: ac,
+      bidders,
+
+      amounts,
+      terms,
+      purposes,
+      summary: amtLabel + " · " + s.term + " tháng · " + s.purpose,
+      ctaLabel: ready ? "Gửi hồ sơ xác minh" : "Chọn đủ ba mục ở trên",
+      ctaBg: ready ? "linear-gradient(135deg, oklch(0.304 0.096 258), oklch(0.315 0.093 254.6))" : SOFT,
+      ctaFg: ready ? "oklch(0.986 0.003 219.5)" : MUTED,
+
+      reasons,
+      timeline,
+
+      offers,
+      pickLabel: "Chọn " + win.name,
+      pickBg: ac,
+      pickFg: "oklch(0.986 0.003 219.5)",
+
+      winnerName: win.name,
+      receipt,
+      saved: savedPts + " điểm lãi suất",
+      nextUp,
+
+      goBorrow: () => this.setState({ step: 1 }),
+      goLend: () => this.setState({ step: 3 }),
+      next: () => this.setState((p) => ({ step: Math.min(4, p.step + 1) })),
+      back: () => this.setState((p) => ({ step: Math.max(0, p.step - 1) })),
+      confirm: () => this.setState({ step: 4 }),
+      restart: () => this.setState({ step: 0 }),
+    };
+  }
+}
+</script>
+</body>
+</html>

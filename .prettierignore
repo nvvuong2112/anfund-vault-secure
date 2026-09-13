@@ -5,3 +5,9 @@ dist
 pnpm-lock.yaml
 package-lock.json
 routeTree.gen.ts
+
+# Định dạng khuôn mẫu riêng của canvas thiết kế, không phải HTML thường.
+# Prettier format vào là hỏng: dòng <script src="./support.js"> phải giữ nguyên
+# từng ký tự, và data-props có quy tắc thoát dấu riêng.
+design/*.dc.html
+design/anfund-mobile.html

@@ -60,6 +60,8 @@ src/routes/index.tsx    → "/"      14 section marketing, import tĩnh
 src/routes/demo.tsx     → "/demo"  DemoApp, 100% state phía client
 ```
 
+`design/` **không phải mã chạy** — không tệp nào trong `src/` import nó, nó không tham gia build. Đó là nguồn của canvas thiết kế mobile, viết bằng định dạng khuôn mẫu riêng (`.dc.html`) nên đã nằm trong `.prettierignore`; bản dựng 2,5 MB nằm trong `.gitignore`. Đọc `design/README.md` trước khi đụng vào.
+
 Chỉ **hai route**, không lazy-load ở đâu. `src/router.tsx` không đặt gì vào router context; `__root.tsx` **không mount provider nào** (không QueryClient, không Toaster, không theme provider) — đó là chỗ để thêm nếu cần.
 
 `src/routeTree.gen.ts` là **tệp sinh tự động**. Plugin router ghi đè nó mỗi lần chạy `dev`/`build`, thường chỉ đổi thứ tự route. Đừng sửa tay, và nếu nó bẩn sau khi chạy build thì `git restore` là đúng.
