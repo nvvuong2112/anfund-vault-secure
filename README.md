@@ -46,8 +46,21 @@ npm run build        # build production
 npm run preview      # chạy thử bản build
 npm run typecheck    # kiểm tra kiểu TypeScript
 npm run lint         # ESLint
+npm run test         # unit test (vitest)
+npm run test:e2e     # E2E (Playwright) — tự khởi động dev server
 npm run format       # Prettier
 ```
+
+## Test và CI
+
+| Loại | Nơi đặt                         | Nội dung                                                                    |
+| ---- | ------------------------------- | --------------------------------------------------------------------------- |
+| Unit | `src/components/demo/*.test.ts` | Formatter tiền tệ và thời gian, dữ liệu mẫu, hằng số nghiệp vụ              |
+| E2E  | `e2e/*.spec.ts`                 | Hành trình thật của cả ba vai trò, vòng đời phiên đấu giá, biểu mẫu đăng ký |
+
+Chạy E2E lần đầu cần tải trình duyệt: `npx playwright install chromium`.
+
+Mỗi PR và mỗi lần push vào `main` đều chạy [CI](.github/workflows/ci.yml): typecheck, lint, kiểm tra định dạng, unit test và build ở một job; E2E ở job riêng.
 
 ## Công nghệ
 
@@ -72,6 +85,7 @@ src/
 ├── lib/utils.ts     # cn()
 └── styles.css       # token thiết kế Tailwind v4 (oklch)
 
+e2e/                 # test Playwright
 docs/                # tài liệu thiết kế
 public/brand/        # bộ nhận diện thương hiệu
 ```

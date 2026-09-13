@@ -11,14 +11,25 @@ bun install          # cài phụ thuộc
 npm run dev          # dev server tại http://localhost:8080
 npm run typecheck    # tsc --noEmit
 npm run lint         # eslint .
+npm run test         # vitest run — unit test
+npm run test:watch   # vitest ở chế độ theo dõi
+npm run test:e2e     # playwright test — tự khởi động dev server
 npm run format       # prettier --write .
 npm run build        # build production
 npm run preview      # chạy thử bản build
 ```
 
-**Repo không có test.** Không có vitest/jest/playwright trong `devDependencies`, không có `.github/`. Cách kiểm chứng thay đổi là **chạy thật trong trình duyệt** — xem mục "Kiểm chứng" bên dưới.
+Chạy một tệp test hoặc một test lẻ:
 
-Cả `typecheck` và `lint` hiện đều **sạch 0 lỗi**; hãy giữ nguyên như vậy. `lint` còn 17 cảnh báo `react-refresh` cố ý bỏ qua (chỉ ảnh hưởng hot-reload).
+```bash
+npm run test -- shared.test.ts                  # một tệp unit test
+npm run test -- -t "formatVND"                  # lọc theo tên
+npm run test:e2e -- e2e/demo.spec.ts            # một tệp E2E
+npm run test:e2e -- --grep "hydration"          # lọc theo tên
+npm run test:e2e -- --headed --project=chromium # xem trình duyệt chạy
+```
+
+`typecheck`, `lint`, `prettier --check .` và cả hai bộ test hiện đều **sạch**; hãy giữ nguyên như vậy — CI chặn merge nếu bất kỳ mục nào đỏ. `lint` còn 17 cảnh báo `react-refresh` cố ý bỏ qua (chỉ ảnh hưởng hot-reload).
 
 ## Kiến trúc
 
@@ -72,20 +83,36 @@ Bẫy hay gặp:
 - **`store.tsx:41-47`** dựng lại mảng `loans` **mỗi giây** (`prev.map` luôn trả tham chiếu mới). Chưa gây vấn đề ở quy mô 3-5 hồ sơ, nhưng đáng nhớ khi thêm dữ liệu.
 - **`SignupSection` không gửi dữ liệu đi đâu** — `onSubmit` chỉ `preventDefault()` + `setSubmitted(true)`. Không có backend nào cả.
 
-## Kiểm chứng
+## Test
 
-Không có test tự động, nên **thay đổi phải được xác nhận bằng cách chạy thật**. Hành trình đáng chạy qua ở `/demo`: tải trực tiếp và refresh, đổi 3 vai trò, đổi hồ sơ, tạo hồ sơ giả, gửi đề xuất giả, chọn đề xuất, chờ hết giờ phiên, đặt lại demo. Theo dõi console — trạng thái mong đợi là **0 lỗi**.
-
-Playwright bản global dùng được mà **không thêm vào `package.json`**:
-
-```js
-import { createRequire } from "node:module";
-const { chromium } = createRequire(import.meta.url)(
-  "/opt/node22/lib/node_modules/playwright/index.js",
-);
+```
+src/components/demo/*.test.ts   unit (vitest) — formatter, dữ liệu mẫu, hằng số nghiệp vụ
+e2e/*.spec.ts                   E2E (Playwright) — hành trình thật trong trình duyệt
 ```
 
-Để kiểm tra hết giờ phiên (tối thiểu 8 tiếng, không chờ thật được), dùng `page.clock.install()` + `page.clock.fastForward("07:00:00")`.
+Ranh giới: vitest **chỉ** nhận `src/**/*.test.ts`, Playwright **chỉ** nhận `e2e/`. Đừng đặt lẫn, hai runner sẽ giẫm chân nhau.
+
+Phần lớn test E2E ở đây là **test hồi quy cho lỗi đã từng xảy ra thật**, mỗi cái có chú thích nêu rõ lỗi gốc. Đừng nới lỏng chúng cho "đỡ vướng" — hãy đọc chú thích trước.
+
+Vài điều cần biết khi viết thêm test:
+
+- Ứng dụng **không có backend**, nên E2E không cần dựng dữ liệu hay dọn dẹp gì. Nút "Đặt lại demo" đưa mọi thứ về mẫu ban đầu.
+- Phiên đấu giá ngắn nhất là 8 tiếng, không chờ thật được → dùng `page.clock.install()` + `page.clock.fastForward("07:00:00")`.
+- Đề xuất tự động chảy vào trong khoảng **2,5–14 giây** sau khi tạo hồ sơ; hãy chờ theo phần tử với timeout rộng, đừng `waitForTimeout` cứng.
+- Lỗi hydration từng chỉ xuất hiện ~25% số lần tải, nên test hydration **lặp nhiều lần**. Một lần tải là không đủ tin.
+- `toBeVisible()` của Playwright **không** kiểm tra `opacity`. Lỗi `SignupSection` từng lọt đúng vì vậy — muốn chắc thì đọc `getComputedStyle`.
+- Helper dùng chung nằm ở `e2e/helpers.ts` (thu lỗi console, đổi vai trò, chọn hồ sơ, đọc form).
+
+`playwright.config.ts` tự khởi động `npm run dev`; ở local nó tái dùng server đang chạy nếu có.
+
+## CI
+
+`.github/workflows/ci.yml`, chạy trên mọi PR và push vào `main`, hai job:
+
+- **checks** — typecheck, lint, `prettier --check`, unit test, build. Nhanh, là cổng chính.
+- **e2e** — Playwright với Chromium. Tách riêng vì phải tải trình duyệt nên chậm hơn hẳn; báo cáo được lưu lại khi thất bại.
+
+Cả hai dùng `bun install --frozen-lockfile`, nên **`package.json` lệch `bun.lockb` sẽ làm hỏng CI** — đúng ý đồ: repo này từng mang một lockfile lệch suốt 4 tháng mà không ai biết.
 
 ## Triển khai
 
