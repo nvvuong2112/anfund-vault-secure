@@ -23,13 +23,13 @@
   <!-- Mở đầu -->
   <div>
     <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: oklch(0.578 0.097 196.6)">Lập luận thiết kế</div>
-    <div style="margin-top: 12px; font-family: Lora, Georgia, serif; font-size: 30px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; text-wrap: balance">Cài về là hiểu — sáu quyết định để giữ lời hứa đó</div>
+    <div style="margin-top: 12px; font-family: Lora, Georgia, serif; font-size: 30px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; text-wrap: balance">Cài về là hiểu — bảy quyết định để giữ lời hứa đó</div>
     <div style="margin-top: 12px; font-size: 14px; line-height: 1.7; color: oklch(0.47 0.036 245); max-width: 34em">Mỗi mục dưới đây là một chỗ tôi cố ý làm khác bản web hiện tại, kèm lý do. Chỗ nào tôi thấy có mâu thuẫn trong sản phẩm, tôi nêu thẳng thay vì vẽ đè lên.</div>
   </div>
 
-  <!-- Sáu quyết định — đánh số vì chúng theo thứ tự người dùng gặp -->
+  <!-- Bảy quyết định — đánh số vì chúng theo đúng thứ tự người dùng gặp -->
   <div style="display: flex; flex-direction: column; gap: 0">
-    <sc-for list="{{ items }}" as="d" hint-placeholder-count="6">
+    <sc-for list="{{ items }}" as="d" hint-placeholder-count="7">
       <div style="display: grid; grid-template-columns: 44px 1fr; gap: 0 18px; padding: 22px 0; border-top: 1px solid oklch(0.89 0.018 232)">
         <div class="num" style="font-family: Lora, Georgia, serif; font-size: 26px; font-weight: 600; color: {{ d.nFg }}; line-height: 1">{{ d.n }}</div>
         <div>
@@ -48,7 +48,7 @@
       <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: oklch(0.45 0.1 70)">Cần bạn quyết, không phải chuyện thẩm mỹ</div>
     </div>
     <div style="margin-top: 12px; font-size: 15px; font-weight: 650; line-height: 1.45">Điểm phù hợp đang được trưng rất to nhưng không hề tham gia xếp hạng.</div>
-    <div style="margin-top: 9px; font-size: 13.5px; line-height: 1.7; color: oklch(0.4 0.045 250); max-width: 40em">Mã nguồn chỉ sắp xếp theo lãi suất, thấp nhất thắng. Nhưng phần giới thiệu hứa xếp hạng đa yếu tố — lãi suất, kỳ hạn, điều kiện, uy tín, độ phù hợp. Trên màn hình rộng của web thì lệch này khó thấy; trên điện thoại, khi cả danh sách gói trong một khung nhỏ, người dùng sẽ hiểu ngay là thanh "phù hợp" đang quyết định thứ tự — mà nó không.</div>
+    <div style="margin-top: 9px; font-size: 13.5px; line-height: 1.7; color: oklch(0.4 0.045 250); max-width: 40em">Mã nguồn chỉ sắp xếp theo lãi suất, thấp nhất thắng. Nhưng phần giới thiệu hứa xếp hạng đa yếu tố — lãi suất, kỳ hạn, điều kiện, uy tín, độ phù hợp. Trên màn hình rộng của web thì độ lệch này khó thấy; trên điện thoại, khi cả danh sách gói gọn trong một khung nhỏ, người dùng sẽ hiểu ngay là thanh "phù hợp" đang quyết định thứ tự — mà nó không.</div>
     <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 9px">
       <sc-for list="{{ ways }}" as="w" hint-placeholder-count="2">
         <div style="display: flex; gap: 10px; align-items: flex-start; background: oklch(1 0 0 / 0.6); border-radius: 9px; padding: 11px 13px">
@@ -67,7 +67,7 @@
     <div style="margin-top: 16px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
       <sc-for list="{{ tokens }}" as="t" hint-placeholder-count="6">
         <div style="display: flex; align-items: center; gap: 11px; background: oklch(1 0 0); border: 1px solid oklch(0.89 0.018 232); border-radius: 10px; padding: 11px 13px">
-          <span style="width: 26px; height: 26px; border-radius: 7px; background: {{ t.sw }}; border: 1px solid oklch(0.205 0.057 255 / 0.1); flex-shrink: 0"></span>
+          <span style="width: 26px; height: 26px; border-radius: {{ t.rad }}; background: {{ t.sw }}; border: {{ t.bd }}; flex-shrink: 0"></span>
           <div style="min-width: 0">
             <div style="font-size: 12.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{ t.name }}</div>
             <div class="num" style="font-size: 11px; color: oklch(0.47 0.036 245); overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{ t.val }}</div>
@@ -120,6 +120,11 @@ class Component extends DCLogic {
         tag: "Bất lợi nói trước, không giấu",
       },
       {
+        title: "Cùng một phiên đấu giá, hai góc nhìn",
+        body: "Bấm \"Tôi muốn cho vay\" ở màn đầu không đưa bạn sang một app khác — nó đưa bạn vào đúng phiên vừa xem, nhưng từ phía bên kia. Người vay thấy \"chọn bên thắng\"; bên cho vay thấy \"gửi đề xuất thấp hơn 7,2%\". Cùng dữ liệu, cùng đồng hồ, đổi vai. Không câu chữ nào giải thích \"hai chiều\" tốt bằng việc cho người ta đứng thử ở cả hai đầu.",
+        tag: "Một màn hình, hai vai",
+      },
+      {
         title: "Xếp hạng nói đúng sự thật của mã nguồn",
         body: "Danh sách đề xuất ghi rõ ngay trên đầu: xếp theo lãi suất từ thấp lên cao, điểm phù hợp chỉ để tham khảo. Vì mã nguồn đang làm đúng như vậy. Xem khối màu vàng bên dưới.",
         tag: "Có mâu thuẫn cần bạn quyết",
@@ -136,31 +141,33 @@ class Component extends DCLogic {
       },
     ].map((d, i) => ({
       n: String(i + 1).padStart(2, "0"),
-      nFg: i === 3 ? GOLD : "oklch(0.85 0.02 240)",
+      nFg: i === 4 ? GOLD : "oklch(0.85 0.02 240)",
       title: d.title,
       body: d.body,
       tag: d.tag,
-      tagFg: i === 3 ? "oklch(0.45 0.1 70)" : TEAL,
-      tagBg: i === 3 ? "oklch(0.803 0.152 79.6 / 0.18)" : "oklch(0.578 0.097 196.6 / 0.1)",
+      tagFg: i === 4 ? "oklch(0.45 0.1 70)" : TEAL,
+      tagBg: i === 4 ? "oklch(0.803 0.152 79.6 / 0.18)" : "oklch(0.578 0.097 196.6 / 0.1)",
     }));
 
     const ways = [
       { k: "Cách A", v: "Cho điểm phù hợp tham gia xếp hạng thật — phải sửa phép sắp xếp ở cả năm chỗ trong mã, và phải định nghĩa được trọng số của từng yếu tố." },
-      { k: "Cách B", v: "Hạ điểm phù hợp xuống hàng thông tin phụ và sửa lại lời quảng cáo ở năm section marketing cho khớp với thực tế." },
+      { k: "Cách B", v: "Hạ điểm phù hợp xuống hàng thông tin phụ và sửa lại lời quảng cáo ở năm khối nội dung marketing cho khớp với thực tế." },
     ];
 
+    const HAIR = "1px solid oklch(0.205 0.057 255 / 0.1)";
     const tokens = [
       { name: "Navy · primary", val: "oklch(0.304 0.096 258)", sw: NAVY },
-      { name: "Teal · token tên emerald", val: "oklch(0.578 0.097 196.6)", sw: TEAL },
+      { name: "Teal · tên token là emerald", val: "oklch(0.578 0.097 196.6)", sw: TEAL },
       { name: "Gold · accent", val: "oklch(0.803 0.152 79.6)", sw: GOLD },
       { name: "Nền · background", val: "oklch(0.986 0.003 219.5)", sw: "oklch(0.986 0.003 219.5)" },
       { name: "Viền · border", val: "oklch(0.89 0.018 232)", sw: "oklch(0.89 0.018 232)" },
-      { name: "Bo góc gốc", val: "0.5rem · thẻ 14-16px", sw: "oklch(0.95 0.014 221)" },
-    ];
+      // Ô mẫu vẽ đúng độ bo mà nó mô tả, thay vì một mảng màu vô nghĩa
+      { name: "Bo góc · thẻ", val: "gốc 0.5rem · thẻ 14-16px", sw: "transparent", rad: "14px", bd: "2px solid oklch(0.47 0.036 245)" },
+    ].map((t) => ({ ...t, rad: t.rad ?? "7px", bd: t.bd ?? HAIR }));
 
     const skipped = [
       { what: "Phông chữ", why: "Dự án hiện chưa khai báo phông nào, đang chạy phông hệ thống. Tôi đề xuất Be Vietnam Pro — bộ chữ thiết kế riêng cho tiếng Việt, hợp với thương hiệu Rồng Việt — nhưng đó là đề xuất, chưa phải quyết định." },
-      { what: "Chế độ tối", why: "styles.css đã định nghĩa đủ bảng màu tối nhưng chưa nơi nào bật. Trên mobile thì đây là thứ người dùng thật sự mong đợi — nên làm, nhưng là một việc riêng." },
+      { what: "Chế độ tối", why: "styles.css đã định nghĩa đủ bảng màu tối nhưng chưa nơi nào bật nó lên. Trên mobile thì đây là thứ người dùng thật sự mong đợi — nên làm, nhưng là một việc riêng." },
       { what: "Đăng nhập, KYC, thông báo đẩy", why: "Chưa vẽ vì chưa biết hình dạng thật. Vẽ bừa một luồng KYC rồi phải bỏ đi thì tốn hơn là để trống." },
       { what: "Điều hướng dưới đáy", why: "Năm màn hình này là một luồng tuyến tính, chưa cần thanh tab. Thêm tab bar lúc chỉ có một luồng là bày ra chỗ trống để rồi phải bịa nội dung lấp vào." },
     ];

@@ -24,7 +24,7 @@
       "x": 1010,
       "y": 0,
       "w": 700,
-      "h": 1580,
+      "h": 3200,
       "print": "flow"
     }
   ],
@@ -48,8 +48,10 @@
       "x": 1010,
       "y": -150,
       "w": 700,
-      "text": "Sáu quyết định thiết kế kèm lý do — và một mâu thuẫn trong sản phẩm cần bạn quyết, không phải chuyện thẩm mỹ."
+      "text": "Bảy quyết định thiết kế kèm lý do — và một mâu thuẫn trong sản phẩm cần bạn quyết, không phải chuyện thẩm mỹ."
     }
   ],
-  "launch": { "view": "canvas" }
+  "launch": {
+    "view": "canvas"
+  }
 }
