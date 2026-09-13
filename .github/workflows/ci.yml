@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Đẩy commit mới lên cùng một PR thì huỷ lượt chạy cũ, khỏi tốn runner.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Nhóm kiểm tra nhanh — chạy trong khoảng một phút, là thứ chặn merge chính.
+  checks:
+    name: Kiểm tra tĩnh và unit test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      # --frozen-lockfile: nếu package.json và bun.lockb lệch nhau thì hỏng ở
+      # đây, đúng lúc cần biết. Repo này từng có một lockfile lệch suốt 4 tháng.
+      - name: Cài phụ thuộc
+        run: bun install --frozen-lockfile
+
+      - name: Typecheck
+        run: bun run typecheck
+
+      - name: Lint
+        run: bun run lint
+
+      - name: Kiểm tra định dạng
+        run: bunx prettier --check .
+
+      - name: Unit test
+        run: bun run test
+
+      - name: Build
+        run: bun run build
+
+  # Tách riêng: cần tải trình duyệt nên chậm hơn hẳn. Để nhóm trên biết kết quả
+  # sớm thay vì phải chờ cả E2E.
+  e2e:
+    name: E2E (Playwright)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Cài phụ thuộc
+        run: bun install --frozen-lockfile
+
+      # Chỉ Chromium — playwright.config.ts cũng chỉ khai báo một project.
+      - name: Cài trình duyệt
+        run: bunx playwright install --with-deps chromium
+
+      - name: Chạy E2E
+        run: bun run test:e2e
+
+      - name: Lưu báo cáo khi thất bại
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
