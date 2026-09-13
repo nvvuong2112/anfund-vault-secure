@@ -18,9 +18,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
+      # Cài bun bằng script chính thức thay vì action của bên thứ ba, để
+      # workflow chỉ phụ thuộc các action do GitHub phát hành.
+      - name: Cài bun
+        run: |
+          curl -fsSL https://bun.sh/install | bash
+          echo "$HOME/.bun/bin" >> "$GITHUB_PATH"
 
       # --frozen-lockfile: nếu package.json và bun.lockb lệch nhau thì hỏng ở
       # đây, đúng lúc cần biết. Repo này từng có một lockfile lệch suốt 4 tháng.
@@ -50,9 +53,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
+      - name: Cài bun
+        run: |
+          curl -fsSL https://bun.sh/install | bash
+          echo "$HOME/.bun/bin" >> "$GITHUB_PATH"
 
       - name: Cài phụ thuộc
         run: bun install --frozen-lockfile
