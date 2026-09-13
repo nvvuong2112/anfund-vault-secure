@@ -1,17 +1,8 @@
 import { useMemo } from "react";
 import { Gavel, Sparkles, Trophy, Users, Activity, Clock } from "lucide-react";
 import { useDemo } from "./store";
-import {
-  formatVND,
-  formatRate,
-  Countdown,
-  RiskBadge,
-  StatusBadge,
-  DemoBadge,
-  VerifiedBadge,
-  lenderTypeLabel,
-  LenderIcon,
-} from "./shared";
+import { Countdown, RiskBadge, StatusBadge, DemoBadge, VerifiedBadge, LenderIcon } from "./shared";
+import { formatVND, formatRate, lenderTypeLabel } from "./format";
 import { cn } from "@/lib/utils";
 
 export function AuctionView() {

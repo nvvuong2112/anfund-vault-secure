@@ -17,18 +17,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useDemo } from "./store";
 import type { LenderType, NewOfferInput, RiskLevel } from "./types";
-import {
-  formatVND,
-  formatRate,
-  Countdown,
-  RiskBadge,
-  StatusBadge,
-  DemoBadge,
-  VerifiedBadge,
-  formatDaysAgo,
-  lenderTypeLabel,
-  LenderIcon,
-} from "./shared";
+import { Countdown, RiskBadge, StatusBadge, DemoBadge, VerifiedBadge, LenderIcon } from "./shared";
+import { formatVND, formatRate, formatDaysAgo, lenderTypeLabel } from "./format";
 import { cn } from "@/lib/utils";
 
 export function LenderView() {
