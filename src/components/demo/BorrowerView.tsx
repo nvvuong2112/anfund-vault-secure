@@ -21,19 +21,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useDemo } from "./store";
 import { MIN_AUCTION_HOURS, VERIFICATION_DAYS } from "./types";
 import type { NewLoanInput, RiskLevel } from "./types";
-import {
-  LenderIcon,
-  StatusBadge,
-  RiskBadge,
-  DemoBadge,
-  VerifiedBadge,
-  Countdown,
-  formatVND,
-  formatVNDFull,
-  formatRate,
-  formatDaysAgo,
-  lenderTypeLabel,
-} from "./shared";
+import { LenderIcon, StatusBadge, RiskBadge, DemoBadge, VerifiedBadge, Countdown } from "./shared";
+import { formatVND, formatVNDFull, formatRate, formatDaysAgo, lenderTypeLabel } from "./format";
 import { cn } from "@/lib/utils";
 
 export function BorrowerView() {

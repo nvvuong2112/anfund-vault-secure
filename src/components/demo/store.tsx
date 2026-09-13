@@ -25,13 +25,9 @@ const Ctx = createContext<DemoCtx | null>(null);
 
 export function DemoProvider({ children }: { children: React.ReactNode }) {
   const [loans, setLoans] = useState<Loan[]>(() => buildSeedLoans());
-  const [selectedLoanId, setSelectedLoanId] = useState<string | null>(null);
+  const [selectedLoanId, setSelectedLoanId] = useState<string | null>(() => loans[0]?.id ?? null);
   const [now, setNow] = useState(() => Date.now());
   const timersRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set());
-
-  useEffect(() => {
-    setSelectedLoanId(loans[0]?.id ?? null);
-  }, []);
 
   useEffect(() => {
     const t = setInterval(() => setNow(Date.now()), 1000);
@@ -47,9 +43,10 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
   }, [now]);
 
   useEffect(() => {
+    const timers = timersRef.current;
     return () => {
-      timersRef.current.forEach((t) => clearTimeout(t));
-      timersRef.current.clear();
+      timers.forEach((t) => clearTimeout(t));
+      timers.clear();
     };
   }, []);
 

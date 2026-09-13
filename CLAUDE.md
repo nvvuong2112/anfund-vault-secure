@@ -48,7 +48,7 @@ npm run test:e2e -- --grep "hydration"          # lọc theo tên
 npm run test:e2e -- --headed --project=chromium # xem trình duyệt chạy
 ```
 
-`typecheck`, `lint`, `prettier --check .` và cả hai bộ test hiện đều **sạch**; hãy giữ nguyên như vậy. `npm run check` (typecheck + lint + test) **chặn deploy Vercel** nếu đỏ — xem mục CI. `lint` còn 12 cảnh báo `react-refresh` cố ý bỏ qua (chỉ ảnh hưởng hot-reload); cảnh báo không chặn gì, chỉ `error` mới chặn.
+`typecheck`, `lint`, `prettier --check .` và cả hai bộ test hiện đều **sạch**; hãy giữ nguyên như vậy. `npm run check` (typecheck + lint + test) **chặn deploy Vercel** nếu đỏ — xem mục CI. `lint` còn đúng **3 cảnh báo `react-refresh`**, cả ba đều cố ý chừa — xem mục CI để biết vì sao từng cái. Cảnh báo không chặn gì, chỉ `error` mới chặn.
 
 ## Kiến trúc
 
@@ -69,9 +69,10 @@ Chỉ **hai route**, không lazy-load ở đâu. `src/router.tsx` không đặt 
 `src/components/demo/` (~2.600 dòng) là phần ứng dụng thực sự. Các section marketing chỉ là nội dung tĩnh.
 
 - **`types.ts`** — mô hình miền, đọc cái này trước. Chỉ 6 kiểu, không enum. Hai hằng số nghiệp vụ duy nhất của dự án nằm cuối tệp: `MIN_AUCTION_HOURS = 8`, `VERIFICATION_DAYS = 5`.
-- **`store.tsx`** — React Context + `useState` (không phải `useReducer`). **Không lưu trữ, không gọi mạng** — refresh trang là mất sạch. Đồng hồ 1 Hz ở dòng 36-39 đẩy `now` xuống toàn bộ cây.
+- **`store.tsx`** — React Context + `useState` (không phải `useReducer`). **Không lưu trữ, không gọi mạng** — refresh trang là mất sạch. Đồng hồ 1 Hz ở dòng 32-35 đẩy `now` xuống toàn bộ cây.
 - **`seed.ts`** — 3 khoản vay mẫu, 7 đề xuất, 9 bên cho vay giả. `generateAutoOffer` mô phỏng đối thủ cạnh tranh.
-- **`shared.tsx`** — mọi formatter (`formatVND`, `formatRate`, `formatCountdown`) và badge.
+- **`format.ts`** — mọi hàm thuần: formatter tiền tệ/thời gian (`formatVND`, `formatRate`, `formatCountdown`…) và `lenderTypeLabel`. Tách riêng khỏi `shared.tsx` để hot-reload không thổi bay state demo mỗi lần sửa badge.
+- **`shared.tsx`** — chỉ còn component: `Countdown`, `LenderIcon`, và bốn badge. **Đừng thêm hàm thuần vào đây** — chỗ của chúng là `format.ts`. Cũng đừng đặt tên tệp mới là `shared.ts`: có cả `.ts` lẫn `.tsx` thì `import from "./shared"` nhập nhằng, thứ tự phân giải quyết định trong im lặng.
 
 ### Cơ chế đấu giá — không có "engine"
 
@@ -101,7 +102,7 @@ Trước đây thư mục này có 46 tệp; 43 tệp chưa từng được impo
 
 - **`useReveal` (`src/hooks/use-reveal.ts`)** chỉ quét `.reveal` **một lần lúc mount** với deps `[]`, gọi từ `index.tsx`. Phần tử gắn class `reveal` mà mount muộn hơn sẽ **kẹt ở `opacity: 0`**. Đây từng là lỗi thật ở `SignupSection`; cách chữa hiện tại là gắn thêm `is-visible` ngay trên phần tử đó.
 - **`Countdown` (`shared.tsx`)** có `suppressHydrationWarning` trên cả hai `<span>`. **Đừng gỡ.** Đồng hồ lệch 1 giây giữa server và client làm React dựng lại toàn bộ cây; đo được 3/12 lần tải trước khi vá, 0/16 sau khi vá.
-- **`store.tsx:41-47`** dựng lại mảng `loans` **mỗi giây** (`prev.map` luôn trả tham chiếu mới). Chưa gây vấn đề ở quy mô 3-5 hồ sơ, nhưng đáng nhớ khi thêm dữ liệu.
+- **`store.tsx:37-43`** dựng lại mảng `loans` **mỗi giây** (`prev.map` luôn trả tham chiếu mới). Chưa gây vấn đề ở quy mô 3-5 hồ sơ, nhưng đáng nhớ khi thêm dữ liệu.
 - **`SignupSection` không gửi dữ liệu đi đâu** — `onSubmit` chỉ `preventDefault()` + `setSubmitted(true)`. Không có backend nào cả.
 
 ## Test
@@ -141,9 +142,21 @@ Ranh giới ai bắt cái gì, cần nhớ vì không hiển nhiên:
 | Unit test đỏ                                     | ✅ `test`                                                                                     |                                 |
 | Lệch định dạng trong `.ts`/`.tsx`                | ✅ `lint` — config có `eslint-plugin-prettier/recommended`, `prettier/prettier` ở mức `error` |                                 |
 | Lệch định dạng trong `.md`/`.json`/`.yml`/`.css` |                                                                                               | ✅ `prettier --check .`         |
-| `react-hooks/exhaustive-deps`, `react-refresh`   |                                                                                               | chỉ là `warning`, không chặn gì |
+| `react-refresh/only-export-components`           |                                                                                               | chỉ là `warning`, không chặn gì |
 
 Nói cách khác: định dạng **mã nguồn** đã bị chặn sẵn qua eslint; `prettier --check .` chỉ thêm phần tài liệu và cấu hình, nên để ở `verify` chạy tay.
+
+### Ba cảnh báo react-refresh cố ý chừa
+
+`lint` còn đúng 3 cảnh báo, đều là `react-refresh/only-export-components`. Đừng "sửa hộ" — mỗi cái đã được cân nhắc và tách ra chỉ tốn công, không được lợi:
+
+| Chỗ                                               | Vì sao chừa                                                                                                            |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `src/components/ui/button.tsx` (`buttonVariants`) | Tệp shadcn sinh tự động. Tách tay là lệch khỏi bản gốc, lần sau `npx shadcn@latest add button` sẽ đè mất hoặc xung đột |
+| `src/components/demo/store.tsx` (`useDemo`)       | Tách hook khỏi provider phải sửa 5 tệp, đổi lại không được lợi ích chạy máy nào                                        |
+| `src/router.tsx` (`DefaultErrorComponent`)        | Một component trong tệp hạ tầng, không đáng một tệp riêng                                                              |
+
+Bảy cảnh báo còn lại (ở `shared.tsx`) đã xử bằng cách tách `format.ts` — chỗ đó tách có lợi thật, vì sửa badge là việc làm thường xuyên và hot-reload giữ được state demo.
 
 ### GitHub Actions đang tắt
 
