@@ -333,7 +333,9 @@ function NewLoanForm({
           format
         />
         <div>
-          <Label icon={Clock} htmlFor={durationId}>Thời gian phiên đấu giá</Label>
+          <Label icon={Clock} htmlFor={durationId}>
+            Thời gian phiên đấu giá
+          </Label>
           <div className="mt-2 flex flex-wrap gap-2">
             {DURATION_PRESETS.map((d) => (
               <button
@@ -375,7 +377,9 @@ function NewLoanForm({
 
       <div className="mt-4 space-y-3">
         <div>
-          <Label icon={History} htmlFor={historyId}>Lịch sử tài chính</Label>
+          <Label icon={History} htmlFor={historyId}>
+            Lịch sử tài chính
+          </Label>
           <Input
             id={historyId}
             className="mt-2 h-11 rounded-md"
@@ -385,7 +389,9 @@ function NewLoanForm({
           />
         </div>
         <div>
-          <Label icon={ShieldCheck} htmlFor={collateralId}>Tài sản bảo đảm</Label>
+          <Label icon={ShieldCheck} htmlFor={collateralId}>
+            Tài sản bảo đảm
+          </Label>
           <Textarea
             id={collateralId}
             className="mt-2 rounded-md"

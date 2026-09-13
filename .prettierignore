@@ -5,3 +5,6 @@ dist
 pnpm-lock.yaml
 package-lock.json
 routeTree.gen.ts
+
+# Mã sinh tự động — không định dạng lại, sẽ bị ghi đè ở lần sinh lại kế tiếp
+src/integrations/supabase/

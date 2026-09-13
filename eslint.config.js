@@ -6,7 +6,9 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist", ".output", ".vinxi"] },
+  // src/integrations/supabase/** là mã sinh tự động (Lovable Cloud / Supabase CLI).
+  // Phát hiện ở đó không xử lý được: sửa tay sẽ bị ghi đè ở lần sinh lại kế tiếp.
+  { ignores: ["dist", ".output", ".vinxi", "src/integrations/supabase/**"] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ["**/*.{ts,tsx}"],
