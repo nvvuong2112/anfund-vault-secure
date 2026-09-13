@@ -1,11 +1,21 @@
 name: CI
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-  # Chạy tay từ tab Actions. Cần khi muốn kiểm chứng chính hạ tầng CI mà không
-  # có thay đổi mã nào để push — thay cho việc tạo commit rỗng để kích workflow.
+  # push và pull_request bị vô hiệu hoá vì tài khoản GitHub chưa có phương thức
+  # thanh toán. Actions không cấp runner: mọi lượt chạy chết sau 2 giây với
+  # "The job was not started because your account is locked due to a billing
+  # issue" (đã tái hiện y hệt qua 2 lượt, runner_id: 0, không có log). Để nguyên
+  # thì mỗi PR và mỗi push nhận 2 check đỏ vĩnh viễn không mang thông tin gì —
+  # và lỗi thật sau này sẽ lẫn vào đúng chỗ nhiễu đó.
+  #
+  # Bộ kiểm tra hiện chạy trong build Vercel, xem script "check" ở package.json.
+  # Khi tài khoản có thẻ: bỏ chú thích 3 dòng dưới là workflow chạy lại y như cũ.
+  # Toàn bộ phần còn lại của tệp đã được chứng minh là parse đúng và lên lịch
+  # job đúng — thứ duy nhất thiếu là runner.
+  #
+  # push:
+  #   branches: [main]
+  # pull_request:
   workflow_dispatch:
 
 # Đẩy commit mới lên cùng một PR thì huỷ lượt chạy cũ, khỏi tốn runner.

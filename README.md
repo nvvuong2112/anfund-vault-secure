@@ -49,6 +49,9 @@ npm run lint         # ESLint
 npm run test         # unit test (vitest)
 npm run test:e2e     # E2E (Playwright) — tự khởi động dev server
 npm run format       # Prettier
+
+npm run check        # typecheck + lint + unit test — đúng cổng chặn deploy
+npm run verify       # check + kiểm tra định dạng + build — chạy trước khi push
 ```
 
 ## Test và CI
@@ -60,7 +63,14 @@ npm run format       # Prettier
 
 Chạy E2E lần đầu cần tải trình duyệt: `npx playwright install chromium`.
 
-Mỗi PR và mỗi lần push vào `main` đều chạy [CI](.github/workflows/ci.yml): typecheck, lint, kiểm tra định dạng, unit test và build ở một job; E2E ở job riêng.
+**Cổng chặn nằm trong build Vercel.** `package.json` khai báo script `vercel-build` là `npm run check && npm run build`, nên mọi PR và mọi push đều phải qua typecheck, lint và unit test trước khi được deploy — bước nào đỏ thì không có bản deploy nào cả, kể cả preview. Lệch định dạng trong `.ts`/`.tsx` cũng bị chặn, vì ESLint ở đây bật `prettier/prettier` ở mức `error`.
+
+Trước khi push, chạy `npm run verify` — nó thêm `prettier --check .` (bắt cả `.md`, `.json`, `.yml`, `.css`) và bước build.
+
+> [!NOTE]
+> [GitHub Actions](.github/workflows/ci.yml) hiện **tắt**, chỉ còn trigger `workflow_dispatch`: tài khoản chưa có phương thức thanh toán nên Actions không cấp runner, và để trigger tự động thì mỗi PR chỉ nhận check đỏ vô nghĩa. Workflow vẫn còn nguyên và đã được kiểm chứng là đúng — bỏ chú thích 3 dòng `push`/`pull_request` là chạy lại.
+>
+> Hệ quả: **E2E không chạy tự động ở đâu cả** (Playwright cần tải trình duyệt, không hợp với build Vercel). Hãy chạy `npm run test:e2e` bằng tay khi có đụng tới `src/components/demo/`.
 
 ## Công nghệ
 
