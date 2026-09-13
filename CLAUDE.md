@@ -17,6 +17,9 @@ npm run test:e2e     # playwright test — tự khởi động dev server
 npm run format       # prettier --write .
 npm run build        # build production
 npm run preview      # chạy thử bản build
+
+npm run check        # typecheck + lint + test — ĐÚNG cổng chặn deploy Vercel
+npm run verify       # check + prettier --check . + build — chạy trước khi push
 ```
 
 Chạy một tệp test hoặc một test lẻ:
@@ -29,7 +32,7 @@ npm run test:e2e -- --grep "hydration"          # lọc theo tên
 npm run test:e2e -- --headed --project=chromium # xem trình duyệt chạy
 ```
 
-`typecheck`, `lint`, `prettier --check .` và cả hai bộ test hiện đều **sạch**; hãy giữ nguyên như vậy — CI chặn merge nếu bất kỳ mục nào đỏ. `lint` còn 12 cảnh báo `react-refresh` cố ý bỏ qua (chỉ ảnh hưởng hot-reload).
+`typecheck`, `lint`, `prettier --check .` và cả hai bộ test hiện đều **sạch**; hãy giữ nguyên như vậy. `npm run check` (typecheck + lint + test) **chặn deploy Vercel** nếu đỏ — xem mục CI. `lint` còn 12 cảnh báo `react-refresh` cố ý bỏ qua (chỉ ảnh hưởng hot-reload); cảnh báo không chặn gì, chỉ `error` mới chặn.
 
 ## Kiến trúc
 
@@ -109,12 +112,32 @@ Vài điều cần biết khi viết thêm test:
 
 ## CI
 
-`.github/workflows/ci.yml`, chạy trên mọi PR và push vào `main`, hai job:
+**Cổng chặn nằm trong build Vercel, không phải GitHub Actions.**
 
-- **checks** — typecheck, lint, `prettier --check`, unit test, build. Nhanh, là cổng chính.
-- **e2e** — Playwright với Chromium. Tách riêng vì phải tải trình duyệt nên chậm hơn hẳn; báo cáo được lưu lại khi thất bại.
+`package.json` khai báo `vercel-build`, và Vercel ưu tiên script này hơn lệnh build mặc định của framework preset. Nội dung là `npm run check && npm run build`, nên **bất kỳ bước nào trong `check` đỏ là deployment hỏng** — kể cả preview của PR. Đây là cổng thật, đã kiểm chứng bằng đột biến mã: lỗi kiểu dừng ở `typecheck`, vi phạm `rules-of-hooks` dừng ở `lint`, cả hai đều không chạy tới bước build.
 
-Cả hai dùng `bun install --frozen-lockfile`, nên **`package.json` lệch `bun.lockb` sẽ làm hỏng CI** — đúng ý đồ: repo này từng mang một lockfile lệch suốt 4 tháng mà không ai biết.
+Ranh giới ai bắt cái gì, cần nhớ vì không hiển nhiên:
+
+| Loại lỗi                                         | `check` (chặn deploy)                                                                         | chỉ `verify` (local)            |
+| ------------------------------------------------ | --------------------------------------------------------------------------------------------- | ------------------------------- |
+| Sai kiểu TypeScript                              | ✅ `typecheck`                                                                                |                                 |
+| `react-hooks/rules-of-hooks`                     | ✅ `lint` (mức `error`)                                                                       |                                 |
+| Unit test đỏ                                     | ✅ `test`                                                                                     |                                 |
+| Lệch định dạng trong `.ts`/`.tsx`                | ✅ `lint` — config có `eslint-plugin-prettier/recommended`, `prettier/prettier` ở mức `error` |                                 |
+| Lệch định dạng trong `.md`/`.json`/`.yml`/`.css` |                                                                                               | ✅ `prettier --check .`         |
+| `react-hooks/exhaustive-deps`, `react-refresh`   |                                                                                               | chỉ là `warning`, không chặn gì |
+
+Nói cách khác: định dạng **mã nguồn** đã bị chặn sẵn qua eslint; `prettier --check .` chỉ thêm phần tài liệu và cấu hình, nên để ở `verify` chạy tay.
+
+### GitHub Actions đang tắt
+
+`.github/workflows/ci.yml` còn nguyên nhưng **chỉ còn trigger `workflow_dispatch`**. Lý do: tài khoản chưa có phương thức thanh toán, Actions không cấp runner — mọi lượt chạy chết sau 2 giây với `The job was not started because your account is locked due to a billing issue` (`runner_id: 0`, không có log, đã tái hiện y hệt 2 lượt). Để trigger tự động thì mỗi PR nhận 2 check đỏ vĩnh viễn vô nghĩa, và lỗi thật sau này sẽ lẫn vào đó.
+
+Bản thân workflow **đã được chứng minh là đúng** — parse được, lên lịch job đúng tên. Khi tài khoản có thẻ, bỏ chú thích 3 dòng `push`/`pull_request` trong khối `on:` là chạy lại ngay.
+
+**Mất mát thật cần biết: E2E không được chạy tự động ở đâu cả.** Playwright cần tải trình duyệt nên không hợp với build Vercel. Chạy `npm run test:e2e` bằng tay trước khi push nếu có đụng tới `src/components/demo/`. Đây là lý do chính đáng nhất để mở khoá billing sau này.
+
+Job trong `ci.yml` dùng `bun install --frozen-lockfile`, nên khi bật lại thì **`package.json` lệch `bun.lockb` sẽ làm hỏng CI** — đúng ý đồ: repo này từng mang một lockfile lệch suốt 4 tháng mà không ai biết.
 
 ## Triển khai
 

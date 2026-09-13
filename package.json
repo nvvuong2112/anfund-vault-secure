@@ -13,7 +13,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "verify": "npm run check && prettier --check . && npm run build",
+    "vercel-build": "npm run check && npm run build"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
