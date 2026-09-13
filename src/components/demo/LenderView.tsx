@@ -81,7 +81,7 @@ export function LenderView() {
                 aria-pressed={riskFilter === v}
                 onClick={() => setRiskFilter(v as never)}
                 className={cn(
-                  "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                  "inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-medium transition-colors min-h-11 md:min-h-0",
                   riskFilter === v
                     ? "border-primary bg-primary text-primary-foreground"
                     : "border-border bg-secondary/40 text-foreground hover:border-primary/30",

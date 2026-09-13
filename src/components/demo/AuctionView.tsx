@@ -207,7 +207,7 @@ function AuctionDetail({
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="truncate text-sm font-semibold text-foreground">
+                    <span className="truncate text-sm font-semibold text-foreground max-sm:basis-full max-sm:shrink-0">
                       {offer.lenderName}
                     </span>
                     <VerifiedBadge verifiedAt={offer.lenderVerifiedAt} size="sm" />
@@ -222,7 +222,7 @@ function AuctionDetail({
                     {lenderTypeLabel(offer.lenderType)} · {offer.conditions}
                   </div>
                 </div>
-                <div className="text-right">
+                <div className="text-right max-sm:max-w-[34%]">
                   <div
                     className={cn(
                       "text-sm font-bold md:text-base",

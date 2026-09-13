@@ -18,10 +18,12 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        // min-h-* (không phải h-*) để vùng chạm đạt 44px trên điện thoại mà
+        // không đè lên chỗ gọi đã tự đặt chiều cao. Desktop giữ nguyên như cũ.
+        default: "h-9 px-4 py-2 min-h-11 md:min-h-0",
+        sm: "h-8 rounded-md px-3 text-xs min-h-11 md:min-h-0",
+        lg: "h-10 rounded-md px-8 min-h-12 md:min-h-0",
+        icon: "h-9 w-9 min-h-11 min-w-11 md:min-h-0 md:min-w-0",
       },
     },
     defaultVariants: {
