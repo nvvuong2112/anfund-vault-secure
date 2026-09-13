@@ -1,0 +1,57 @@
+{
+  "artboards": [
+    {
+      "file": "Main.dc.html",
+      "title": "Người vay · luồng đầy đủ (bấm thử được)",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "is_interactive": true
+    },
+    {
+      "file": "NguoiChoVay.dc.html",
+      "title": "Người cho vay · màn hình chính",
+      "x": 500,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "is_interactive": true
+    },
+    {
+      "file": "NguyenTac.dc.html",
+      "title": "Lập luận thiết kế",
+      "x": 1010,
+      "y": 0,
+      "w": 700,
+      "h": 3200,
+      "print": "flow"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "cach-dung",
+      "x": 0,
+      "y": -150,
+      "w": 390,
+      "text": "Bấm thẳng vào màn hình để đi qua 5 bước:\nmở app → ba câu hỏi → xác minh → đấu giá → chọn bên thắng.\n\nLãi suất ở màn hình đầu tự tụt dần — đó là chủ đích, không phải hiệu ứng trang trí."
+    },
+    {
+      "id": "hai-chieu",
+      "x": 500,
+      "y": -150,
+      "w": 390,
+      "text": "Nửa còn lại của sàn. Với bên cho vay, \"hiểu ngay\" nghĩa là thấy ngay phải hạ xuống bao nhiêu mới thắng — nên con số đó là thứ to nhất trên mỗi dòng."
+    },
+    {
+      "id": "co-viec-can-quyet",
+      "x": 1010,
+      "y": -150,
+      "w": 700,
+      "text": "Bảy quyết định thiết kế kèm lý do — và một mâu thuẫn trong sản phẩm cần bạn quyết, không phải chuyện thẩm mỹ."
+    }
+  ],
+  "launch": {
+    "view": "canvas"
+  }
+}

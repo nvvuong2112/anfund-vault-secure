@@ -43,3 +43,7 @@ dist-ssr
 # Lockfile — bun là công cụ chính thức của dự án (xem bunfig.toml + bun.lockb).
 # package-lock.json từng bị bỏ rơi và lệch hẳn package.json, gây hỏng npm ci.
 package-lock.json
+
+# Bản dựng của canvas thiết kế — 2,5 MB vì gói sẵn cả trình chỉnh sửa bên trong.
+# Đây là kết quả sinh ra từ design/*.dc.html, không phải nguồn. Xem design/README.md.
+design/anfund-mobile.html
