@@ -80,8 +80,8 @@ src/
 ├── components/
 │   ├── *.tsx        # 14 section của trang giới thiệu
 │   ├── demo/        # bản demo tương tác — phần logic thật của dự án
-│   └── ui/          # primitive shadcn/ui
-├── hooks/           # use-reveal (hiệu ứng cuộn) · use-mobile
+│   └── ui/          # primitive shadcn/ui (button, input, textarea)
+├── hooks/           # use-reveal (hiệu ứng cuộn)
 ├── lib/utils.ts     # cn()
 └── styles.css       # token thiết kế Tailwind v4 (oklch)
 
