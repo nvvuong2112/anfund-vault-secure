@@ -30,3 +30,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Lockfile — bun là công cụ chính thức của dự án (xem bunfig.toml + bun.lockb).
+# package-lock.json từng bị bỏ rơi và lệch hẳn package.json, gây hỏng npm ci.
+package-lock.json
