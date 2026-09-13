@@ -29,7 +29,7 @@ npm run test:e2e -- --grep "hydration"          # lọc theo tên
 npm run test:e2e -- --headed --project=chromium # xem trình duyệt chạy
 ```
 
-`typecheck`, `lint`, `prettier --check .` và cả hai bộ test hiện đều **sạch**; hãy giữ nguyên như vậy — CI chặn merge nếu bất kỳ mục nào đỏ. `lint` còn 17 cảnh báo `react-refresh` cố ý bỏ qua (chỉ ảnh hưởng hot-reload).
+`typecheck`, `lint`, `prettier --check .` và cả hai bộ test hiện đều **sạch**; hãy giữ nguyên như vậy — CI chặn merge nếu bất kỳ mục nào đỏ. `lint` còn 12 cảnh báo `react-refresh` cố ý bỏ qua (chỉ ảnh hưởng hot-reload).
 
 ## Kiến trúc
 
@@ -72,9 +72,11 @@ Bẫy hay gặp:
 - Shadow và gradient **không** đăng ký trong `@theme`, nên phải dùng qua `style={{ boxShadow: "var(--shadow-soft)" }}` — có 28 chỗ inline như vậy.
 - **Dark mode được định nghĩa đầy đủ nhưng không bao giờ được kích hoạt** (không nơi nào gắn class `.dark`).
 
-### shadcn/ui phần lớn là scaffolding
+### shadcn/ui chỉ còn 3 primitive
 
-46 tệp trong `src/components/ui/`, nhưng **chỉ `button`, `input`, `textarea` được dùng**, và chỉ bởi `src/components/demo/`. Toàn bộ trang marketing viết tay bằng Tailwind, không dùng shadcn. Đừng cho rằng một primitive nào đó "đang được dùng ở đâu đó".
+`src/components/ui/` chỉ có `button`, `input`, `textarea` — và chỉ `src/components/demo/` dùng chúng. Toàn bộ trang marketing viết tay bằng Tailwind, không dùng shadcn.
+
+Trước đây thư mục này có 46 tệp; 43 tệp chưa từng được import đã bị xoá cùng 37 gói npm đi kèm. `components.json` vẫn còn, nên cần primitive nào thì thêm lại bằng `npx shadcn@latest add <tên>` — đừng chép tay.
 
 ### Bẫy đã biết trong mã
 
@@ -118,7 +120,7 @@ Cả hai dùng `bun install --frozen-lockfile`, nên **`package.json` lệch `bu
 
 Vercel, **zero-config** — không có `vercel.json`. `vite.config.ts` gọi `nitro()` không tham số; nitro tự nhận diện nền tảng: trên Vercel chọn preset `vercel` và xuất `.vercel/output`, ở local chọn `node` nên `npm run preview` dùng được.
 
-**Vercel báo kết quả qua COMMIT STATUS, không phải check run.** Repo không có `.github/` nên `get_check_runs` luôn trả 0 — điều đó _không_ có nghĩa là không có CI. Phải dùng `pull_request_read` với method `get_status`, tìm context `Vercel`.
+**Vercel báo kết quả qua COMMIT STATUS, không phải check run.** `get_check_runs` chỉ thấy GitHub Actions và "Vercel Preview Comments" — muốn biết deploy thành công hay không thì phải dùng `pull_request_read` với method `get_status` và tìm context `Vercel`. Nhầm hai thứ này rất dễ dẫn tới kết luận sai là repo không có CI.
 
 ## Bối cảnh sản phẩm
 
