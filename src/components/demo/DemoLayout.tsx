@@ -71,9 +71,7 @@ function DemoShell() {
             <Info className="h-4 w-4" />
           </div>
           <div className="min-w-0">
-            <h1 className="font-semibold text-foreground">
-              Trải nghiệm sàn đấu giá vốn hai chiều
-            </h1>
+            <h1 className="font-semibold text-foreground">Trải nghiệm sàn đấu giá vốn hai chiều</h1>
             <p className="mt-0.5 text-muted-foreground">
               Chuyển qua lại 3 tab để vào vai mỗi bên: tạo hồ sơ vay, gửi đề xuất tài trợ, hoặc xem
               phiên đấu giá đang diễn ra. Dữ liệu là{" "}
