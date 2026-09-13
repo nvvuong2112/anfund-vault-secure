@@ -50,8 +50,12 @@ export function formatCountdownText(ms: number) {
 export function Countdown({ ms }: { ms: number }) {
   return (
     <>
-      <span aria-hidden="true">{formatCountdown(ms)}</span>
-      <span className="sr-only">{formatCountdownText(ms)}</span>
+      <span aria-hidden="true" suppressHydrationWarning>
+        {formatCountdown(ms)}
+      </span>
+      <span className="sr-only" suppressHydrationWarning>
+        {formatCountdownText(ms)}
+      </span>
     </>
   );
 }

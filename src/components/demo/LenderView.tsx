@@ -170,6 +170,7 @@ export function LenderView() {
       <section className="lg:col-span-7">
         {selected ? (
           <LoanInspector
+            key={selected.id}
             loan={selected}
             now={now}
             onSubmit={(data) => submitOffer(selected.id, data)}

@@ -210,7 +210,7 @@ function Bullet({ title, desc }: { title: string; desc: string }) {
 function SuccessCard({ onReset }: { onReset: () => void }) {
   return (
     <div
-      className="reveal rounded-lg border border-emerald/30 bg-emerald/5 p-8 text-center"
+      className="reveal is-visible rounded-lg border border-emerald/30 bg-emerald/5 p-8 text-center"
       style={{ boxShadow: "var(--shadow-soft)" }}
     >
       <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-lg bg-emerald text-emerald-foreground">
