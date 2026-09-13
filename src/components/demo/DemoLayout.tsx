@@ -35,7 +35,7 @@ function DemoShell() {
         src="/brand/anfund-logo-icon.png"
         alt=""
         aria-hidden
-        className="pointer-events-none absolute right-[-9rem] top-16 w-[34rem] max-w-none opacity-[0.06]"
+        className="pointer-events-none absolute right-[-9rem] top-16 w-[34rem] max-w-[60vw] opacity-[0.06]"
       />
       <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
