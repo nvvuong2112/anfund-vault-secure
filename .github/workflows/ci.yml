@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Chạy tay từ tab Actions. Cần khi muốn kiểm chứng chính hạ tầng CI mà không
+  # có thay đổi mã nào để push — thay cho việc tạo commit rỗng để kích workflow.
+  workflow_dispatch:
 
 # Đẩy commit mới lên cùng một PR thì huỷ lượt chạy cũ, khỏi tốn runner.
 concurrency:
