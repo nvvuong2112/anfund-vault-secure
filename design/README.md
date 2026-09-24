@@ -29,3 +29,12 @@ Bản đã đăng cũng lấy ngược nguồn ra được, nên mất thư mụ
 Màu lấy từ `src/styles.css` (navy `oklch(0.304 0.096 258)`, teal `oklch(0.578 0.097 196.6)` — chính là token bị đặt nhầm tên `--emerald`, gold `oklch(0.803 0.152 79.6)`). Hồ sơ mẫu `HS-002389` và bốn đề xuất lấy từ `src/components/demo/seed.ts`. Hai quy tắc cứng 8 giờ / 5 ngày lấy từ `src/components/demo/types.ts`.
 
 Sửa những chỗ đó trong `src/` thì nhớ bản thiết kế **không tự cập nhật theo** — phải sửa tay ở đây.
+
+## Bản chạy thật
+
+`/demo` được dựng lại theo bản thiết kế này: `src/components/demo/BorrowerScreen.tsx` theo `Main.dc.html`, `LenderScreen.tsx` theo `NguoiChoVay.dc.html`. Chỗ khác có chủ đích:
+
+- Bản chạy thật dùng **dữ liệu thật của store**. `NguoiChoVay.dc.html` ghi cứng ba hồ sơ (500M, 1,2 tỷ, 300M) lệch với `seed.ts`.
+- Có thêm màn hình **Sàn đấu giá** mà bản thiết kế chưa vẽ. Trên máy tính, ba màn hình đứng cạnh nhau.
+- Dưới 1280px có **thanh tab** để đổi giữa ba vai. Bản thiết kế cố ý không vẽ thanh tab vì nó chỉ vẽ luồng của một vai.
+- **Chưa dùng font Be Vietnam Pro.** Đổi font là đổi luôn cả trang giới thiệu.

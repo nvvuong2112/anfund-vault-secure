@@ -1,19 +1,20 @@
-import { useState } from "react";
-import { ArrowLeft, RefreshCw, User, Banknote, Gavel, Info } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowLeft, Banknote, Gavel, RefreshCw, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/Logo";
-import { DemoProvider, useDemo } from "./store";
-import { BorrowerView } from "./BorrowerView";
-import { LenderView } from "./LenderView";
-import { AuctionView } from "./AuctionView";
 import { cn } from "@/lib/utils";
+import { DemoProvider, useDemo } from "./store";
+import { PhoneFrame } from "./PhoneFrame";
+import { BorrowerScreen } from "./BorrowerScreen";
+import { AuctionScreen } from "./AuctionScreen";
+import { LenderScreen } from "./LenderScreen";
 
-type Tab = "borrower" | "lender" | "auction";
+type Role = "borrower" | "auction" | "lender";
 
-const TABS: { id: Tab; label: string; sub: string; icon: React.ElementType }[] = [
-  { id: "borrower", label: "Người vay", sub: "Tạo hồ sơ · so sánh đề xuất", icon: User },
-  { id: "lender", label: "Người cho vay", sub: "Lọc hồ sơ · gửi đề xuất", icon: Banknote },
-  { id: "auction", label: "Đấu giá vốn", sub: "Theo dõi cạnh tranh trực tiếp", icon: Gavel },
+const ROLES: { id: Role; label: string; hint: string; icon: React.ElementType }[] = [
+  { id: "borrower", label: "Người vay", hint: "mở phiên, chọn bên thắng", icon: User },
+  { id: "auction", label: "Đấu giá vốn", hint: "sàn trực tiếp", icon: Gavel },
+  { id: "lender", label: "Người cho vay", hint: "hạ lãi để thắng", icon: Banknote },
 ];
 
 export function DemoApp() {
@@ -24,120 +25,120 @@ export function DemoApp() {
   );
 }
 
+/**
+ * Sân khấu demo. Từ `xl` (≥1280px): ba điện thoại cạnh nhau, chung một phiên.
+ * Dưới `xl`: một màn hình toàn khung, đổi vai bằng thanh tab dưới đáy.
+ */
 function DemoShell() {
-  const [tab, setTab] = useState<Tab>("borrower");
+  const [role, setRole] = useState<Role>("borrower");
+  const [flash, setFlash] = useState<Role | null>(null);
+  const flashTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const { resetDemo, loans } = useDemo();
   const totalOffers = loans.reduce((s, l) => s + l.offers.length, 0);
 
+  useEffect(() => () => clearTimeout(flashTimer.current), []);
+
+  // Chuyển vai từ bên trong một màn hình: trên điện thoại là đổi tab, trên máy tính
+  // (cả ba máy đều đang hiện) thì viền máy đích sáng lên một nhịp để mắt tìm tới.
+  const goTo = (r: Role) => {
+    setRole(r);
+    setFlash(r);
+    clearTimeout(flashTimer.current);
+    flashTimer.current = setTimeout(() => setFlash(null), 1400);
+  };
+
+  const screens: Record<Role, React.ReactNode> = {
+    borrower: <BorrowerScreen onGoLender={() => goTo("lender")} />,
+    auction: <AuctionScreen />,
+    lender: <LenderScreen />,
+  };
+
   return (
-    <div className="relative min-h-dvh overflow-hidden bg-secondary/30">
-      <img
-        src="/brand/anfund-logo-icon.png"
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute right-[-9rem] top-16 w-[34rem] max-w-[60vw] opacity-[0.06]"
-      />
-      <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
-          <div className="flex items-center gap-3">
+    <div className="flex h-dvh flex-col bg-secondary/40 xl:h-auto xl:min-h-dvh">
+      <header className="z-40 shrink-0 border-b border-border bg-background/90 backdrop-blur xl:sticky xl:top-0">
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-2 px-4 md:px-6">
+          <div className="flex min-w-0 items-center gap-2.5">
             <a
               href="/"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-colors hover:text-foreground"
+              className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-colors hover:text-foreground"
               aria-label="Quay về trang chủ"
             >
               <ArrowLeft className="h-4 w-4" />
             </a>
-            <Logo className="h-9 sm:h-10" />
-            <span className="hidden md:inline-flex items-center gap-1.5 rounded-md border border-accent/40 bg-accent/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-accent-foreground">
+            <Logo className="h-8 sm:h-9" />
+            <span className="hidden items-center gap-1.5 rounded-md border border-accent/40 bg-accent/10 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-accent-foreground md:inline-flex">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
               Demo tương tác
             </span>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="hidden text-xs text-muted-foreground sm:block">
+          <div className="flex shrink-0 items-center gap-2">
+            <div className="text-[11px] text-muted-foreground tabular-nums sm:text-xs">
               {loans.length} hồ sơ · {totalOffers} đề xuất
             </div>
-            <Button variant="outline" size="sm" className="rounded-md" onClick={resetDemo}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-md max-sm:w-11 max-sm:px-0"
+              onClick={resetDemo}
+              aria-label="Đặt lại demo"
+            >
               <RefreshCw className="h-4 w-4" />
-              Đặt lại demo
+              <span className="max-sm:sr-only">Đặt lại demo</span>
             </Button>
           </div>
         </div>
       </header>
 
-      <main className="relative mx-auto max-w-7xl px-4 py-8 md:px-6 md:py-12">
-        <div className="mb-6 flex items-start gap-3 border border-primary/10 bg-white/80 p-4 text-sm backdrop-blur md:p-5">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <Info className="h-4 w-4" />
-          </div>
-          <div className="min-w-0">
-            <h1 className="font-semibold text-foreground">Trải nghiệm sàn đấu giá vốn hai chiều</h1>
-            <p className="mt-0.5 text-muted-foreground">
-              Chuyển qua lại 3 tab để vào vai mỗi bên: tạo hồ sơ vay, gửi đề xuất tài trợ, hoặc xem
-              phiên đấu giá đang diễn ra. Dữ liệu là{" "}
-              <span className="font-medium text-foreground">giả lập</span> — không xử lý giao dịch
-              tiền thật.
-            </p>
-          </div>
+      <main className="flex min-h-0 flex-1 flex-col xl:px-6 xl:py-5">
+        <div className="mb-4 hidden text-center xl:block">
+          <h1 className="text-xl font-bold text-foreground">Một phiên đấu giá, ba góc nhìn</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Thao tác ở máy nào, hai máy kia cập nhật ngay. Dữ liệu giả lập, không có giao dịch tiền
+            thật.
+          </p>
         </div>
+        <h1 className="sr-only xl:hidden">Demo sàn đấu giá vốn AnFund</h1>
 
-        <div
-          className="grid gap-2 rounded-lg border border-border bg-card p-2 sm:grid-cols-3"
-          style={{ boxShadow: "var(--shadow-soft)" }}
-        >
-          {TABS.map((t) => {
-            const Icon = t.icon;
-            const active = tab === t.id;
-            return (
-              <button
-                key={t.id}
-                type="button"
-                aria-pressed={active}
-                onClick={() => setTab(t.id)}
-                className={cn(
-                  "flex items-center gap-3 rounded-md px-4 py-3 text-left transition-all",
-                  active
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "bg-transparent text-foreground hover:bg-secondary",
-                )}
-              >
-                <div
-                  className={cn(
-                    "flex h-9 w-9 items-center justify-center rounded-lg",
-                    active ? "bg-white/15 text-primary-foreground" : "bg-primary/10 text-primary",
-                  )}
-                >
-                  <Icon className="h-4 w-4" />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-sm font-semibold">{t.label}</div>
-                  <div
-                    className={cn(
-                      "truncate text-[11px]",
-                      active ? "text-primary-foreground/70" : "text-muted-foreground",
-                    )}
-                  >
-                    {t.sub}
-                  </div>
-                </div>
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="mt-8">
-          {tab === "borrower" && <BorrowerView />}
-          {tab === "lender" && <LenderView />}
-          {tab === "auction" && <AuctionView />}
-        </div>
-
-        <div className="mt-12 rounded-lg border border-border bg-secondary/50 p-5 text-xs leading-relaxed text-muted-foreground md:p-6">
-          <span className="font-semibold text-foreground">Ghi chú:</span> Đây là demo tương tác để
-          minh hoạ trải nghiệm AnFund. Mọi hồ sơ, đề xuất và giao dịch đều là giả lập — không có
-          giao dịch tiền thật. Trong sản phẩm thật, các bước xác minh danh tính, ký kết và giải ngân
-          được thực hiện theo quy định pháp luật hiện hành.
+        <div className="mx-auto flex min-h-0 w-full max-w-md flex-1 flex-col xl:max-w-none xl:flex-none xl:flex-row xl:items-start xl:justify-center xl:gap-8">
+          {ROLES.map((r, i) => (
+            <PhoneFrame
+              key={r.id}
+              label={r.label}
+              hint={r.hint}
+              step={i + 1}
+              active={role === r.id}
+              flash={flash === r.id}
+            >
+              {screens[r.id]}
+            </PhoneFrame>
+          ))}
         </div>
       </main>
+
+      <nav
+        aria-label="Chọn vai"
+        className="grid shrink-0 grid-cols-3 border-t border-border bg-card pb-[env(safe-area-inset-bottom)] xl:hidden"
+      >
+        {ROLES.map((r) => {
+          const Icon = r.icon;
+          const active = role === r.id;
+          return (
+            <button
+              key={r.id}
+              type="button"
+              aria-pressed={active}
+              onClick={() => setRole(r.id)}
+              className={cn(
+                "flex min-h-14 flex-col items-center justify-center gap-0.5 text-[11px] font-semibold transition-colors",
+                active ? "text-primary" : "text-muted-foreground hover:text-foreground",
+              )}
+            >
+              <Icon className={cn("h-5 w-5", active && "text-emerald")} />
+              {r.label}
+            </button>
+          );
+        })}
+      </nav>
     </div>
   );
 }

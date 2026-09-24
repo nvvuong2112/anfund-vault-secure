@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { switchRole } from "./helpers";
+import { openLoanSheet, phone, switchRole, type Role } from "./helpers";
 
 /**
  * Test hồi quy cho khổ điện thoại.
@@ -12,7 +12,12 @@ import { switchRole } from "./helpers";
  * tên bên cho vay bị bóp còn 85px, và một hình mờ thứ hai ở AuctionView.
  *
  * Bộ E2E còn lại chạy ở khổ mặc định nên không bắt được nhóm này.
+ *
+ * Từ khi demo thành ba "điện thoại": dưới 1280px chỉ một màn hình hiện, đổi vai
+ * bằng thanh tab dưới đáy. Các phép thử dưới đây vì thế đi qua cả ba tab.
  */
+
+const ROLES: Role[] = ["Người vay", "Đấu giá vốn", "Người cho vay"];
 
 const PHONE = { width: 390, height: 844 }; // khổ logic của iPhone 14/15
 
@@ -57,19 +62,60 @@ test.describe("Khổ điện thoại 390px", () => {
   test("nút bấm trong demo đạt vùng chạm tối thiểu 44px", async ({ page }) => {
     await page.goto("/demo", { waitUntil: "networkidle" });
 
-    const tooSmall = await page.evaluate(() =>
-      [...document.querySelectorAll("button")]
-        .filter((el) => {
-          const b = el.getBoundingClientRect();
-          return b.height > 0 && b.height < 44;
-        })
-        .map(
-          (el) =>
-            `${el.textContent?.trim().slice(0, 30)} (${Math.round(el.getBoundingClientRect().height)}px)`,
-        ),
-    );
+    const tooSmall = () =>
+      page.evaluate(() =>
+        [...document.querySelectorAll("button")]
+          .filter((el) => {
+            const b = el.getBoundingClientRect();
+            return b.height > 0 && b.height < 44;
+          })
+          .map(
+            (el) =>
+              `${el.textContent?.trim().slice(0, 30)} (${Math.round(el.getBoundingClientRect().height)}px)`,
+          ),
+      );
 
-    expect(tooSmall).toEqual([]);
+    for (const role of ROLES) {
+      await switchRole(page, role);
+      expect(await tooSmall(), role).toEqual([]);
+    }
+    // Bảng đặt giá của bên cho vay có nút −/+ riêng.
+    await openLoanSheet(page, "HS-002389");
+    expect(await tooSmall(), "bảng đặt giá").toEqual([]);
+  });
+
+  test("mỗi lúc chỉ một màn hình, thanh tab đổi được cả ba", async ({ page }) => {
+    await page.goto("/demo", { waitUntil: "networkidle" });
+
+    for (const role of ROLES) {
+      await switchRole(page, role);
+      for (const other of ROLES) {
+        if (other === role) await expect(phone(page, other)).toBeVisible();
+        else await expect(phone(page, other)).toBeHidden();
+      }
+    }
+  });
+
+  test("màn hình vừa khít giữa header và thanh tab, không cuộn cả trang", async ({ page }) => {
+    await page.goto("/demo", { waitUntil: "networkidle" });
+
+    for (const role of ROLES) {
+      await switchRole(page, role);
+      const scrolls = await page.evaluate(
+        () => document.documentElement.scrollHeight > document.documentElement.clientHeight,
+      );
+      expect(scrolls, role).toBe(false);
+    }
+    // Thanh tab luôn nằm trong màn hình, không bị đẩy xuống dưới.
+    const nav = await page.getByRole("navigation", { name: "Chọn vai" }).boundingBox();
+    expect(nav!.y + nav!.height).toBeLessThanOrEqual(844);
+  });
+
+  test("bấm 'Tôi muốn cho vay' chuyển sang tab người cho vay", async ({ page }) => {
+    await page.goto("/demo", { waitUntil: "networkidle" });
+    await phone(page, "Người vay").getByRole("button", { name: "Tôi muốn cho vay" }).click();
+    await expect(phone(page, "Người cho vay")).toBeVisible();
+    await expect(phone(page, "Người vay")).toBeHidden();
   });
 
   test("tên bên cho vay hiện đủ, không bị cắt cụt", async ({ page }) => {

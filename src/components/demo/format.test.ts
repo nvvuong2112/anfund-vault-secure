@@ -1,10 +1,14 @@
 import { describe, expect, it } from "vitest";
 import {
+  bestRate,
   formatCountdown,
   formatCountdownText,
   formatRate,
+  formatTimeAgo,
   formatVND,
   formatVNDFull,
+  rankOffers,
+  suggestRate,
 } from "./format";
 
 const SECOND = 1000;
@@ -100,5 +104,57 @@ describe("formatCountdownText", () => {
 
   it("không bao giờ trả chuỗi rỗng khi còn dưới 1 phút", () => {
     expect(formatCountdownText(30 * SECOND)).toBe("Còn khoảng dưới 1 phút");
+  });
+});
+
+describe("rankOffers", () => {
+  it("xếp lãi suất tăng dần, thấp nhất đứng đầu", () => {
+    const ranked = rankOffers([{ rate: 8 }, { rate: 7.2 }, { rate: 7.5 }]);
+    expect(ranked.map((o) => o.rate)).toEqual([7.2, 7.5, 8]);
+  });
+
+  it("không đụng tới mảng gốc", () => {
+    const input = [{ rate: 9 }, { rate: 7 }];
+    rankOffers(input);
+    expect(input.map((o) => o.rate)).toEqual([9, 7]);
+  });
+
+  it("fitScore không ảnh hưởng thứ hạng", () => {
+    const ranked = rankOffers([
+      { rate: 7.5, fitScore: 99 },
+      { rate: 7.2, fitScore: 60 },
+    ]);
+    expect(ranked[0].fitScore).toBe(60);
+  });
+});
+
+describe("bestRate", () => {
+  it("trả về mức thấp nhất", () => {
+    expect(bestRate([{ rate: 8 }, { rate: 7.2 }])).toBe(7.2);
+  });
+
+  it("trả về undefined khi chưa có đề xuất", () => {
+    expect(bestRate([])).toBeUndefined();
+  });
+});
+
+describe("suggestRate", () => {
+  it("hạ 0,2 điểm dưới mức dẫn đầu", () => {
+    expect(suggestRate(7.2)).toBe(7);
+    expect(suggestRate(9.5)).toBe(9.3);
+  });
+
+  it("không xuống dưới sàn 6,5%", () => {
+    expect(suggestRate(6.6)).toBe(6.5);
+  });
+});
+
+describe("formatTimeAgo", () => {
+  const now = 1_000_000_000_000;
+  it("chia theo phút, giờ, ngày", () => {
+    expect(formatTimeAgo(now - 10 * SECOND, now)).toBe("vừa xong");
+    expect(formatTimeAgo(now - 5 * MINUTE, now)).toBe("5 phút trước");
+    expect(formatTimeAgo(now - 3 * HOUR, now)).toBe("3 giờ trước");
+    expect(formatTimeAgo(now - 2 * DAY, now)).toBe("2 ngày trước");
   });
 });
