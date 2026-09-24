@@ -58,3 +58,30 @@ export function formatDaysAgo(ms: number) {
 export function lenderTypeLabel(t: LenderType) {
   return t === "fund" ? "Quỹ đầu tư" : t === "company" ? "Doanh nghiệp" : "Cá nhân";
 }
+
+/**
+ * Luật xếp hạng duy nhất của sàn: lãi suất thấp nhất đứng đầu. `fitScore` chỉ để
+ * hiển thị, KHÔNG tham gia xếp hạng. Mọi màn hình phải đi qua hàm này.
+ */
+export function rankOffers<T extends { rate: number }>(offers: readonly T[]): T[] {
+  return [...offers].sort((a, b) => a.rate - b.rate);
+}
+
+/** Lãi suất đang dẫn đầu, hoặc `undefined` khi chưa có đề xuất nào. */
+export function bestRate(offers: readonly { rate: number }[]): number | undefined {
+  return offers.length ? Math.min(...offers.map((o) => o.rate)) : undefined;
+}
+
+/** Lãi suất gợi ý cho bên cho vay: hạ 0,2 điểm dưới mức dẫn đầu, sàn 6,5%. */
+export function suggestRate(leading: number) {
+  return Math.max(6.5, Math.round((leading - 0.2) * 10) / 10);
+}
+
+/** "vừa xong", "5 phút trước"… — phụ thuộc giờ hiện tại, nhớ `suppressHydrationWarning`. */
+export function formatTimeAgo(ms: number, now = Date.now()) {
+  const diff = now - ms;
+  if (diff < 60_000) return "vừa xong";
+  if (diff < 3_600_000) return `${Math.floor(diff / 60_000)} phút trước`;
+  if (diff < 86_400_000) return `${Math.floor(diff / 3_600_000)} giờ trước`;
+  return `${Math.floor(diff / 86_400_000)} ngày trước`;
+}

@@ -68,19 +68,29 @@ Chỉ **hai route**, không lazy-load ở đâu. `src/router.tsx` không đặt 
 
 ### Nơi logic thật nằm
 
-`src/components/demo/` (~2.600 dòng) là phần ứng dụng thực sự. Các section marketing chỉ là nội dung tĩnh.
+`src/components/demo/` (~2.500 dòng) là phần ứng dụng thực sự. Các section marketing chỉ là nội dung tĩnh.
 
 - **`types.ts`** — mô hình miền, đọc cái này trước. Chỉ 6 kiểu, không enum. Hai hằng số nghiệp vụ duy nhất của dự án nằm cuối tệp: `MIN_AUCTION_HOURS = 8`, `VERIFICATION_DAYS = 5`.
 - **`store.tsx`** — React Context + `useState` (không phải `useReducer`). **Không lưu trữ, không gọi mạng** — refresh trang là mất sạch. Đồng hồ 1 Hz ở dòng 32-35 đẩy `now` xuống toàn bộ cây.
 - **`seed.ts`** — 3 khoản vay mẫu, 7 đề xuất, 9 bên cho vay giả. `generateAutoOffer` mô phỏng đối thủ cạnh tranh.
-- **`format.ts`** — mọi hàm thuần: formatter tiền tệ/thời gian (`formatVND`, `formatRate`, `formatCountdown`…) và `lenderTypeLabel`. Tách riêng khỏi `shared.tsx` để hot-reload không thổi bay state demo mỗi lần sửa badge.
+- **`format.ts`** — mọi hàm thuần: formatter tiền tệ/thời gian (`formatVND`, `formatRate`, `formatCountdown`, `formatTimeAgo`…), `lenderTypeLabel`, và luật xếp hạng (`rankOffers`, `bestRate`, `suggestRate`). Tách riêng khỏi `shared.tsx` để hot-reload không thổi bay state demo mỗi lần sửa badge.
+- **`DemoLayout.tsx`** — sân khấu: header (bộ đếm + "Đặt lại demo"), ba `PhoneFrame`, thanh tab dưới đáy.
+- **`BorrowerScreen.tsx` / `AuctionScreen.tsx` / `LenderScreen.tsx`** — ba màn hình điện thoại, theo `design/Main.dc.html` và `design/NguoiChoVay.dc.html`. Người vay: mở app → ba câu hỏi → xác minh → đấu giá → chọn bên thắng (state bước là cục bộ). Sàn: chỉ đọc, theo `selectedLoanId`. Cho vay: thẻ hồ sơ + bảng đặt giá trượt từ đáy.
+- **`PhoneFrame.tsx`** — khung máy và các mảnh dùng chung của ba màn hình (`ScreenHeader`, `Chip`, `PrimaryAction`, `ScreenFooter`).
 - **`shared.tsx`** — chỉ còn component: `Countdown`, `LenderIcon`, và bốn badge. **Đừng thêm hàm thuần vào đây** — chỗ của chúng là `format.ts`. Cũng đừng đặt tên tệp mới là `shared.ts`: có cả `.ts` lẫn `.tsx` thì `import from "./shared"` nhập nhằng, thứ tự phân giải quyết định trong im lặng.
 
 ### Cơ chế đấu giá — không có "engine"
 
 Toàn bộ cơ chế là: `auctionEndsAt` + đồng hồ 1 Hz cho vòng đời phiên, **sắp xếp tăng dần theo `rate`, thấp nhất thắng**, và **người vay chọn thủ công** (`acceptOffer`). Hết giờ mà không ai chọn thì phiên chỉ chuyển sang `closed`, không tự trao giải.
 
-Phép sắp xếp đó được **viết lại ở 5 chỗ**: `BorrowerView.tsx:524`, `AuctionView.tsx:80`, `LenderView.tsx:283`, cộng hai biến thể `Math.min` ở `LenderView.tsx:118` và `:221`. Sửa cách xếp hạng là phải sửa cả năm.
+Phép sắp xếp đó nằm **đúng một chỗ**: `rankOffers` / `bestRate` trong `format.ts`, có unit test. Cả ba màn hình đều gọi qua đó — đừng viết lại `.sort((a, b) => a.rate - b.rate)` tại chỗ.
+
+### Sân khấu ba điện thoại
+
+- Từ `xl` (≥1280px) cả ba máy hiện cạnh nhau; dưới `xl` chỉ máy đang chọn hiện, đổi bằng thanh tab `<nav aria-label="Chọn vai">`.
+- **Cả ba màn hình luôn được render**, ẩn/hiện bằng class CSS (`PhoneFrame`), không bằng JS đo màn hình — HTML server và client phải trùng khớp. Hệ quả tốt: đổi tab không mất state cục bộ.
+- Hệ quả cần nhớ: cả ba màn hình đều SSR, nên **mọi thứ suy ra từ giờ hiện tại** đều có nguy cơ lệch hydration. Chữ thì gắn `suppressHydrationWarning` (như `Countdown`); thuộc tính (vd. độ rộng thanh tiến trình) thì chỉ đặt sau khi mount bằng `useMounted` (`src/hooks/use-mounted.ts`).
+- Liên kết giữa các máy đi qua store: `createLoan` và việc bấm thẻ hồ sơ bên cho vay đều gọi `selectLoan`, máy sàn đấu giá theo đó mà chuyển phiên.
 
 **Lệch giữa lời quảng cáo và mã:** `FeaturesSection.tsx:65-66` hứa xếp hạng đa yếu tố (lãi suất, kỳ hạn, điều kiện, uy tín, độ phù hợp), nhưng mã chỉ sắp theo `rate`. `fitScore` hiển thị rất nổi bật nhưng **không hề tham gia xếp hạng**.
 
@@ -125,7 +135,8 @@ Vài điều cần biết khi viết thêm test:
 - Đề xuất tự động chảy vào trong khoảng **2,5–14 giây** sau khi tạo hồ sơ; hãy chờ theo phần tử với timeout rộng, đừng `waitForTimeout` cứng.
 - Lỗi hydration từng chỉ xuất hiện ~25% số lần tải, nên test hydration **lặp nhiều lần**. Một lần tải là không đủ tin.
 - `toBeVisible()` của Playwright **không** kiểm tra `opacity`. Lỗi `SignupSection` từng lọt đúng vì vậy — muốn chắc thì đọc `getComputedStyle`.
-- Helper dùng chung nằm ở `e2e/helpers.ts` (thu lỗi console, đổi vai trò, chọn hồ sơ, đọc form).
+- Helper dùng chung nằm ở `e2e/helpers.ts`: `phone(page, vai)` trả về đúng một điện thoại (`<section aria-label>`), `switchRole` bấm tab khi ở khổ hẹp và không làm gì ở khổ máy tính, `openLoanSheet`/`readOfferForm` cho bảng đặt giá, `createBorrowerLoan` đi hết luồng người vay. Luôn tìm phần tử **trong** một `phone(...)` — ở khổ máy tính cả ba máy cùng hiện, tìm trên cả trang dễ bắt nhầm máy.
+- `demo.spec.ts` chạy ở khổ máy tính (thấy cả ba máy); `mobile.spec.ts` chạy ở 390×844 (một máy + thanh tab).
 
 `playwright.config.ts` tự khởi động `npm run dev`; ở local nó tái dùng server đang chạy nếu có.
 
